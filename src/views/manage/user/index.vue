@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { useBoolean } from '@sa/hooks';
-import { fetchGetUserList } from '@/service/api';
+import { fetchDeleteUser, fetchGetUserList } from '@/service/api';
 import { useAppStore } from '@/store/modules/app';
 import { useTable } from '@/hooks/common/table';
 import { $t } from '@/locales';
@@ -20,20 +20,14 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
 >({
   apiFn: fetchGetUserList,
   apiParams: {
-    current: 1,
-    size: 10,
     // if you want to use the searchParams in Form, you need to define the following properties, and the value is null
     // the value can not be undefined, otherwise the property in Form will not be reactive
     status: null,
-    userName: null,
-    userGender: null,
-    nickName: null,
-    userPhone: null,
-    userEmail: null
+    username: null,
+    nickname: null
   },
   transformer: res => {
     const { records = [], current = 1, size = 10, total = 0 } = res.data || {};
-
     return {
       data: records,
       pageNum: current,
@@ -47,56 +41,33 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
       align: 'center',
       width: 48
     },
+    // {
+    //   key: 'index',
+    //   title: $t('common.index'),
+    //   render: (_, index): string => getIndex(index),
+    //   align: 'center',
+    //   width: 64
+    // },
     {
-      key: 'index',
-      title: $t('common.index'),
-      render: (_, index): string => getIndex(index),
+      key: 'nickname',
+      title: $t('page.manage.user.nickname'),
       align: 'center',
-      width: 64
     },
     {
-      key: 'userName',
-      title: $t('page.manage.user.userName'),
+      key: 'username',
+      title: $t('page.manage.user.username'),
       align: 'center',
-      minWidth: 100
     },
     {
-      key: 'userGender',
-      title: $t('page.manage.user.userGender'),
+      key: 'password',
+      title: $t('page.manage.user.password'),
       align: 'center',
-      width: 100,
-      render: row => {
-        if (row.userGender === null) {
-          return null;
-        }
-
-        const tagMap: Record<Api.SystemManage.UserGender, NaiveUI.ThemeColor> = {
-          1: 'primary',
-          2: 'error'
-        };
-
-        const label = $t(userGenderRecord[row.userGender]);
-
-        return <NTag type={tagMap[row.userGender]}>{label}</NTag>;
-      }
     },
     {
-      key: 'nickName',
-      title: $t('page.manage.user.nickName'),
+      key: 'money',
+      title: $t('page.manage.user.money'),
       align: 'center',
-      minWidth: 100
-    },
-    {
-      key: 'userPhone',
-      title: $t('page.manage.user.userPhone'),
-      align: 'center',
-      width: 120
-    },
-    {
-      key: 'userEmail',
-      title: $t('page.manage.user.userEmail'),
-      align: 'center',
-      minWidth: 200
+      minWidth: 50
     },
     {
       key: 'status',
@@ -104,13 +75,13 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
       align: 'center',
       width: 100,
       render: row => {
-        if (row.status === null) {
-          return null;
+        if (row.status === null || row.status === undefined) {
+          return <NTag type="success">启用</NTag>;
         }
-
+        //
         const tagMap: Record<Api.Common.EnableStatus, NaiveUI.ThemeColor> = {
           1: 'success',
-          2: 'warning'
+          0: 'warning'
         };
 
         const label = $t(enableStatusRecord[row.status]);
@@ -155,7 +126,9 @@ const checkedRowKeys = ref<string[]>([]);
 
 async function handleBatchDelete() {
   // request
-  console.log(checkedRowKeys.value);
+  for (let string of checkedRowKeys.value) {
+    await fetchDeleteUser(parseInt(string))
+  }
   window.$message?.success($t('common.deleteSuccess'));
 
   checkedRowKeys.value = [];
@@ -173,8 +146,7 @@ function handleEdit(id: number) {
 }
 
 async function handleDelete(id: number) {
-  // request
-  console.log(id);
+  await fetchDeleteUser(id)
   window.$message?.success($t('common.deleteSuccess'));
 
   getData();
@@ -204,6 +176,7 @@ function getIndex(index: number) {
       <NDataTable
         v-model:checked-row-keys="checkedRowKeys"
         :columns="columns"
+        remote
         :data="data"
         size="small"
         :flex-height="!appStore.isMobile"

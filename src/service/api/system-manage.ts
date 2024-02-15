@@ -24,10 +24,36 @@ export function fetchGetAllRoles() {
 /** get user list */
 export function fetchGetUserList(params?: Api.SystemManage.UserSearchParams) {
   return request<Api.SystemManage.UserList>({
-    url: '/systemManage/getUserList',
+    url: '/api/getUserList',
     method: 'get',
     params
   });
+}
+
+/** get log list */
+export function fetchLogList(params?: Api.SystemManage.UserSearchParams) {
+  return request<Api.SystemManage.UserList>({
+    url: '/api/logs',
+    method: 'get',
+    params
+  });
+}
+
+
+
+/** get log list */
+export function fetchCreateUser(data?: Api.SystemManage.User) {
+  return request<Api.SystemManage.User>({
+    url: '/api/user',
+    method: 'post',
+    data
+  });
+}
+
+
+/** delete user info */
+export function fetchDeleteUser(id: number) {
+  return request({ url: `/api/user/${id}`,method:'delete' });
 }
 
 /** get menu list */

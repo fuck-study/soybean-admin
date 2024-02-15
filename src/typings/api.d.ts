@@ -24,9 +24,9 @@ declare namespace Api {
      * enable status
      *
      * - "1": enabled
-     * - "2": disabled
+     * - "0": disabled
      */
-    type EnableStatus = '1' | '2';
+    type EnableStatus = '1' | '0';
 
     /** common record */
     type CommonRecord<T extends NonNullable<unknown>> = {
@@ -51,14 +51,16 @@ declare namespace Api {
    * backend api module: "auth"
    */
   namespace Auth {
-    interface LoginToken {
-      token: string;
-      refreshToken: string;
-    }
-
     interface UserInfo {
-      userId: string;
-      userName: string;
+      id: number;
+      isDeleted: number;
+      money: number;
+      nickname: string;
+      parentId: number;
+      username: string;
+      password: string;
+      price: null | string;
+      tags: null | string;
       roles: string[];
     }
   }
@@ -121,23 +123,39 @@ declare namespace Api {
     /** user */
     type User = Common.CommonRecord<{
       /** user name */
-      userName: string;
-      /** user gender */
-      userGender: UserGender | null;
+      username: string;
       /** user nick name */
-      nickName: string;
-      /** user phone */
-      userPhone: string;
-      /** user email */
-      userEmail: string;
-      /** user role code collection */
-      userRoles: string[];
+      nickname: string;
+      /** user money */
+      money: number;
+
+      status: number;
+
+      price: string;
+
+      tags: string;
+    }>;
+
+    //"createTime": "2024-02-15 19:46:44",
+    // 			"id": 554,
+    // 			"log": "您下单[中国茶文化与茶健康]课程,花费了30龙币",
+    // 			"overId": 0,
+    // 			"type": 1
+    type Log = Common.CommonRecord<{
+      /** user name */
+      createTime: string | null | undefined;
+      /** user nick name */
+      log: string;
+      /** user money */
+      id: number;
+      overId: number;
+      type: number;
     }>;
 
     /** user search params */
     type UserSearchParams = CommonType.RecordNullable<
-      Pick<Api.SystemManage.User, 'userName' | 'userGender' | 'nickName' | 'userPhone' | 'userEmail' | 'status'> &
-        CommonSearchParams
+      Pick<Api.SystemManage.User, 'username' | 'nickname' | 'status'> &
+      CommonSearchParams
     >;
 
     /** user list */

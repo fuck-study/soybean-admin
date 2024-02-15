@@ -67,14 +67,14 @@ export function useTable<TableData extends BaseData, Fn extends ApiFn, CustomCol
   const scope = effectScope();
   const appStore = useAppStore();
 
-  const { loading, startLoading, endLoading } = useLoading();
-  const { bool: empty, setBool: setEmpty } = useBoolean();
+  const {loading, startLoading, endLoading} = useLoading();
+  const {bool: empty, setBool: setEmpty} = useBoolean();
 
-  const { apiFn, apiParams, transformer, onPaginationChanged, immediate = true } = config;
+  const {apiFn, apiParams, transformer, onPaginationChanged, immediate = true} = config;
 
-  const searchParams: NonNullable<Parameters<Fn>[0]> = reactive({ ...apiParams });
+  const searchParams: NonNullable<Parameters<Fn>[0]> = reactive({...apiParams});
 
-  const { columns, filteredColumns, reloadColumns } = useTableColumn(config.columns);
+  const {columns, filteredColumns, reloadColumns} = useTableColumn(config.columns);
 
   const data: Ref<TableData[]> = ref([]);
 
@@ -82,17 +82,20 @@ export function useTable<TableData extends BaseData, Fn extends ApiFn, CustomCol
     page: 1,
     pageSize: 10,
     showSizePicker: true,
-    pageSizes: [10, 15, 20, 25, 30],
+    pageCount: 10,
+    pageSizes: [10, 20, 50, 100, 500, 1000],
     onChange: async (page: number) => {
       pagination.page = page;
 
       await onPaginationChanged?.(pagination);
+      await getData()
     },
     onUpdatePageSize: async (pageSize: number) => {
       pagination.pageSize = pageSize;
       pagination.page = 1;
 
       await onPaginationChanged?.(pagination);
+      await getData()
     },
     ...config.pagination
   }) as PaginationProps;
@@ -103,15 +106,17 @@ export function useTable<TableData extends BaseData, Fn extends ApiFn, CustomCol
 
   async function getData() {
     startLoading();
-
+    // 将分页自动设置上
+    searchParams.pageNo = pagination.page
+    searchParams.pageSize = pagination.pageSize
     const response = await apiFn(searchParams);
 
-    const { data: tableData, pageNum, pageSize, total } = transformer(response as Awaited<ReturnType<Fn>>);
+    const {data: tableData, pageNum, pageSize, total} = transformer(response as Awaited<ReturnType<Fn>>);
 
     data.value = tableData;
 
     setEmpty(tableData.length === 0);
-    updatePagination({ page: pageNum, pageSize, itemCount: total });
+    updatePagination({page: pageNum, pageSize, itemCount: total});
     endLoading();
   }
 

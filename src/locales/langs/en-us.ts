@@ -131,6 +131,7 @@ const local: App.I18n.Schema = {
     'function_multi-tab': 'Multi Tab',
     manage: 'System Manage',
     manage_user: 'User Manage',
+    manage_log: 'System log',
     'manage_user-detail': 'User Detail',
     manage_role: 'Role Manage',
     manage_menu: 'Menu Manage',

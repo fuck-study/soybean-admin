@@ -11,8 +11,8 @@ import { clearAuthStorage, getToken, getUserInfo } from './shared';
 
 export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
   const routeStore = useRouteStore();
-  const { route, toLogin, redirectFromLogin } = useRouterPush(false);
-  const { loading: loginLoading, startLoading, endLoading } = useLoading();
+  const {route, toLogin, redirectFromLogin} = useRouterPush(false);
+  const {loading: loginLoading, startLoading, endLoading} = useLoading();
 
   const token = ref(getToken());
 
@@ -45,7 +45,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
   async function login(userName: string, password: string) {
     startLoading();
 
-    const { data: loginToken, error } = await fetchLogin(userName, password);
+    const {data: loginToken, error} = await fetchLogin(userName, password);
 
     if (!error) {
       const pass = await loginByToken(loginToken);
@@ -58,7 +58,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
         if (routeStore.isInitAuthRoute) {
           window.$notification?.success({
             title: $t('page.login.common.loginSuccess'),
-            content: $t('page.login.common.welcomeBack', { userName: userInfo.userName }),
+            content: $t('page.login.common.welcomeBack', {userName: userInfo.username}),
             duration: 4500
           });
         }
@@ -70,24 +70,19 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     endLoading();
   }
 
-  async function loginByToken(loginToken: Api.Auth.LoginToken) {
+  async function loginByToken(loginToken: Api.Auth.UserInfo) {
     // 1. stored in the localStorage, the later requests need it in headers
-    localStg.set('token', loginToken.token);
-    localStg.set('refreshToken', loginToken.refreshToken);
+    localStg.set('token', loginToken.username);
+    // localStg.set('role', loginToken.refreshToken);
 
-    const { data: info, error } = await fetchGetUserInfo();
+    const {data: info, error} = await fetchGetUserInfo();
 
     if (!error) {
-      // 2. store user info
-      localStg.set('userInfo', info);
-
-      // 3. update auth route
-      token.value = loginToken.token;
+      info.roles = [loginToken.parentId === 0 ? 'R_ADMIN' : 'R_USER']
       Object.assign(userInfo, info);
-
+      localStg.set('userInfo', userInfo);
       return true;
     }
-
     return false;
   }
 

@@ -467,17 +467,20 @@ declare namespace App {
           };
           user: {
             title: string;
-            userName: string;
+            nickname: string;
             userGender: string;
-            nickName: string;
+            username: string;
             userPhone: string;
             userEmail: string;
             userStatus: string;
             userRole: string;
+            money: string;
+            password:string;
+
             form: {
-              userName: string;
+              username: string;
               userGender: string;
-              nickName: string;
+              nickname: string;
               userPhone: string;
               userEmail: string;
               userStatus: string;
