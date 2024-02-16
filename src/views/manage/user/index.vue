@@ -60,14 +60,16 @@ const {columns, filteredColumns, data, loading, pagination, getData, searchParam
       key: 'username',
       title: $t('page.manage.user.username'),
       align: 'center',
-      width: 100
+      width: 150
+
 
     },
     {
       key: 'password',
       title: $t('page.manage.user.password'),
       align: 'center',
-      width: 100
+      width: 150
+
 
     },
     {
@@ -96,7 +98,7 @@ const {columns, filteredColumns, data, loading, pagination, getData, searchParam
             }).flat().filter(i=>i)
             console.log(list)
            return list.map(i=>{
-             return <NTag type="info">{i}</NTag>;
+             return <NTag type="info" style="margin:3px">{i}</NTag>;
            })
           } else {
             return <NTag type="info">暂无</NTag>;

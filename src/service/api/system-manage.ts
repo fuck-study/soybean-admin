@@ -63,7 +63,13 @@ export function fetchGetOrder(data?: Api.SystemManage.Order) {
   });
 }
 
-
+export function delOrder(data:any) {
+  return request({
+    url: `/api/deleteOrders`,
+    method: 'delete',
+    data,
+  });
+}
 
 
 export function updateUser(id:number,data?: Api.SystemManage.User) {

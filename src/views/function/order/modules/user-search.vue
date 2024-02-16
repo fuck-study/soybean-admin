@@ -52,6 +52,21 @@ async function search() {
         <NFormItemGi span="24 s:12 m:6" :label="$t('page.manage.user.nickname')" path="nickname" class="pr-24px">
           <NInput v-model:value="model.nickname" :placeholder="$t('page.manage.user.form.nickname')" />
         </NFormItemGi>
+        <NFormItemGi span="24 s:12 m:6" :label="$t('page.manage.user.nickname')" path="nickname" class="pr-24px">
+          <NInput v-model:value="model.nickname" :placeholder="$t('page.manage.user.form.nickname')" />
+        </NFormItemGi>
+        <NFormItemGi span="24 s:12 m:6" :label="$t('page.manage.user.nickname')" path="nickname" class="pr-24px">
+          <NInput v-model:value="model.nickname" :placeholder="$t('page.manage.user.form.nickname')" />
+        </NFormItemGi>
+        <NFormItemGi span="24 s:12 m:6" :label="$t('page.manage.user.nickname')" path="nickname" class="pr-24px">
+          <NInput v-model:value="model.nickname" :placeholder="$t('page.manage.user.form.nickname')" />
+        </NFormItemGi>
+        <NFormItemGi span="24 s:12 m:6" :label="$t('page.manage.user.nickname')" path="nickname" class="pr-24px">
+          <NInput v-model:value="model.nickname" :placeholder="$t('page.manage.user.form.nickname')" />
+        </NFormItemGi>
+        <NFormItemGi span="24 s:12 m:6" :label="$t('page.manage.user.nickname')" path="nickname" class="pr-24px">
+          <NInput v-model:value="model.nickname" :placeholder="$t('page.manage.user.form.nickname')" />
+        </NFormItemGi>
 <!--        <NFormItemGi span="24 s:12 m:6" :label="$t('page.manage.user.userStatus')" path="userStatus" class="pr-24px">-->
 <!--          <NSelect-->
 <!--            v-model:value="model.status"-->

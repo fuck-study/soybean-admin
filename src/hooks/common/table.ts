@@ -88,7 +88,7 @@ export function useTable<TableData extends BaseData, Fn extends ApiFn, CustomCol
       pagination.page = page;
 
       await onPaginationChanged?.(pagination);
-      await getData()
+
     },
     onUpdatePageSize: async (pageSize: number) => {
       pagination.pageSize = pageSize;

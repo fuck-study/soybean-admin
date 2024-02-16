@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import { ref } from 'vue';
+import {ref, watch} from 'vue';
 import { NTag } from 'naive-ui';
 // import { useBoolean } from '@sa/hooks';
 import { fetchLogList } from '@/service/api';
@@ -58,6 +58,9 @@ const checkedRowKeys = ref<string[]>([]);
 
 /** the editing row data */
 // const editingData = ref<Api.SystemManage.User | null>(null);
+// watch(searchParams.value,item=>{
+//   console.log(item)
+// })
 
 </script>
 
