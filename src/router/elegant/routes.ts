@@ -36,7 +36,15 @@ export const generatedRoutes: GeneratedRoute[] = [
       constant: true
     }
   },
-
+  {
+    name: 'about',
+    path: '/about',
+    component: 'layout.base$view.about',
+    meta: {
+      title: 'about',
+      i18nKey: 'route.about'
+    }
+  },
   {
     name: 'function',
     path: '/function',
@@ -62,13 +70,21 @@ export const generatedRoutes: GeneratedRoute[] = [
         }
       },
       {
+        name: 'function_order',
+        path: '/function/order',
+        component: 'view.function_order',
+        meta: {
+          title: 'function_order',
+          i18nKey: 'route.function_order'
+        }
+      },
+      {
         name: 'function_tab',
         path: '/function/tab',
         component: 'view.function_tab',
         meta: {
           title: 'function_tab',
-          i18nKey: 'route.function_tab',
-          icon: 'ic:round-tab'
+          i18nKey: 'route.function_tab'
         }
       }
     ]
@@ -118,24 +134,24 @@ export const generatedRoutes: GeneratedRoute[] = [
           order: 2
         }
       },
-      // {
-      //   name: 'manage_menu',
-      //   path: '/manage/menu',
-      //   component: 'view.manage_menu',
-      //   meta: {
-      //     title: 'manage_menu',
-      //     i18nKey: 'route.manage_menu'
-      //   }
-      // },
-      // {
-      //   name: 'manage_role',
-      //   path: '/manage/role',
-      //   component: 'view.manage_role',
-      //   meta: {
-      //     title: 'manage_role',
-      //     i18nKey: 'route.manage_role'
-      //   }
-      // },
+      {
+        name: 'manage_menu',
+        path: '/manage/menu',
+        component: 'view.manage_menu',
+        meta: {
+          title: 'manage_menu',
+          i18nKey: 'route.manage_menu'
+        }
+      },
+      {
+        name: 'manage_role',
+        path: '/manage/role',
+        component: 'view.manage_role',
+        meta: {
+          title: 'manage_role',
+          i18nKey: 'route.manage_role'
+        }
+      },
       {
         name: 'manage_user',
         path: '/manage/user',
@@ -163,74 +179,65 @@ export const generatedRoutes: GeneratedRoute[] = [
       }
     ]
   },
-  // {
-  //   name: 'about',
-  //   path: '/about',
-  //   component: 'view.manage_user',
-  //   meta: {
-  //     title: 'about',
-  //     i18nKey: 'route.manage_user'
-  //   }
-  // },
-  // {
-  //   name: 'multi-menu',
-  //   path: '/multi-menu',
-  //   component: 'layout.base',
-  //   meta: {
-  //     title: 'multi-menu',
-  //     i18nKey: 'route.multi-menu'
-  //   },
-  //   children: [
-  //     {
-  //       name: 'multi-menu_first',
-  //       path: '/multi-menu/first',
-  //       meta: {
-  //         title: 'multi-menu_first',
-  //         i18nKey: 'route.multi-menu_first'
-  //       },
-  //       children: [
-  //         {
-  //           name: 'multi-menu_first_child',
-  //           path: '/multi-menu/first/child',
-  //           component: 'view.multi-menu_first_child',
-  //           meta: {
-  //             title: 'multi-menu_first_child',
-  //             i18nKey: 'route.multi-menu_first_child'
-  //           }
-  //         }
-  //       ]
-  //     },
-  //     {
-  //       name: 'multi-menu_second',
-  //       path: '/multi-menu/second',
-  //       meta: {
-  //         title: 'multi-menu_second',
-  //         i18nKey: 'route.multi-menu_second'
-  //       },
-  //       children: [
-  //         {
-  //           name: 'multi-menu_second_child',
-  //           path: '/multi-menu/second/child',
-  //           meta: {
-  //             title: 'multi-menu_second_child',
-  //             i18nKey: 'route.multi-menu_second_child'
-  //           },
-  //           children: [
-  //             {
-  //               name: 'multi-menu_second_child_home',
-  //               path: '/multi-menu/second/child/home',
-  //               component: 'view.multi-menu_second_child_home',
-  //               meta: {
-  //                 title: 'multi-menu_second_child_home',
-  //                 i18nKey: 'route.multi-menu_second_child_home'
-  //               }
-  //             }
-  //           ]
-  //         }
-  //       ]
-  //     }
-  //   ]
-  // },
+  {
+    name: 'multi-menu',
+    path: '/multi-menu',
+    component: 'layout.base',
+    meta: {
+      title: 'multi-menu',
+      i18nKey: 'route.multi-menu'
+    },
+    children: [
+      {
+        name: 'multi-menu_first',
+        path: '/multi-menu/first',
+        meta: {
+          title: 'multi-menu_first',
+          i18nKey: 'route.multi-menu_first'
+        },
+        children: [
+          {
+            name: 'multi-menu_first_child',
+            path: '/multi-menu/first/child',
+            component: 'view.multi-menu_first_child',
+            meta: {
+              title: 'multi-menu_first_child',
+              i18nKey: 'route.multi-menu_first_child'
+            }
+          }
+        ]
+      },
+      {
+        name: 'multi-menu_second',
+        path: '/multi-menu/second',
+        meta: {
+          title: 'multi-menu_second',
+          i18nKey: 'route.multi-menu_second'
+        },
+        children: [
+          {
+            name: 'multi-menu_second_child',
+            path: '/multi-menu/second/child',
+            meta: {
+              title: 'multi-menu_second_child',
+              i18nKey: 'route.multi-menu_second_child'
+            },
+            children: [
+              {
+                name: 'multi-menu_second_child_home',
+                path: '/multi-menu/second/child/home',
+                component: 'view.multi-menu_second_child_home',
+                meta: {
+                  title: 'multi-menu_second_child_home',
+                  i18nKey: 'route.multi-menu_second_child_home'
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
   {
     name: 'user-center',
     path: '/user-center',

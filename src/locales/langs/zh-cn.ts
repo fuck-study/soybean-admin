@@ -128,6 +128,7 @@ const local: App.I18n.Schema = {
     about: '关于',
     function: '系统功能',
     function_tab: '标签页',
+    function_order: '订单管理',
     'function_multi-tab': '多标签页',
     manage: '系统管理',
     manage_user: '用户管理',

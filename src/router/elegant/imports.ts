@@ -21,6 +21,7 @@ export const views: Record<LastLevelRouteKey, RouteComponent | (() => Promise<Ro
   login: () => import("@/views/_builtin/login/index.vue"),
   about: () => import("@/views/about/index.vue"),
   "function_multi-tab": () => import("@/views/function/multi-tab/index.vue"),
+  function_order: () => import("@/views/function/order/index.vue"),
   function_tab: () => import("@/views/function/tab/index.vue"),
   home: () => import("@/views/home/index.vue"),
   manage_log: () => import("@/views/manage/log/index.vue"),

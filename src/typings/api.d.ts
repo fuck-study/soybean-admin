@@ -101,6 +101,24 @@ declare namespace Api {
       roleDesc: string;
     }>;
 
+    // {
+    //   "pageNo": 1, //开始页
+    //     "pageSize": 10, //页码
+    //     "username": "19166843420",
+    //     "password": "",
+    //     "school": "",
+    //     "name": "",
+    //     "plat": 63, //平台编号
+    //     "status": null
+    // }
+    type Order = Common.CommonRecord<{
+      current: number;
+      pages: number;
+      records: any;
+      size:number;
+      total:number;
+    }>;
+
     /** role search params */
     type RoleSearchParams = CommonType.RecordNullable<
       Pick<Api.SystemManage.Role, 'roleName' | 'roleCode' | 'status'> & CommonSearchParams
@@ -122,6 +140,7 @@ declare namespace Api {
 
     /** user */
     type User = Common.CommonRecord<{
+      id: number,
       /** user name */
       username: string;
       /** user nick name */

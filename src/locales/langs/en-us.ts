@@ -128,6 +128,7 @@ const local: App.I18n.Schema = {
     about: 'About',
     function: 'System Function',
     function_tab: 'Tab',
+    function_order: 'Submit Order',
     'function_multi-tab': 'Multi Tab',
     manage: 'System Manage',
     manage_user: 'User Manage',

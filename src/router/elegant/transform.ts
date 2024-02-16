@@ -114,14 +114,14 @@ function transformElegantRouteToVueRoute(
     }
 
   }
-
+  
   // add redirect to child
   if (children?.length && !vueRoute.redirect) {
     vueRoute.redirect = {
       name: children[0].name
     };
   }
-
+  
   if (children?.length) {
     const childRoutes = children.flatMap(child => transformElegantRouteToVueRoute(child, layouts, views));
 
@@ -153,14 +153,15 @@ const routeMap: RouteMap = {
   "about": "/about",
   "function": "/function",
   "function_multi-tab": "/function/multi-tab",
+  "function_order": "/function/order",
   "function_tab": "/function/tab",
   "home": "/home",
   "login": "/login/:module(pwd-login|code-login|register|reset-pwd|bind-wechat)?",
   "manage": "/manage",
+  "manage_log": "/manage/log",
   "manage_menu": "/manage/menu",
   "manage_role": "/manage/role",
   "manage_user": "/manage/user",
-  "manage_log": "/manage/log",
   "manage_user-detail": "/manage/user-detail/:id",
   "multi-menu": "/multi-menu",
   "multi-menu_first": "/multi-menu/first",

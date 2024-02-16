@@ -27,6 +27,7 @@ declare module "@elegant-router/types" {
     "about": "/about";
     "function": "/function";
     "function_multi-tab": "/function/multi-tab";
+    "function_order": "/function/order";
     "function_tab": "/function/tab";
     "home": "/home";
     "login": "/login/:module(pwd-login|code-login|register|reset-pwd|bind-wechat)?";
@@ -111,6 +112,7 @@ declare module "@elegant-router/types" {
     | "login"
     | "about"
     | "function_multi-tab"
+    | "function_order"
     | "function_tab"
     | "home"
     | "manage_log"

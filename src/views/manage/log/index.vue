@@ -1,13 +1,13 @@
 <script setup lang="tsx">
 import { ref } from 'vue';
 import { NTag } from 'naive-ui';
-import { useBoolean } from '@sa/hooks';
+// import { useBoolean } from '@sa/hooks';
 import { fetchLogList } from '@/service/api';
 import { useAppStore } from '@/store/modules/app';
 import { useTable } from '@/hooks/common/table';
 
 const appStore = useAppStore();
-const {bool: drawerVisible, setTrue: openDrawer} = useBoolean();
+// const {bool: drawerVisible, setTrue: openDrawer} = useBoolean();
 
 
 const {columns, data, loading, pagination, getData, searchParams, resetSearchParams} = useTable<
@@ -57,7 +57,7 @@ const {columns, data, loading, pagination, getData, searchParams, resetSearchPar
 const checkedRowKeys = ref<string[]>([]);
 
 /** the editing row data */
-const editingData = ref<Api.SystemManage.User | null>(null);
+// const editingData = ref<Api.SystemManage.User | null>(null);
 
 </script>
 

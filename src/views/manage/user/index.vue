@@ -1,22 +1,23 @@
 <script setup lang="tsx">
-import { ref } from 'vue';
-import { NButton, NPopconfirm, NTag } from 'naive-ui';
-import { useBoolean } from '@sa/hooks';
-import { fetchDeleteUser, fetchGetUserList } from '@/service/api';
-import { useAppStore } from '@/store/modules/app';
-import { useTable } from '@/hooks/common/table';
-import { $t } from '@/locales';
-import { enableStatusRecord, userGenderRecord } from '@/constants/business';
-import UserOperateDrawer, { type OperateType } from './modules/user-operate-drawer.vue';
+import {onMounted, ref, watch} from 'vue';
+import {NButton, NPopconfirm, NTag} from 'naive-ui';
+import {useBoolean} from '@sa/hooks';
+import {fetchDeleteUser, fetchGetUserList, fetchPlat} from '@/service/api';
+import {useAppStore} from '@/store/modules/app';
+import {useTable} from '@/hooks/common/table';
+import {$t} from '@/locales';
+// import {enableStatusRecord, userGenderRecord} from '@/constants/business';
+import UserOperateDrawer, {type OperateType} from './modules/user-operate-drawer.vue';
 import UserSearch from './modules/user-search.vue';
 
 const appStore = useAppStore();
-const { bool: drawerVisible, setTrue: openDrawer } = useBoolean();
+const platList = ref([])
+const {bool: drawerVisible, setTrue: openDrawer} = useBoolean();
 
-const { columns, filteredColumns, data, loading, pagination, getData, searchParams, resetSearchParams } = useTable<
-  Api.SystemManage.User,
-  typeof fetchGetUserList,
-  'index' | 'operate'
+const {columns, filteredColumns, data, loading, pagination, getData, searchParams, resetSearchParams} = useTable<
+    Api.SystemManage.User,
+    typeof fetchGetUserList,
+    'index' | 'operate'
 >({
   apiFn: fetchGetUserList,
   apiParams: {
@@ -27,7 +28,7 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
     nickname: null
   },
   transformer: res => {
-    const { records = [], current = 1, size = 10, total = 0 } = res.data || {};
+    const {records = [], current = 1, size = 10, total = 0} = res.data || {};
     return {
       data: records,
       pageNum: current,
@@ -52,41 +53,70 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
       key: 'nickname',
       title: $t('page.manage.user.nickname'),
       align: 'center',
+      width: 100
+
     },
     {
       key: 'username',
       title: $t('page.manage.user.username'),
       align: 'center',
+      width: 100
+
     },
     {
       key: 'password',
       title: $t('page.manage.user.password'),
       align: 'center',
+      width: 100
+
     },
     {
       key: 'money',
       title: $t('page.manage.user.money'),
       align: 'center',
-      minWidth: 50
+      width: 100
+
     },
     {
       key: 'status',
-      title: $t('page.manage.user.userStatus'),
+      title: '平台',
       align: 'center',
-      width: 100,
       render: row => {
-        if (row.status === null || row.status === undefined) {
-          return <NTag type="success">启用</NTag>;
+
+        const data =platList.value
+        if (row.price) {
+          const tags = Array.isArray(JSON.parse(row.price)) ? JSON.parse(row.price) : undefined
+          if (tags && Array.isArray(tags) && tags.length) {
+            const list = tags.map(tag => {
+              return  data.map(i=>{
+                if (tag.plat === i.plat){
+                  return i.name
+                }
+              })
+            }).flat().filter(i=>i)
+            console.log(list)
+           return list.map(i=>{
+             return <NTag type="info">{i}</NTag>;
+           })
+          } else {
+            return <NTag type="info">暂无</NTag>;
+          }
         }
+        return <NTag type="info">暂无</NTag>;
+
+
+        // if (row.status === null || row.status === undefined) {
+        //   return <NTag type="success">启用</NTag>;
+        // }
+        // //
+        // const tagMap: Record<Api.Common.EnableStatus, NaiveUI.ThemeColor> = {
+        //   1: 'success',
+        //   0: 'warning'
+        // };
         //
-        const tagMap: Record<Api.Common.EnableStatus, NaiveUI.ThemeColor> = {
-          1: 'success',
-          0: 'warning'
-        };
+        // const label = $t(enableStatusRecord[row.status]);
+        //
 
-        const label = $t(enableStatusRecord[row.status]);
-
-        return <NTag type={tagMap[row.status]}>{label}</NTag>;
       }
     },
     {
@@ -95,21 +125,21 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
       align: 'center',
       width: 130,
       render: row => (
-        <div class="flex-center gap-8px">
-          <NButton type="primary" ghost size="small" onClick={() => handleEdit(row.id)}>
-            {$t('common.edit')}
-          </NButton>
-          <NPopconfirm onPositiveClick={() => handleDelete(row.id)}>
-            {{
-              default: () => $t('common.confirmDelete'),
-              trigger: () => (
-                <NButton type="error" ghost size="small">
-                  {$t('common.delete')}
-                </NButton>
-              )
-            }}
-          </NPopconfirm>
-        </div>
+          <div class="flex-center gap-8px">
+            <NButton type="primary" ghost size="small" onClick={() => handleEdit(row.id)}>
+              {$t('common.edit')}
+            </NButton>
+            <NPopconfirm onPositiveClick={() => handleDelete(row.id)}>
+              {{
+                default: () => $t('common.confirmDelete'),
+                trigger: () => (
+                    <NButton type="error" ghost size="small">
+                      {$t('common.delete')}
+                    </NButton>
+                )
+              }}
+            </NPopconfirm>
+          </div>
       )
     }
   ]
@@ -148,49 +178,60 @@ function handleEdit(id: number) {
 async function handleDelete(id: number) {
   await fetchDeleteUser(id)
   window.$message?.success($t('common.deleteSuccess'));
-
   getData();
 }
 
-function getIndex(index: number) {
-  const { page = 0, pageSize = 10 } = pagination;
+watch(drawerVisible, async item => {
+  if (!item){
+    getData();
+  }
+});
+onMounted(async ()=>{
+  const data = await fetchPlat()
+  platList.value = data.data
+})
 
-  return String((page - 1) * pageSize + index + 1);
-}
+
+
+// function getIndex(index: number) {
+//   const { page = 0, pageSize = 10 } = pagination;
+//
+//   return String((page - 1) * pageSize + index + 1);
+// }
 </script>
 
 <template>
   <div class="flex-vertical-stretch gap-16px overflow-hidden <sm:overflow-auto">
-    <UserSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" />
+    <UserSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData"/>
     <NCard :title="$t('page.manage.user.title')" :bordered="false" size="small" class="card-wrapper sm:flex-1-hidden">
       <template #header-extra>
         <TableHeaderOperation
-          v-model:columns="filteredColumns"
-          :disabled-delete="checkedRowKeys.length === 0"
-          :loading="loading"
-          @add="handleAdd"
-          @delete="handleBatchDelete"
-          @refresh="getData"
+            v-model:columns="filteredColumns"
+            :disabled-delete="checkedRowKeys.length === 0"
+            :loading="loading"
+            @add="handleAdd"
+            @delete="handleBatchDelete"
+            @refresh="getData"
         />
       </template>
       <NDataTable
-        v-model:checked-row-keys="checkedRowKeys"
-        :columns="columns"
-        remote
-        :data="data"
-        size="small"
-        :flex-height="!appStore.isMobile"
-        :scroll-x="640"
-        :loading="loading"
-        :pagination="pagination"
-        :row-key="item => item.id"
-        class="sm:h-full"
+          v-model:checked-row-keys="checkedRowKeys"
+          :columns="columns"
+          remote
+          :data="data"
+          size="small"
+          :flex-height="!appStore.isMobile"
+          :scroll-x="640"
+          :loading="loading"
+          :pagination="pagination"
+          :row-key="item => item.id"
+          class="sm:h-full"
       />
       <UserOperateDrawer
-        v-model:visible="drawerVisible"
-        :operate-type="operateType"
-        :row-data="editingData"
-        @submitted="getData"
+          v-model:visible="drawerVisible"
+          :operate-type="operateType"
+          :row-data="editingData"
+          @submitted="getData"
       />
     </NCard>
   </div>

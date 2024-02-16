@@ -39,7 +39,12 @@ export function fetchLogList(params?: Api.SystemManage.UserSearchParams) {
   });
 }
 
-
+export function fetchPlat() {
+  return request<Api.SystemManage.User>({
+    url: '/api/plat',
+    method: 'get',
+  });
+}
 
 /** get log list */
 export function fetchCreateUser(data?: Api.SystemManage.User) {
@@ -50,6 +55,24 @@ export function fetchCreateUser(data?: Api.SystemManage.User) {
   });
 }
 
+export function fetchGetOrder(data?: Api.SystemManage.Order) {
+  return request<Api.SystemManage.Order>({
+    url: `/api/queryOrders`,
+    method: 'post',
+    data,
+  });
+}
+
+
+
+
+export function updateUser(id:number,data?: Api.SystemManage.User) {
+  return request<Api.SystemManage.User>({
+    url: `/api/user/${id}`,
+    method: 'put',
+    data
+  });
+}
 
 /** delete user info */
 export function fetchDeleteUser(id: number) {
