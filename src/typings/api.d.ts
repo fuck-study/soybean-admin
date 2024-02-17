@@ -112,11 +112,16 @@ declare namespace Api {
     //     "status": null
     // }
     type Order = Common.CommonRecord<{
-      current: number;
-      pages: number;
-      records: any;
-      size:number;
-      total:number;
+      pageNo?: number;
+      pageSize?: number;
+      username?: string;
+      password?: string;
+      school?: string;
+      name?: string;
+      courseName?: string;
+      tag?: string;
+      plat?: number;
+      status?: number;
     }>;
 
     /** role search params */

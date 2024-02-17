@@ -2,7 +2,7 @@
 import {h, ref, watch} from 'vue';
 import { NButton, NPopconfirm, NTag, NProgress } from 'naive-ui';
 import { useBoolean } from '@sa/hooks';
-import {delOrder, fetchGetOrder, fetchPlat} from '@/service/api';
+import { delOrder, fetchGetOrder, fetchPlat, fetchPostOrder } from '@/service/api';
 import { useAppStore } from '@/store/modules/app';
 import { useTable } from '@/hooks/common/table';
 import { $t } from '@/locales';
@@ -13,7 +13,6 @@ import RoleSearch from './modules/user-search.vue';
 const appStore = useAppStore();
 const change = ref(false)
 const { bool: drawerVisible, setTrue: openDrawer } = useBoolean()
-const orderBody = ref({"plat":null,"status":null,"course_name":null,"username":null,"school":null,"name":null,"pageNo":1,"pageSize":10})
 const platList = ref([])
 const ordersData = ref({})
 const orderStatus = [
@@ -64,19 +63,6 @@ const orderStatus = [
   }
 ];
 
-async function getOrders(){
-  const body = await fetchGetOrder(orderBody.value)
-  const arr =await fetchPlat()
-  platList.value = arr.data
-  ordersData.value = body.data
-  return data.data
-}
-watch(orderBody.value,async item=>{
-  console.log('这里变化',orderBody.value)
-  await getOrders()
-  getData()
-  console.log(ordersData.value)
-})
 function getStatusTypeByStatus(status) {
   for (const i of orderStatus) {
     if (i.value === status) {
@@ -91,45 +77,25 @@ function getStatusTypeByStatus(status) {
 
 const { columns, filteredColumns, data, loading, pagination, getData, searchParams, resetSearchParams } = useTable<
     Api.SystemManage.Order,
-    typeof getOrders,
+    typeof fetchPostOrder,
     'index' | 'operate'
 >({
-  apiFn: getOrders,
+  apiFn: fetchPostOrder,
+  apiParams: {
+    // if you want to use the searchParams in Form, you need to define the following properties, and the value is null
+    // the value can not be undefined, otherwise the property in Form will not be reactive
+    status: null,
+    username: null,
+    nickname: null
+  },
   transformer:  res => {
-    console.log(searchParams)
-
-
-    orderBody.value.pageNo = searchParams.pageNo ? searchParams.pageNo : orderBody.pageNo
-    orderBody.value.pageSize = searchParams.pageSize ? searchParams.pageSize : orderBody.value.pageSize
-
-    const data =  fetchGetOrder(orderBody.value)
-
-    data.then(i=>{
-      const { records = [], current = 1, size = 10, total = 0 } = i.data || {};
-
-      ordersData.value = {
-        data:  records,
-        pageNum:  current,
-        pageSize:  size,
-        total: total
-      };
-      return  {
-        data:  records,
-        pageNum:  current,
-        pageSize:  size,
-        total: total
-      };
-    })
-    console.log(ordersData.value)
-
-
+    const {records = [], current = 1, size = 10, total = 0} = res.data || {};
     return {
-      data:  ordersData.value.records,
-      pageNum:  ordersData.value.current,
-      pageSize:  ordersData.value.size,
-      total: ordersData.value.total
+      data: records,
+      pageNum: current,
+      pageSize: size,
+      total
     };
-
   },
   columns: () => [
     {

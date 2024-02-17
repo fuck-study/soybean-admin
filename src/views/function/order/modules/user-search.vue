@@ -46,8 +46,8 @@ async function search() {
   <NCard :title="$t('common.search')" :bordered="false" size="small" class="card-wrapper">
     <NForm ref="formRef" :model="model" :rules="rules" label-placement="left">
       <NGrid responsive="screen" item-responsive>
-        <NFormItemGi span="24 s:12 m:6" :label="$t('page.manage.user.username')" path="username" class="pr-24px">
-          <NInput v-model:value="model.username" :placeholder="$t('page.manage.user.form.username')" />
+        <NFormItemGi span="24 s:12 m:6" label="账号1" path="username" class="pr-24px">
+          <NInput v-model:value="model.username" placeholder="请输入账号" />
         </NFormItemGi>
         <NFormItemGi span="24 s:12 m:6" :label="$t('page.manage.user.nickname')" path="nickname" class="pr-24px">
           <NInput v-model:value="model.nickname" :placeholder="$t('page.manage.user.form.nickname')" />

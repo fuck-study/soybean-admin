@@ -55,11 +55,20 @@ export function fetchCreateUser(data?: Api.SystemManage.User) {
   });
 }
 
-export function fetchGetOrder(data?: Api.SystemManage.Order) {
+
+export function fetchPostOrder(data?: Api.SystemManage.Order) {
   return request<Api.SystemManage.Order>({
     url: `/api/queryOrders`,
-    method: 'post',
+    method: 'post', // 'get' | 'post' | 'put' | 'delete' | 'patch' | 'head' | 'options
     data,
+  });
+}
+
+
+export function fetchGetOrder(params?: Api.SystemManage.Order) {
+  return request<Api.SystemManage.Order>({
+    url: `/api/getOrderList`,
+    params,
   });
 }
 
