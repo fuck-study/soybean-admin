@@ -173,7 +173,7 @@ async function handleDelete(id: number) {
   getData();
 }
 
-watch(drawerVisible, async item => {
+watch(drawerVisible,  item => {
   if (!item) {
     getData();
   }
