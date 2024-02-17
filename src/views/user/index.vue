@@ -202,6 +202,7 @@ onMounted(async () => {
           v-model:columns="filteredColumns"
           :disabled-delete="checkedRowKeys.length === 0"
           :loading="loading"
+          :allow="['add']"
           @add="handleAdd"
           @delete="handleBatchDelete"
           @refresh="getData"

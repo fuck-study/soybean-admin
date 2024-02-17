@@ -91,6 +91,14 @@ export function fetchGetOrder(params?: Api.SystemManage.Order) {
 
 
 
+export function editOrder(data:any) {
+  return request({
+    url: `/api/refreshOrders`,
+    method: 'put',
+    data,
+  });
+}
+
 export function delOrder(data:any) {
   return request({
     url: `/api/deleteOrders`,

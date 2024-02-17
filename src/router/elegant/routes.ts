@@ -99,8 +99,7 @@ export const generatedRoutes: GeneratedRoute[] = [
       title: 'manage',
       i18nKey: 'route.manage',
       icon: 'carbon:cloud-service-management',
-      order: 9,
-
+      order: 9
     },
     children: [
       {
@@ -138,9 +137,7 @@ export const generatedRoutes: GeneratedRoute[] = [
       title: 'user',
       i18nKey: 'route.user',
       order: 12
-    },
-
-
+    }
   },
   {
     name: 'user-center',

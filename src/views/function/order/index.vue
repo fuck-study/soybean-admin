@@ -2,7 +2,7 @@
 import {h, onMounted, ref, watch} from 'vue';
 import { NButton, NPopconfirm, NTag, NProgress } from 'naive-ui';
 import { useBoolean } from '@sa/hooks';
-import { delOrder, fetchGetOrder, fetchPlat, fetchPostOrder } from '@/service/api';
+import { delOrder, editOrder, fetchGetOrder, fetchPlat, fetchPostOrder } from '@/service/api';
 import { useAppStore } from '@/store/modules/app';
 import { useTable } from '@/hooks/common/table';
 import { $t } from '@/locales';
@@ -211,13 +211,19 @@ function handleAdd() {
 
 const checkedRowKeys = ref<string[]>([]);
 
+async function handleBatchEdit() {
+  // request
+  await editOrder(checkedRowKeys.value)
+  window.$message?.success('补单成功');
+  checkedRowKeys.value = [];
+  getData();
+}
+
 async function handleBatchDelete() {
   // request
   await delOrder(checkedRowKeys.value)
   window.$message?.success($t('common.deleteSuccess'));
-
   checkedRowKeys.value = [];
-
   getData();
 }
 
@@ -225,10 +231,8 @@ async function handleBatchDelete() {
 const editingData = ref<Api.SystemManage.Role | null>(null);
 
 function handleEdit(uuid: string) {
-  console.log(uuid)
   operateType.value = 'edit';
   editingData.value = data.value.find(item => item.uuid === uuid) || null;
-  console.log(editingData.value )
   openDrawer();
 }
 
@@ -236,29 +240,22 @@ async function handleDelete(id: number) {
   // request
   await delOrder([id])
   window.$message?.success($t('common.deleteSuccess'));
-
   getData();
 }
 
-
-
-
-function getIndex(index: number) {
-  const { page = 0, pageSize = 10 } = pagination;
-  console.log(pagination)
-  return String((page - 1) * pageSize + index + 1);
-}
 </script>
 
 <template>
   <div class="flex-vertical-stretch gap-16px  <sm:overflow-auto">
     <OrderSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" :plat-list="platList" />
-    <NCard :title="$t('page.manage.role.title')" :bordered="false" size="small" class="card-wrapper sm:flex-1-hidden">
+    <NCard title="订单列表" :bordered="false" size="small" class="card-wrapper sm:flex-1-hidden">
       <template #header-extra>
         <TableHeaderOperation
             v-model:columns="filteredColumns"
             :disabled-delete="checkedRowKeys.length === 0"
             :loading="loading"
+            :allow="['batchEdit']"
+            @batch-edit="handleBatchEdit"
             @delete="handleBatchDelete"
             @refresh="getData"
         />
