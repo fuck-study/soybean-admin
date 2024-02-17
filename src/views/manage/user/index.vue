@@ -89,6 +89,7 @@ const {columns, filteredColumns, data, loading, pagination, getData, searchParam
             for (let parseElement of JSON.parse(row.price)) {
               if (parseElement.plat === item.plat) {
                 return {
+                  cost: item.price,
                   plat: item.plat,
                   price: parseElement.price,
                   name: item.name,
@@ -97,6 +98,7 @@ const {columns, filteredColumns, data, loading, pagination, getData, searchParam
               }
             }
             return {
+              cost: item.price,
               plat: item.plat,
               price: item.price,
               name: item.name,

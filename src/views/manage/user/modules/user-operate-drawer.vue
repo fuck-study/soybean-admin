@@ -151,7 +151,7 @@ function psd() {
             <n-collapse>
                 <div v-for="item in platList">
                   <n-space class="w-full" :size="24" justify="start">
-                    <NFormItem :label="item.name" path="plat">
+                    <NFormItem :label="`${item.name}(成本${item.cost})`" path="plat">
                       <n-input-number
                           v-model:value="item.price"
                           style="width: 180px;margin:0 5px"
