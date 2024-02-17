@@ -143,7 +143,9 @@ function psd() {
     <NDrawerContent :title="title" :native-scrollbar="false" closable>
       <n-card>
         <NForm ref="formRef" :model="model" :rules="rules">
-
+          <NFormItem label="订单ID" path="ID">
+            <NInput v-model:value="model.uuid" :disabled="showStatus" />
+          </NFormItem>
           <NFormItem label="姓名" path="realName">
             <NInput v-model:value="model.realName" :placeholder="$t('page.manage.user.form.nickname')" :disabled="showStatus" />
           </NFormItem>
@@ -190,25 +192,25 @@ function psd() {
           </n-collapse>
 
 
-          <!--        <NFormItem :label="$t('page.manage.user.userPhone')" path="userPhone">-->
-          <!--          <NInput v-model:value="model.userPhone" :placeholder="$t('page.manage.user.form.userPhone')" />-->
-          <!--        </NFormItem>-->
-          <!--        <NFormItem :label="$t('page.manage.user.userEmail')" path="email">-->
-          <!--          <NInput v-model:value="model.userEmail" :placeholder="$t('page.manage.user.form.userEmail')" />-->
-          <!--        </NFormItem>-->
-          <!--        <NFormItem :label="$t('page.manage.user.userStatus')" path="status">-->
-          <!--          <NRadioGroup v-model:value="model.status">-->
-          <!--            <NRadio v-for="item in enableStatusOptions" :key="item.value" :value="item.value" :label="$t(item.label)" />-->
-          <!--          </NRadioGroup>-->
-          <!--        </NFormItem>-->
-          <!--        <NFormItem :label="$t('page.manage.user.userRole')" path="roles">-->
-          <!--          <NSelect-->
-          <!--            v-model:value="model.userRoles"-->
-          <!--            multiple-->
-          <!--            :options="roleOptions"-->
-          <!--            :placeholder="$t('page.manage.user.form.userRole')"-->
-          <!--          />-->
-          <!--        </NFormItem>-->
+<!--                  <NFormItem :label="$t('page.manage.user.userPhone')" path="userPhone">-->
+<!--                    <NInput v-model:value="model.userPhone" :placeholder="$t('page.manage.user.form.userPhone')" />-->
+<!--                  </NFormItem>-->
+<!--                  <NFormItem :label="$t('page.manage.user.userEmail')" path="email">-->
+<!--                    <NInput v-model:value="model.userEmail" :placeholder="$t('page.manage.user.form.userEmail')" />-->
+<!--                  </NFormItem>-->
+<!--                  <NFormItem :label="$t('page.manage.user.userStatus')" path="status">-->
+<!--                    <NRadioGroup v-model:value="model.status">-->
+<!--                      <NRadio v-for="item in enableStatusOptions" :key="item.value" :value="item.value" :label="$t(item.label)" />-->
+<!--                    </NRadioGroup>-->
+<!--                  </NFormItem>-->
+<!--                  <NFormItem :label="$t('page.manage.user.userRole')" path="roles">-->
+<!--                    <NSelect-->
+<!--                      v-model:value="model.userRoles"-->
+<!--                      multiple-->
+<!--                      :options="roleOptions"-->
+<!--                      :placeholder="$t('page.manage.user.form.userRole')"-->
+<!--                    />-->
+<!--                  </NFormItem>-->
         </NForm>
 
       </n-card>
