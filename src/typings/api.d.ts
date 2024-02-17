@@ -116,9 +116,9 @@ declare namespace Api {
       pageSize?: number;
       username?: string;
       password?: string;
-      school?: string;
+      school: string;
       name?: string;
-      courseName?: string;
+      courseName: string;
       tag?: string;
       plat?: number;
       status?: number;

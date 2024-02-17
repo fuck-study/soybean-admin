@@ -7,9 +7,10 @@ import { useAppStore } from '@/store/modules/app';
 import { useTable } from '@/hooks/common/table';
 import { $t } from '@/locales';
 // import { enableStatusRecord } from '@/constants/business';
-import RoleOperateDrawer, {type OperateType} from './modules/user-operate-drawer.vue';
+import RoleOperateDrawer, {type OperateType} from './modules/order-operate-drawer.vue';
 
-import RoleSearch from './modules/user-search.vue';
+import OrderSearch from './modules/order-search.vue';
+import { orderStatus } from "@/utils/common";
 const appStore = useAppStore();
 const { bool: drawerVisible, setTrue: openDrawer } = useBoolean()
 const platList = ref([])
@@ -18,53 +19,6 @@ onMounted(async ()=>{
   const data  = await fetchPlat()
   platList.value = data.data
 })
-const orderStatus = [
-  {
-    value: -1,
-    label: '异常',
-    tag: 'error'
-  },
-  {
-    value: -10,
-    label: '密码错误',
-    tag: 'error'
-  },
-  {
-    value: -11,
-    label: '已结课',
-    tag: 'error'
-  },
-  {
-    value: 1,
-    label: '已完成',
-    tag: 'success'
-  },
-  {
-    value: 0,
-    label: '待处理',
-    tag: 'default'
-  },
-  {
-    value: 2,
-    label: '进行中',
-    tag: 'info'
-  },
-  {
-    value: 3,
-    label: '待考试',
-    tag: 'warning'
-  },
-  {
-    value: 4,
-    label: '习惯分',
-    tag: 'info'
-  },
-  {
-    value: 5,
-    label: '见面课',
-    tag: 'warning'
-  }
-];
 
 function getStatusTypeByStatus(status) {
   for (const i of orderStatus) {
@@ -89,7 +43,8 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
     // the value can not be undefined, otherwise the property in Form will not be reactive
     status: null,
     username: null,
-    nickname: null
+    nickname: null,
+    plat: null
   },
   transformer:  res => {
     const {records = [], current = 1, size = 10, total = 0} = res.data || {};
@@ -176,7 +131,7 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
       render: row=>{
         return row.createdAt
       },
-      width: 100,
+      width: 110,
       align: 'center'
     },
     {
@@ -185,7 +140,7 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
       render: row=>{
         return row.nextCheckTime
       },
-      width: 100,
+      width: 110,
       align: 'center'
     },
 
@@ -294,7 +249,7 @@ function getIndex(index: number) {
 
 <template>
   <div class="flex-vertical-stretch gap-16px  <sm:overflow-auto">
-    <RoleSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" />
+    <OrderSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" :plat-list="platList" />
     <NCard :title="$t('page.manage.role.title')" :bordered="false" size="small" class="card-wrapper sm:flex-1-hidden">
       <template #header-extra>
         <TableHeaderOperation

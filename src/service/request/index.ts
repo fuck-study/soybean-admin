@@ -37,9 +37,15 @@ export const request = createFlatRequest<App.Service.Response>(
       return response.data;
     },
     onError: function (error) {
+
       // when the request is fail, you can show error message
       let message = error.response?.data?.error_msg
       window.$message?.error(message);
+
+      if (error.response?.status === 401){
+        localStg.set('token','')
+        location.reload()
+      }
     }
   }
 );

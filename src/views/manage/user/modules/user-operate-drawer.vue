@@ -22,11 +22,11 @@ interface Props {
   operateType: OperateType;
   /** the edit row data */
   rowData?: Api.SystemManage.User | null;
+
 }
 
 const props = defineProps<Props>();
-const checkArr = ref([])
-const showStatus = ref(false)
+const platList = ref([])
 interface Emits {
   (e: 'submitted'): void;
 }
@@ -60,8 +60,8 @@ function createDefaultModel(): Model {
     nickname: '',
     username: '',
     password: '',
-    price: '',
-    status: 0,
+    price: '[]',
+    money: 0,
   };
 }
 
@@ -72,25 +72,6 @@ const rules: Record<RuleKey, App.Global.FormRule> = {
   status: defaultRequiredRule
 };
 
-/** the enabled role options */
-const platOptions = ref([]);
-
-async function getPlatOptions() {
-  const data = await fetchPlat();
-  platOptions.value = data.data.map(item => {
-    if (model.price && JSON.parse(model.price) && Array.isArray(JSON.parse(model.price))){
-      if (JSON.parse(model.price).filter(i => i.plat === item.plat).length) {
-        item.price = JSON.parse(model.price).filter(i => i.plat === item.plat)[0].price
-        item.enable = true;
-      } else {
-        item.enable = false;
-      }
-      return item;
-    }
-    return item;
-  });
-
-}
 
 function handleUpdateModelWhenEdit() {
   if (props.operateType === 'add') {
@@ -109,58 +90,33 @@ function closeDrawer() {
 
 async function handleSubmit() {
   await validate();
-  // request
-  if (!model.status){
-    let obj = {
-      username: model.username,
-      password: model.password,
-      nickname: model.nickname
-    }
-    await fetchCreateUser(obj)
+  if (props.operateType ==='add'){
+    await fetchCreateUser(model)
   }else {
-    await updateUser(model.id,model)
+   await save()
   }
-
   window.$message?.success($t('common.updateSuccess'));
   closeDrawer();
   emit('submitted');
 }
 
-async function save(item){
-  const obj = { plat: item.plat, value: '', price: String(item.price) };
-  if ((item.enable && platOptions.value.filter(i => i.plat !== obj.plat).length) || platOptions.value.length === 0) {
-    checkArr.value = model.price && JSON.parse(model.price) && Array.isArray(JSON.parse(model.price)) ? JSON.parse(model.price) : []
-    checkArr.value.push(obj);
-  } else {
-    checkArr.value = model.price && JSON.parse(model.price) && Array.isArray(JSON.parse(model.price)) ? JSON.parse(model.price) : []
-    checkArr.value = checkArr.value.filter(i => i.plat !== obj.plat);
-  }
-  model.price = JSON.stringify(checkArr.value);
-  const res = await updateUser(model.id,model);
-  if (res) {
-    window.$message?.success('修改成功!');
-    // await getTableData();
-  } else {
-    window.$message?.error('请补全账号信息!');
-  }
-
+async function save(){
+  model.price = JSON.stringify(platList.value.filter(i => i.enable).map(item=>{
+    return {
+      name: item.name,
+      plat: item.plat,
+      price: item.price
+    }
+  }))
+  await updateUser(model.id,model)
 }
 
-watch(visible, item => {
-  if (item){
+watch(visible, () => {
+  if (visible.value) {
+    platList.value = JSON.parse(JSON.stringify(props.rowData.platList))
     handleUpdateModelWhenEdit();
     restoreValidation();
-    getPlatOptions();
   }
-  if (model.username.length) {
-    showStatus.value = true
-    model.status = 1
-  }else {
-    model.status = 0
-    showStatus.value = false
-  }
-
-
 });
 
 function validateInput() {
@@ -177,37 +133,33 @@ function psd() {
     <NDrawerContent :title="title" :native-scrollbar="false" closable>
       <n-card>
         <NForm ref="formRef" :model="model" :rules="rules">
-
-          <NFormItem :label="$t('page.manage.user.nickname')" path="nickName">
-            <NInput v-model:value="model.nickname" :placeholder="$t('page.manage.user.form.nickname')"/>
+          <NFormItem label="用户名" path="username">
+            <NInput v-model:value="model.username" placeholder="请输入用户名" :disabled="operateType==='edit'"  @input="validateInput"/>
           </NFormItem>
-          <NFormItem label="余额" path="money" v-if="showStatus">
-            <NInput v-model:value="model.money" placeholder="请输入余额"  />
+          <NFormItem label="昵称" path="nickName">
+            <NInput v-model:value="model.nickname" placeholder="请输入昵称"/>
           </NFormItem>
-          <NFormItem :label="$t('page.manage.user.username')" path="username">
-            <NInput v-model:value="model.username" :placeholder="$t('page.manage.user.form.username')" :disabled="showStatus"  @input="validateInput"/>
-          </NFormItem>
-          <NFormItem :label="$t('page.manage.user.password')" path="password">
+          <NFormItem label="密码" path="password">
             <NInput v-model:value="model.password" placeholder="请输入密码" @input="psd" />
           </NFormItem>
-          <n-form-item  :span="12" label="平台" path="plat" v-if="showStatus">
+          <NFormItem label="余额" path="money">
+            <NInput v-model:value="model.money" placeholder="请输入余额"  />
+          </NFormItem>
+          <n-form-item  :span="12" path="plat" v-if="operateType==='edit'">
             <n-collapse>
-              <n-collapse-item title="查看详情" name="1">
-                <div v-for="item in platOptions">
+                <div v-for="item in platList">
                   <n-space class="w-full" :size="24" justify="start">
                     <NFormItem :label="item.name" path="plat">
                       <n-input-number
                           v-model:value="item.price"
-                          style="width: 180px;margin:0px 5px"
+                          style="width: 180px;margin:0 5px"
                           placeholder="输入价格"
                           min="0"
                       />
-                      <n-switch v-model:value="item.enable" @click="save(item)" />
-
+                      <n-switch v-model:value="item.enable" @click="save" />
                     </NFormItem>
                   </n-space>
                 </div>
-              </n-collapse-item>
             </n-collapse>
           </n-form-item>
 
