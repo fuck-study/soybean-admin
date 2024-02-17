@@ -48,34 +48,23 @@ export const generatedRoutes: GeneratedRoute[] = [
     },
     children: [
       {
-        name: 'function_multi-tab',
-        path: '/function/multi-tab',
-        component: 'view.function_multi-tab',
-        meta: {
-          title: 'function_multi-tab',
-          i18nKey: 'route.function_multi-tab',
-          icon: 'ic:round-tab',
-          multiTab: true,
-          hideInMenu: true,
-          activeMenu: 'function_tab'
-        }
-      },
-      {
         name: 'function_order',
         path: '/function/order',
         component: 'view.function_order',
         meta: {
           title: 'function_order',
-          i18nKey: 'route.function_order'
+          i18nKey: 'route.function_order',
+          order: 7
         }
       },
       {
-        name: 'function_tab',
-        path: '/function/tab',
-        component: 'view.function_tab',
+        name: 'function_submit',
+        path: '/function/submit',
+        component: 'view.function_submit',
         meta: {
-          title: 'function_tab',
-          i18nKey: 'route.function_tab'
+          title: 'function_submit',
+          i18nKey: 'route.function_submit',
+          order: 5
         }
       }
     ]

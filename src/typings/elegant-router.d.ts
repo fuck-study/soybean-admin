@@ -25,9 +25,8 @@ declare module "@elegant-router/types" {
     "404": "/404";
     "500": "/500";
     "function": "/function";
-    "function_multi-tab": "/function/multi-tab";
     "function_order": "/function/order";
-    "function_tab": "/function/tab";
+    "function_submit": "/function/submit";
     "home": "/home";
     "login": "/login/:module(pwd-login|code-login|register|reset-pwd|bind-wechat)?";
     "manage": "/manage";
@@ -99,9 +98,8 @@ declare module "@elegant-router/types" {
     | "404"
     | "500"
     | "login"
-    | "function_multi-tab"
     | "function_order"
-    | "function_tab"
+    | "function_submit"
     | "home"
     | "manage_log"
     | "manage_user-detail"

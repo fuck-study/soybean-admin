@@ -55,6 +55,23 @@ export function fetchCreateUser(data?: Api.SystemManage.User) {
   });
 }
 
+export async function getCourse(data:any, plat:number) {
+  return request({
+    url: `/api/query/${plat}`,
+    method: 'post',
+    data,
+  });
+}
+
+export async function submitCourse(data:any, plat:number) {
+  return request({
+    url: `/api/submit/${plat}`,
+    method: 'post',
+    data,
+  });
+}
+
+
 
 export function fetchPostOrder(data?: Api.SystemManage.Order) {
   return request<Api.SystemManage.Order>({
@@ -71,6 +88,8 @@ export function fetchGetOrder(params?: Api.SystemManage.Order) {
     params,
   });
 }
+
+
 
 export function delOrder(data:any) {
   return request({
@@ -94,6 +113,9 @@ export function fetchDeleteUser(id: number) {
   return request({ url: `/api/user/${id}`,method:'delete' });
 }
 
+export async function fetchUserInfo() {
+  return request({ url: `/api/info`,method:'get' });
+}
 /** get menu list */
 export function fetchGetMenuList() {
   return request<Api.SystemManage.Menu[]>({
