@@ -113,7 +113,9 @@ async function save(){
 
 watch(visible, () => {
   if (visible.value) {
-    platList.value = JSON.parse(JSON.stringify(props.rowData.platList))
+    if (props.operateType === 'edit') {
+      platList.value = JSON.parse(JSON.stringify(props.rowData.platList))
+    }
     handleUpdateModelWhenEdit();
     restoreValidation();
   }
