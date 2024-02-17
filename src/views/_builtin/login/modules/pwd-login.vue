@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, reactive } from 'vue';
 import { $t } from '@/locales';
-import { loginModuleRecord } from '@/constants/app';
 import { useRouterPush } from '@/hooks/common/router';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import { useAuthStore } from '@/store/modules/auth';
@@ -20,8 +19,8 @@ interface FormModel {
 }
 
 const model: FormModel = reactive({
-  userName: 'admin',
-  password: '8221311'
+  userName: '',
+  password: ''
 });
 
 const rules = computed<Record<keyof FormModel, App.Global.FormRule[]>>(() => {
@@ -52,21 +51,21 @@ async function handleSubmit() {
       />
     </NFormItem>
     <NSpace vertical :size="24">
-      <div class="flex-y-center justify-between">
-        <NCheckbox>{{ $t('page.login.pwdLogin.rememberMe') }}</NCheckbox>
-        <NButton quaternary>{{ $t('page.login.pwdLogin.forgetPassword') }}</NButton>
-      </div>
+<!--      <div class="flex-y-center justify-between">-->
+<!--        <NCheckbox>{{ $t('page.login.pwdLogin.rememberMe') }}</NCheckbox>-->
+<!--        <NButton quaternary>{{ $t('page.login.pwdLogin.forgetPassword') }}</NButton>-->
+<!--      </div>-->
       <NButton type="primary" size="large" block round :loading="authStore.loginLoading" @click="handleSubmit">
         {{ $t('common.confirm') }}
       </NButton>
-      <div class="flex-y-center justify-between gap-12px">
-        <NButton class="flex-1" block @click="toggleLoginModule('code-login')">
-          {{ $t(loginModuleRecord['code-login']) }}
-        </NButton>
-        <NButton class="flex-1" block @click="toggleLoginModule('register')">
-          {{ $t(loginModuleRecord.register) }}
-        </NButton>
-      </div>
+<!--      <div class="flex-y-center justify-between gap-12px">-->
+<!--        <NButton class="flex-1" block @click="toggleLoginModule('code-login')">-->
+<!--          {{ $t(loginModuleRecord['code-login']) }}-->
+<!--        </NButton>-->
+<!--        <NButton class="flex-1" block @click="toggleLoginModule('register')">-->
+<!--          {{ $t(loginModuleRecord.register) }}-->
+<!--        </NButton>-->
+<!--      </div>-->
     </NSpace>
   </NForm>
 </template>

@@ -1,0 +1,51 @@
+# 工作流程的名称
+name: Docker Image CI
+
+# 触发条件：当branch触发push（push，merge Pull Request）
+on:
+  push:
+    branches:
+      - main  # 根据需要更改触发条件
+
+# 工作流程，可包含多个作业
+jobs:
+  # 作业1名称
+  build:
+    env:
+      KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    # 指定的运行器环境
+    runs-on: ubuntu-latest
+
+    # 作业包含一系列任务，称为 steps
+    steps:
+      # 检出当前代码（触发工作流时的commits）
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # 登录到阿里云容器镜像服务
+      - name: Login to Ali Docker
+        uses: docker/login-action@v1
+        # 配置登录信息
+        with:
+          registry: registry.cn-shanghai.aliyuncs.com
+          username: xmig6
+          password: hmyzl666
+
+      - name: Build and push Application
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: |
+            registry.cn-shanghai.aliyuncs.com/fuck-study/nginx-publish:v${{ github.run_number }}
+            registry.cn-shanghai.aliyuncs.com/fuck-study/nginx-publish:latest
+
+      - name: Replace Image Version
+        run: |
+          sed -i 's/latest/v${{ github.run_number }}/' deploy.yaml
+
+      - name: Apply Yaml To Kubernetes
+        uses: actions-hub/kubectl@master
+        with:
+          args: apply -f deploy.yaml
