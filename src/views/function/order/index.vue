@@ -41,10 +41,14 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
   apiParams: {
     // if you want to use the searchParams in Form, you need to define the following properties, and the value is null
     // the value can not be undefined, otherwise the property in Form will not be reactive
+    plat: null,
     status: null,
     username: null,
     nickname: null,
-    plat: null
+    password: null,
+    name: null,
+    school: null,
+    courseName: null,
   },
   transformer:  res => {
     const {records = [], current = 1, size = 10, total = 0} = res.data || {};
@@ -93,7 +97,6 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
       key: 'plat',
       title: "平台",
       render: row=>{
-        console.log(row)
         for (const item of platList.value) {
           if (item.plat === row.plat){
             return <NTag type="info">{item.name}</NTag>
