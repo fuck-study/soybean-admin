@@ -109,41 +109,9 @@ function closeDrawer() {
 
 async function handleSubmit() {
   await validate();
-  // request
-  if (!model.status){
-    let obj = {
-      username: model.username,
-      password: model.password,
-      nickname: model.nickname
-    }
-    await fetchCreateUser(obj)
-  }else {
-    await updateUser(model.id,model)
-  }
-
   window.$message?.success($t('common.updateSuccess'));
   closeDrawer();
   emit('submitted');
-}
-
-async function save(item){
-  const obj = { plat: item.plat, value: '', price: String(item.price) };
-  if ((item.enable && platOptions.value.filter(i => i.plat !== obj.plat).length) || platOptions.value.length === 0) {
-    checkArr.value = model.price && JSON.parse(model.price) && Array.isArray(JSON.parse(model.price)) ? JSON.parse(model.price) : []
-    checkArr.value.push(obj);
-  } else {
-    checkArr.value = model.price && JSON.parse(model.price) && Array.isArray(JSON.parse(model.price)) ? JSON.parse(model.price) : []
-    checkArr.value = checkArr.value.filter(i => i.plat !== obj.plat);
-  }
-  model.price = JSON.stringify(checkArr.value);
-  const res = await updateUser(model.id,model);
-  if (res) {
-    window.$message?.success('修改成功!');
-    // await getTableData();
-  } else {
-    window.$message?.error('请补全账号信息!');
-  }
-
 }
 
 watch(visible, item => {

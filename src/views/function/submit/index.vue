@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, ref, watch, h } from 'vue';
 import { useRouterPush } from '@/hooks/common/router';
 import { useTabStore } from '@/store/modules/tab';
 import { fetchPlat, getCourse, submitCourse } from "@/service/api";
+import {NButton, NTag, NAvatar, NText} from 'naive-ui';
 
 const tabStore = useTabStore();
 const {routerPushByKey} = useRouterPush();
@@ -190,12 +191,115 @@ const columns = ref([
   }
 ]);
 
+const renderMultipleSelectTag = ({
+                                   platList,
+                                   handleClose
+                                 }) => {
+  return h(
+      NTag,
+      {
+        style: {
+          padding: "0 6px 0 4px"
+        },
+        round: true,
+        closable: true,
+        onClose: (e) => {
+          e.stopPropagation();
+          handleClose();
+        }
+      },
+      {
+        default: () => h(
+            "div",
+            {
+              style: {
+                display: "flex",
+                alignItems: "center"
+              }
+            },
+            [
+              h(NAvatar, {
+                src: "https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg",
+                round: true,
+                size: 22,
+                style: {
+                  marginRight: "4px"
+                }
+              }),
+              platList.label
+            ]
+        )
+      }
+  );
+};
+const renderSingleSelectTag = ({ option }) => {
+  return h(
+      "div",
+      {
+        style: {
+          display: "flex",
+          alignItems: "center"
+        }
+      },
+      [
+        h(NAvatar, {
+          src: "/"+ option.value +".png",
+          round: true,
+          size: 24,
+          style: {
+            marginRight: "12px"
+          }
+        }),
+        option.label
+      ]
+  );
+};
+const renderLabel = (option) => {
+  return h(
+      "div",
+      {
+        style: {
+          display: "flex",
+          alignItems: "center"
+        }
+      },
+      [
+
+        h(NAvatar, {
+          src: "/"+ option.value +".png",
+          round: true,
+          size: "small"
+        }),
+        h(
+            "div",
+            {
+              style: {
+                marginLeft: "12px",
+                padding: "4px 0"
+              }
+            },
+            [
+              h("div", null, [option.label +' (' + option.price + '龙币)']),
+              h(
+                  NText,
+                  { depth: 3, tag: "div" },
+                  {
+                    default: () => option.msg
+                  }
+              )
+            ]
+        )
+      ]
+  );
+};
+
+
 </script>
 <template>
   <NSpace vertical :size="16">
     <n-card title="查询课程" :bordered="false" size="small" class="rounded-8px shadow-sm">
       <n-form-item label="请选择平台">
-        <n-select v-model:value="platValue" placeholder="请选择平台" :options="platList"/>
+        <n-select v-model:value="platValue" placeholder="请选择平台" :options="platList" filterable  :render-label="renderLabel" :render-tag="renderSingleSelectTag" />
       </n-form-item>
       <n-form-item v-if="schoolList.length" label="学校" path="childNum">
         <n-select v-model:value="childSchool" :options="schoolList" placeholder="请选择学校"/>

@@ -2,8 +2,8 @@
 import { computed } from 'vue';
 import { $t } from '@/locales';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
-import { enableStatusOptions, userGenderOptions } from '@/constants/business';
-import { translateOptions } from '@/utils/common';
+// import { enableStatusOptions, userGenderOptions } from '@/constants/business';
+// import { translateOptions } from '@/utils/common';
 
 defineOptions({
   name: 'UserSearch'
