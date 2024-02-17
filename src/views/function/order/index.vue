@@ -243,11 +243,28 @@ async function handleDelete(id: number) {
   getData();
 }
 
+const card = ref(true)
+const text = ref("-")
+function changeCard(){
+  console.log('changeCard')
+  card.value = !card.value
+  if (card.value) {
+    text.value = "-"
+  }else {
+    text.value = "+"
+  }
+}
+
 </script>
 
 <template>
   <div class="flex-vertical-stretch gap-16px  <sm:overflow-auto">
-    <OrderSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" :plat-list="platList" />
+    <OrderSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" :plat-list="platList" v-if="card" />
+    <NCard :bordered="false" size="small" class="" style="height: 5px;background-color: rgba(100, 108, 255, 0.1);" @click="changeCard"  >
+      <n-button type="info"  size="small" circle style="position:relative;left: 50%;top:-23px;border:none">
+        {{ text }}
+      </n-button>
+    </NCard>
     <NCard title="订单列表" :bordered="false" size="small" class="card-wrapper sm:flex-1-hidden">
       <template #header-extra>
         <TableHeaderOperation

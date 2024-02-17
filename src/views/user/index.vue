@@ -9,6 +9,7 @@ import { $t } from '@/locales';
 // import {enableStatusRecord, userGenderRecord} from '@/constants/business';
 import UserOperateDrawer, { type OperateType } from './modules/user-operate-drawer.vue';
 import UserSearch from './modules/user-search.vue';
+import OrderSearch from "@/views/function/order/modules/order-search.vue";
 
 const appStore = useAppStore();
 const platList = ref([])
@@ -191,11 +192,27 @@ onMounted(async () => {
 //
 //   return String((page - 1) * pageSize + index + 1);
 // }
+const card = ref(true)
+const text = ref("-")
+function changeCard(){
+  console.log('changeCard')
+  card.value = !card.value
+  if (card.value) {
+    text.value = "-"
+  }else {
+    text.value = "+"
+  }
+}
 </script>
 
 <template>
   <div class="flex-vertical-stretch gap-16px overflow-hidden <sm:overflow-auto">
-    <UserSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData"/>
+    <UserSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" v-if="card" />
+    <NCard :bordered="false" size="small" class="" style="height: 5px;background-color: rgba(100, 108, 255, 0.1);" @click="changeCard"  >
+      <n-button type="info"  size="small" circle style="position:relative;left: 50%;top:-23px;border:none">
+        {{ text }}
+      </n-button>
+    </NCard>
     <NCard :title="$t('page.manage.user.title')" :bordered="false" size="small" class="card-wrapper sm:flex-1-hidden">
       <template #header-extra>
         <TableHeaderOperation
