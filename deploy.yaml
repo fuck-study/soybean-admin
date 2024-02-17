@@ -40,4 +40,4 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-  type: ClusterIP  # 根据需要选择Service类型
+  type: ClusterIP
