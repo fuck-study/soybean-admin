@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import {h, ref, watch} from 'vue';
+import {h, onMounted, ref, watch} from 'vue';
 import { NButton, NPopconfirm, NTag, NProgress } from 'naive-ui';
 import { useBoolean } from '@sa/hooks';
 import { delOrder, fetchGetOrder, fetchPlat, fetchPostOrder } from '@/service/api';
@@ -11,10 +11,13 @@ import RoleOperateDrawer, {type OperateType} from './modules/user-operate-drawer
 
 import RoleSearch from './modules/user-search.vue';
 const appStore = useAppStore();
-const change = ref(false)
 const { bool: drawerVisible, setTrue: openDrawer } = useBoolean()
 const platList = ref([])
-const ordersData = ref({})
+
+onMounted(async ()=>{
+  const data  = await fetchPlat()
+  platList.value = data.data
+})
 const orderStatus = [
   {
     value: -1,
@@ -135,6 +138,7 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
       key: 'plat',
       title: "平台",
       render: row=>{
+        console.log(row)
         for (const item of platList.value) {
           if (item.plat === row.plat){
             return <NTag type="info">{item.name}</NTag>
