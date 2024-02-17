@@ -33,13 +33,13 @@ const rules = computed<Record<keyof FormModel, App.Global.FormRule[]>>(() => {
 });
 
 async function handleSubmit() {
-  await validate();
+  // await validate();
   await authStore.login(model.userName, model.password);
 }
 </script>
 
 <template>
-  <NForm ref="formRef" :model="model" :rules="rules" size="large" :show-label="false">
+  <NForm ref="formRef" :model="model" size="large" :show-label="false">
     <NFormItem path="userName">
       <NInput v-model:value="model.userName" :placeholder="$t('page.login.common.userNamePlaceholder')" />
     </NFormItem>

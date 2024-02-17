@@ -1,7 +1,7 @@
 <script setup lang="tsx">
 import { onMounted, ref, watch } from 'vue';
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
-import { useBoolean } from '@sa/hooks';
+import { useBoolean } from '~/packages/hooks';
 import { fetchDeleteUser, fetchGetUserList, fetchPlat } from '@/service/api';
 import { useAppStore } from '@/store/modules/app';
 import { useTable } from '@/hooks/common/table';

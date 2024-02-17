@@ -100,7 +100,7 @@ export const generatedRoutes: GeneratedRoute[] = [
       i18nKey: 'route.manage',
       icon: 'carbon:cloud-service-management',
       order: 9,
-      roles: ['R_ADMIN']
+
     },
     children: [
       {
@@ -112,18 +112,6 @@ export const generatedRoutes: GeneratedRoute[] = [
           i18nKey: 'route.manage_log',
           icon: 'ic:round-manage-accounts',
           order: 2
-        }
-      },
-      {
-        name: 'manage_user',
-        path: '/manage/user',
-        component: 'view.manage_user',
-        meta: {
-          title: 'manage_user',
-          i18nKey: 'route.manage_user',
-          icon: 'ic:round-manage-accounts',
-          order: 1,
-          roles: ['R_ADMIN']
         }
       },
       {
@@ -140,6 +128,19 @@ export const generatedRoutes: GeneratedRoute[] = [
         }
       }
     ]
+  },
+  {
+    name: 'user',
+    path: '/user',
+    component: 'layout.base$view.user',
+    meta: {
+      roles: ['R_ADMIN'],
+      title: 'user',
+      i18nKey: 'route.user',
+      order: 12
+    },
+
+
   },
   {
     name: 'user-center',
