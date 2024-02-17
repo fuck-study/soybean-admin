@@ -38,8 +38,8 @@ jobs:
           context: .
           push: true
           tags: |
-            registry.cn-shanghai.aliyuncs.com/fuck-study/nginx-publish:v${{ github.run_number }}
-            registry.cn-shanghai.aliyuncs.com/fuck-study/nginx-publish:latest
+            registry.cn-shanghai.aliyuncs.com/fuck-study/soybean-admin:v${{ github.run_number }}
+            registry.cn-shanghai.aliyuncs.com/fuck-study/soybean-admin:latest
 
       - name: Replace Image Version
         run: |
