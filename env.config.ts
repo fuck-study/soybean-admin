@@ -20,7 +20,7 @@ export function createServiceConfig(env: Env.ImportMeta) {
       }
     },
     prod: {
-      baseURL: mockURL,
+      baseURL: '',
       otherBaseURL: {
         demo: 'http://localhost:9530'
       }
