@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { onMounted, ref, watch, h } from 'vue';
-import { useRouterPush } from '@/hooks/common/router';
-import { useTabStore } from '@/store/modules/tab';
-import { fetchPlat, getCourse, submitCourse } from "@/service/api";
+import {onMounted, ref, watch, h} from 'vue';
+import {useRouterPush} from '@/hooks/common/router';
+import {useTabStore} from '@/store/modules/tab';
+import {fetchPlat, getCourse, submitCourse} from "@/service/api";
 import {NButton, NTag, NAvatar, NText} from 'naive-ui';
 
 const tabStore = useTabStore();
@@ -39,6 +39,8 @@ onMounted(async () => {
 
 watch(platValue, newValue => {
   if (newValue) {
+    schoolList.value = []
+    childSchool.value = null
     const arr = platList.value.filter(i => i.value === newValue);
     schoolList.value = platList.value ? arr.flatMap(item => item.school).filter(i => i) : [];
     window.$message?.info(arr[0].msg + ' ' + arr[0].price + '龙币');
@@ -64,26 +66,26 @@ async function query() {
 
   //  更改用户的输入为标准格式
   const accountInfo = account.value
-    .trim()
-    .split(/\n/)
-    // eslint-disable-next-line array-callback-return,consistent-return
-    .map(i => {
-      const item = i.trim().split(/\s+/);
-      if (item.length === 3) {
-        return {
-          school: schoolList.value.length ? childSchool.value : item[0],
-          username: item[1],
-          password: item[2]
-        };
-      } else if (item.length === 2) {
-        return {
-          school: schoolList.value.length ? childSchool.value : undefined,
-          username: item[0],
-          password: item[1]
-        };
-      }
-    })
-    .filter(i => i);
+      .trim()
+      .split(/\n/)
+      // eslint-disable-next-line array-callback-return,consistent-return
+      .map(i => {
+        const item = i.trim().split(/\s+/);
+        if (item.length === 3) {
+          return {
+            school: schoolList.value.length ? childSchool.value : item[0],
+            username: item[1],
+            password: item[2]
+          };
+        } else if (item.length === 2) {
+          return {
+            school: schoolList.value.length ? childSchool.value : undefined,
+            username: item[0],
+            password: item[1]
+          };
+        }
+      })
+      .filter(i => i);
 
   accountInfo.forEach(item => {
     getCourse(item, platValue.value).then(res => {
@@ -126,18 +128,18 @@ async function query() {
 watch(checkedRowKeys, newValue => {
   if (newValue) {
     const courses = JSON.parse(JSON.stringify(newValue))
-      .map(i => {
-        return {
-          type: 0,
-          city: null,
-          tag: null,
-          school: JSON.parse(i).school,
-          name: JSON.parse(i).name,
-          username: JSON.parse(i).username,
-          password: JSON.parse(i).password,
-          courses: JSON.parse(i).courses ? JSON.parse(i).courses : []
-        };
-      }).filter(i => i.name);
+        .map(i => {
+          return {
+            type: 0,
+            city: null,
+            tag: null,
+            school: JSON.parse(i).school,
+            name: JSON.parse(i).name,
+            username: JSON.parse(i).username,
+            password: JSON.parse(i).password,
+            courses: JSON.parse(i).courses ? JSON.parse(i).courses : []
+          };
+        }).filter(i => i.name);
 
     const processedUsernames = {};
     outputJson.value = [];
@@ -232,7 +234,7 @@ const renderMultipleSelectTag = ({
       }
   );
 };
-const renderSingleSelectTag = ({ option }) => {
+const renderSingleSelectTag = ({option}) => {
   return h(
       "div",
       {
@@ -243,7 +245,7 @@ const renderSingleSelectTag = ({ option }) => {
       },
       [
         h(NAvatar, {
-          src: "/"+ option.value +".png",
+          src: "/" + option.value + ".png",
           round: true,
           size: 24,
           style: {
@@ -266,7 +268,7 @@ const renderLabel = (option) => {
       [
 
         h(NAvatar, {
-          src: "/"+ option.value +".png",
+          src: "/" + option.value + ".png",
           round: true,
           size: "small"
         }),
@@ -279,10 +281,10 @@ const renderLabel = (option) => {
               }
             },
             [
-              h("div", null, [option.label +' (' + option.price + '龙币)']),
+              h("div", null, [option.label + ' (' + option.price + '龙币)']),
               h(
                   NText,
-                  { depth: 3, tag: "div" },
+                  {depth: 3, tag: "div"},
                   {
                     default: () => option.msg
                   }
@@ -299,7 +301,8 @@ const renderLabel = (option) => {
   <NSpace vertical :size="16">
     <n-card title="查询课程" :bordered="false" size="small" class="rounded-8px shadow-sm">
       <n-form-item label="请选择平台">
-        <n-select v-model:value="platValue" placeholder="请选择平台" :options="platList" filterable  :render-label="renderLabel" :render-tag="renderSingleSelectTag" />
+        <n-select v-model:value="platValue" placeholder="请选择平台" :options="platList" filterable
+                  :render-label="renderLabel" :render-tag="renderSingleSelectTag"/>
       </n-form-item>
       <n-form-item v-if="schoolList.length" label="学校" path="childNum">
         <n-select v-model:value="childSchool" :options="schoolList" placeholder="请选择学校"/>
@@ -307,10 +310,10 @@ const renderLabel = (option) => {
       <n-space :vertical="true" :size="10">
         <n-input-group>
           <n-input
-            v-model:value="account"
-            type="textarea"
-            placeholder="请填入 账号 密码,提交多个账号以回车换行分割"
-            :disabled="disableds"
+              v-model:value="account"
+              type="textarea"
+              placeholder="请填入 账号 密码,提交多个账号以回车换行分割"
+              :disabled="disableds"
           />
         </n-input-group>
         <n-button v-if="!checkedRowKeys.length" type="primary" :disabled="disableds" @click="query">查询</n-button>
@@ -319,12 +322,12 @@ const renderLabel = (option) => {
     </n-card>
     <n-card v-if="accountCourses.length">
       <n-data-table
-        :default-expand-all="true"
-        v-model:checked-row-keys="checkedRowKeys"
-        :data="accountCourses"
-        :max-height="500"
-        :columns="columns"
-        :row-key="o => JSON.stringify(o)"
+          :default-expand-all="true"
+          v-model:checked-row-keys="checkedRowKeys"
+          :data="accountCourses"
+          :max-height="500"
+          :columns="columns"
+          :row-key="o => JSON.stringify(o)"
       />
     </n-card>
   </NSpace>
