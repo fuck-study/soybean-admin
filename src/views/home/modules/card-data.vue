@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import {computed} from 'vue';
 import { createReusableTemplate } from '@vueuse/core';
-import { $t } from '@/locales';
 
 interface Props {
-  userInfo: any;
-  logsList: any;
+  userData: any;
 }
 
 const props = defineProps<Props>();
@@ -28,21 +26,21 @@ interface CardData {
 
 console.log(props)
 const cardData = computed<CardData[]>(() => [
-  // {
-  //   key: 'visitCount',
-  //   title: "",
-  //   value: 9725,
-  //   unit: '',
-  //   color: {
-  //     start: '#ec4786',
-  //     end: '#b955a4'
-  //   },
-  //   icon: 'ant-design:bar-chart-outlined'
-  // },
+  {
+    key: 'visitCount',
+    title: "平台数量",
+    value:  props.userData.platCount,
+    unit: '',
+    color: {
+      start: '#ec4786',
+      end: '#b955a4'
+    },
+    icon: 'ant-design:bar-chart-outlined'
+  },
   {
     key: 'turnover',
     title: '龙币',
-    value: props.userInfo.money,
+    value: props.userData.money,
     unit: '¥',
     color: {
       start: '#865ec0',
@@ -52,7 +50,7 @@ const cardData = computed<CardData[]>(() => [
   },
   // {
   //   key: 'downloadCount',
-  //   title: $t('page.home.downloadCount'),
+  //   title: 'ww',
   //   value: 970925,
   //   unit: '',
   //   color: {
@@ -64,7 +62,7 @@ const cardData = computed<CardData[]>(() => [
   {
     key: 'dealCount',
     title: '成交量',
-    value: props.logsList.total,
+    value: props.userData.orderCount,
     unit: '',
     color: {
       start: '#fcbc25',

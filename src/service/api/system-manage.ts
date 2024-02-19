@@ -124,6 +124,11 @@ export function fetchDeleteUser(id: number) {
 export async function fetchUserInfo() {
   return request({ url: `/api/info`,method:'get' });
 }
+
+
+export async function getUserData() {
+    return request({ url: `/api/dashboard`,method:'get' });
+}
 /** get menu list */
 export function fetchGetMenuList() {
   return request<Api.SystemManage.Menu[]>({
