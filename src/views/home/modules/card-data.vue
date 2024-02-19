@@ -1,7 +1,14 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import {computed} from 'vue';
 import { createReusableTemplate } from '@vueuse/core';
 import { $t } from '@/locales';
+
+interface Props {
+  userInfo: any;
+  logsList: any;
+}
+
+const props = defineProps<Props>();
 
 defineOptions({
   name: 'CardData'
@@ -19,44 +26,45 @@ interface CardData {
   icon: string;
 }
 
+console.log(props)
 const cardData = computed<CardData[]>(() => [
-  {
-    key: 'visitCount',
-    title: $t('page.home.visitCount'),
-    value: 9725,
-    unit: '',
-    color: {
-      start: '#ec4786',
-      end: '#b955a4'
-    },
-    icon: 'ant-design:bar-chart-outlined'
-  },
+  // {
+  //   key: 'visitCount',
+  //   title: "",
+  //   value: 9725,
+  //   unit: '',
+  //   color: {
+  //     start: '#ec4786',
+  //     end: '#b955a4'
+  //   },
+  //   icon: 'ant-design:bar-chart-outlined'
+  // },
   {
     key: 'turnover',
-    title: $t('page.home.turnover'),
-    value: 1026,
-    unit: '$',
+    title: '龙币',
+    value: props.userInfo.money,
+    unit: '¥',
     color: {
       start: '#865ec0',
       end: '#5144b4'
     },
     icon: 'ant-design:money-collect-outlined'
   },
-  {
-    key: 'downloadCount',
-    title: $t('page.home.downloadCount'),
-    value: 970925,
-    unit: '',
-    color: {
-      start: '#56cdf3',
-      end: '#719de3'
-    },
-    icon: 'carbon:document-download'
-  },
+  // {
+  //   key: 'downloadCount',
+  //   title: $t('page.home.downloadCount'),
+  //   value: 970925,
+  //   unit: '',
+  //   color: {
+  //     start: '#56cdf3',
+  //     end: '#719de3'
+  //   },
+  //   icon: 'carbon:document-download'
+  // },
   {
     key: 'dealCount',
-    title: $t('page.home.dealCount'),
-    value: 9527,
+    title: '成交量',
+    value: props.logsList.total,
     unit: '',
     color: {
       start: '#fcbc25',

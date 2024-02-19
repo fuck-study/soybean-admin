@@ -7,7 +7,11 @@ import { useAuthStore } from '@/store/modules/auth';
 defineOptions({
   name: 'HeaderBanner'
 });
+interface Props {
+  userInfo: any;
+}
 
+const props = defineProps<Props>();
 const appStore = useAppStore();
 const authStore = useAuthStore();
 
@@ -48,7 +52,7 @@ const statisticData = computed<StatisticData[]>(() => [
           </div>
           <div class="pl-12px">
             <h3 class="text-18px font-semibold">
-              {{ $t('page.home.greeting', { userName: authStore.userInfo.userName }) }}
+              {{  props.userInfo.nickname  }}
             </h3>
             <p class="leading-30px text-#999">{{ $t('page.home.weatherDesc') }}</p>
           </div>
