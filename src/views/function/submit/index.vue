@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import {onMounted, ref, watch, h} from 'vue';
-import {useRouterPush} from '@/hooks/common/router';
-import {useTabStore} from '@/store/modules/tab';
-import {fetchPlat, getCourse, submitCourse} from "@/service/api";
-import {NButton, NTag, NAvatar, NText} from 'naive-ui';
+import { onMounted, ref, watch, h } from 'vue';
+import { useRouterPush } from '@/hooks/common/router';
+import { useTabStore } from '@/store/modules/tab';
+import { fetchPlat, getCourse, submitCourse } from "@/service/api";
+import { NButton, NTag, NAvatar, NText, NImage } from 'naive-ui';
+import { RowData } from "naive-ui/es/data-table/src/interface";
 
 const tabStore = useTabStore();
 const {routerPushByKey} = useRouterPush();
@@ -19,7 +20,6 @@ const childSchool = ref(null);
 const schoolList = ref([]);
 const disableds = ref(false)
 const checkedRowKeys = ref([]);
-const outputJson = ref([]);
 
 
 onMounted(async () => {
@@ -66,26 +66,26 @@ async function query() {
 
   //  更改用户的输入为标准格式
   const accountInfo = account.value
-      .trim()
-      .split(/\n/)
-      // eslint-disable-next-line array-callback-return,consistent-return
-      .map(i => {
-        const item = i.trim().split(/\s+/);
-        if (item.length === 3) {
-          return {
-            school: schoolList.value.length ? childSchool.value : item[0],
-            username: item[1],
-            password: item[2]
-          };
-        } else if (item.length === 2) {
-          return {
-            school: schoolList.value.length ? childSchool.value : undefined,
-            username: item[0],
-            password: item[1]
-          };
-        }
-      })
-      .filter(i => i);
+    .trim()
+    .split(/\n/)
+    // eslint-disable-next-line array-callback-return,consistent-return
+    .map(i => {
+      const item = i.trim().split(/\s+/);
+      if (item.length === 3) {
+        return {
+          school: schoolList.value.length ? childSchool.value : item[0],
+          username: item[1],
+          password: item[2]
+        };
+      } else if (item.length === 2) {
+        return {
+          school: schoolList.value.length ? childSchool.value : undefined,
+          username: item[0],
+          password: item[1]
+        };
+      }
+    })
+    .filter(i => i);
 
   accountInfo.forEach(item => {
     getCourse(item, platValue.value).then(res => {
@@ -102,7 +102,8 @@ async function query() {
               ...data,
               type: 0, // 这里有全包啥的，先写死
               label: i.name,
-              key: data.username + i.name + i.id + y,
+              courseImg: i.img,
+              courseId: i.id,
               courses: i.hash
             };
           })
@@ -125,50 +126,32 @@ async function query() {
   });
 }
 
-watch(checkedRowKeys, newValue => {
-  if (newValue) {
-    const courses = JSON.parse(JSON.stringify(newValue))
-        .map(i => {
-          return {
-            type: 0,
-            city: null,
-            tag: null,
-            school: JSON.parse(i).school,
-            name: JSON.parse(i).name,
-            username: JSON.parse(i).username,
-            password: JSON.parse(i).password,
-            courses: JSON.parse(i).courses ? JSON.parse(i).courses : []
-          };
-        }).filter(i => i.name);
-
-    const processedUsernames = {};
-    outputJson.value = [];
-    for (const item of courses) {
-      const {username, password, school, city, type, name, courses, tag} = item;
-
-      if (!processedUsernames[username]) {
-        processedUsernames[username] = {
-          type,
-          city,
-          tag,
-          name,
-          school,
-          username,
-          password,
-          courses: []
-        };
-        outputJson.value.push(processedUsernames[username]);
-      }
-      if (courses && courses.length > 0) {
-        processedUsernames[username].courses.push(courses);
-      }
-    }
-  }
-});
 
 async function submit() {
+  const outputJson = [];
+  const processedUsernames = {};
+
+  for (const item of checkedRowKeys.value) {
+    const {username, password, school, city, type, name, courses, tag} = JSON.parse(item);
+    if (!processedUsernames[username]) {
+      processedUsernames[username] = {
+        type,
+        city,
+        tag,
+        name,
+        school,
+        username,
+        password,
+        courses: []
+      };
+      outputJson.push(processedUsernames[username]);
+    }
+    if (courses && courses.length > 0) {
+      processedUsernames[username].courses.push(courses);
+    }
+  }
   // 根据username将一纬数组升纬
-  for (const i of outputJson.value) {
+  for (const i of outputJson) {
     // eslint-disable-next-line no-await-in-loop
     const {data: msg, error} = await submitCourse(i, platValue.value);
     if (!error) {
@@ -178,7 +161,6 @@ async function submit() {
     }
   }
   account.value = '';
-  outputJson.value = [];
   checkedRowKeys.value = [];
   accountCourses.value = [];
 }
@@ -189,109 +171,135 @@ const columns = ref([
   },
   {
     title: '信息',
-    key: 'label'
-  }
-]);
-
-const renderMultipleSelectTag = ({
-                                   platList,
-                                   handleClose
-                                 }) => {
-  return h(
-      NTag,
-      {
-        style: {
-          padding: "0 6px 0 4px"
+    key: 'label',
+    render(row) {
+      if (!row.courseImg) {
+        return row.label
+      }
+      return h(
+        'div',
+        {
+          style: {
+            display: 'flex',
+            alignItems: 'center' // 垂直居中
+          }
         },
-        round: true,
-        closable: true,
-        onClose: (e) => {
-          e.stopPropagation();
-          handleClose();
-        }
-      },
-      {
-        default: () => h(
-            "div",
+        [
+          h(NImage, {
+              previewedImgProps: {
+                style:
+                  {
+                    borderRadius: '20px'
+                  }
+              },
+              src: row.courseImg,
+              width: 100
+            }
+          ),
+          h(
+            'span',
             {
               style: {
-                display: "flex",
-                alignItems: "center"
+                marginLeft: '12px',
+                padding: '4px 0'
               }
             },
-            [
-              h(NAvatar, {
-                src: "https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg",
-                round: true,
-                size: 22,
-                style: {
-                  marginRight: "4px"
-                }
-              }),
-              platList.label
-            ]
-        )
+            row.label
+          ),
+          h(
+            'span',
+            {
+              style: {
+                color: 'red',
+                marginLeft: '12px',
+                padding: '4px 0'
+              }
+            },
+            '课程id:(' + row.courseId + ')'
+          )
+        ]
+      )
+
+    }
+  }
+
+]);
+const rowProps = (row: RowData) => {
+  return {
+    style: 'cursor: pointer;',
+    onClick: (event: Event) => {
+      event.stopPropagation(); // 阻止事件传播
+      if (row.children) {
+        return
       }
-  );
-};
+      setTimeout(()=>{
+        if (checkedRowKeys.value.includes(JSON.stringify(row))) {
+          checkedRowKeys.value = checkedRowKeys.value.filter(i => i !== JSON.stringify(row))
+          return
+        }
+        checkedRowKeys.value.push(JSON.stringify(row))
+      },1000)
+    }
+  }
+}
 const renderSingleSelectTag = ({option}) => {
   return h(
-      "div",
-      {
+    "div",
+    {
+      style: {
+        display: "flex",
+        alignItems: "center"
+      }
+    },
+    [
+      h(NAvatar, {
+        src: "/" + option.value + ".png",
+        round: true,
+        size: 24,
         style: {
-          display: "flex",
-          alignItems: "center"
+          marginRight: "12px"
         }
-      },
-      [
-        h(NAvatar, {
-          src: "/" + option.value + ".png",
-          round: true,
-          size: 24,
-          style: {
-            marginRight: "12px"
-          }
-        }),
-        option.label
-      ]
+      }),
+      option.label
+    ]
   );
 };
 const renderLabel = (option) => {
   return h(
-      "div",
-      {
-        style: {
-          display: "flex",
-          alignItems: "center"
-        }
-      },
-      [
+    "div",
+    {
+      style: {
+        display: "flex",
+        alignItems: "center"
+      }
+    },
+    [
 
-        h(NAvatar, {
-          src: "/" + option.value + ".png",
-          round: true,
-          size: "small"
-        }),
-        h(
-            "div",
+      h(NAvatar, {
+        src: "/" + option.value + ".png",
+        round: true,
+        size: "small"
+      }),
+      h(
+        "div",
+        {
+          style: {
+            marginLeft: "12px",
+            padding: "4px 0"
+          }
+        },
+        [
+          h("div", null, [option.label + ' (' + option.price + '龙币)']),
+          h(
+            NText,
+            {depth: 3, tag: "div"},
             {
-              style: {
-                marginLeft: "12px",
-                padding: "4px 0"
-              }
-            },
-            [
-              h("div", null, [option.label + ' (' + option.price + '龙币)']),
-              h(
-                  NText,
-                  {depth: 3, tag: "div"},
-                  {
-                    default: () => option.msg
-                  }
-              )
-            ]
-        )
-      ]
+              default: () => option.msg
+            }
+          )
+        ]
+      )
+    ]
   );
 };
 
@@ -310,10 +318,10 @@ const renderLabel = (option) => {
       <n-space :vertical="true" :size="10">
         <n-input-group>
           <n-input
-              v-model:value="account"
-              type="textarea"
-              placeholder="请填入 账号 密码,提交多个账号以回车换行分割"
-              :disabled="disableds"
+            v-model:value="account"
+            type="textarea"
+            placeholder="请填入 账号 密码,提交多个账号以回车换行分割"
+            :disabled="disableds"
           />
         </n-input-group>
         <n-button v-if="!checkedRowKeys.length" type="primary" :disabled="disableds" @click="query">查询</n-button>
@@ -322,12 +330,13 @@ const renderLabel = (option) => {
     </n-card>
     <n-card v-if="accountCourses.length">
       <n-data-table
-          :default-expand-all="true"
-          v-model:checked-row-keys="checkedRowKeys"
-          :data="accountCourses"
-          :max-height="500"
-          :columns="columns"
-          :row-key="o => JSON.stringify(o)"
+        :row-props="rowProps"
+        :default-expand-all="true"
+        v-model:checked-row-keys="checkedRowKeys"
+        :data="accountCourses"
+        :max-height="500"
+        :columns="columns"
+        :row-key="o => JSON.stringify(o)"
       />
     </n-card>
   </NSpace>
