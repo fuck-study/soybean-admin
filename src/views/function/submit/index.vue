@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { onMounted, ref, watch, h } from 'vue';
-import { useRouterPush } from '@/hooks/common/router';
-import { useTabStore } from '@/store/modules/tab';
-import { fetchPlat, getCourse, submitCourse } from "@/service/api";
-import { NButton, NTag, NAvatar, NText, NImage } from 'naive-ui';
-import { RowData } from "naive-ui/es/data-table/src/interface";
+import {onMounted, ref, watch, h} from 'vue';
+import {useRouterPush} from '@/hooks/common/router';
+import {useTabStore} from '@/store/modules/tab';
+import {fetchPlat, getCourse, submitCourse} from "@/service/api";
+import {NButton, NCard, NAvatar, NText, NImage} from 'naive-ui';
+import {RowData} from "naive-ui/es/data-table/src/interface";
 
 const tabStore = useTabStore();
 const {routerPushByKey} = useRouterPush();
@@ -66,26 +66,26 @@ async function query() {
 
   //  更改用户的输入为标准格式
   const accountInfo = account.value
-    .trim()
-    .split(/\n/)
-    // eslint-disable-next-line array-callback-return,consistent-return
-    .map(i => {
-      const item = i.trim().split(/\s+/);
-      if (item.length === 3) {
-        return {
-          school: schoolList.value.length ? childSchool.value : item[0],
-          username: item[1],
-          password: item[2]
-        };
-      } else if (item.length === 2) {
-        return {
-          school: schoolList.value.length ? childSchool.value : undefined,
-          username: item[0],
-          password: item[1]
-        };
-      }
-    })
-    .filter(i => i);
+      .trim()
+      .split(/\n/)
+      // eslint-disable-next-line array-callback-return,consistent-return
+      .map(i => {
+        const item = i.trim().split(/\s+/);
+        if (item.length === 3) {
+          return {
+            school: schoolList.value.length ? childSchool.value : item[0],
+            username: item[1],
+            password: item[2]
+          };
+        } else if (item.length === 2) {
+          return {
+            school: schoolList.value.length ? childSchool.value : undefined,
+            username: item[0],
+            password: item[1]
+          };
+        }
+      })
+      .filter(i => i);
 
   accountInfo.forEach(item => {
     getCourse(item, platValue.value).then(res => {
@@ -173,133 +173,138 @@ const columns = ref([
     title: '信息',
     key: 'label',
     render(row) {
+        console.log(row)
       if (!row.courseImg) {
         return row.label
       }
       return h(
-        'div',
-        {
-          style: {
-            display: 'flex',
-            alignItems: 'center' // 垂直居中
-          }
-        },
-        [
-          h(NImage, {
-              previewedImgProps: {
-                style:
-                  {
-                    borderRadius: '20px'
+          'div',
+          {
+            style: {
+                height:'100%',
+                width:'100%'
+            },
+            onClick: () => {
+                  if (checkedRowKeys.value.includes(JSON.stringify(row))) {
+                    checkedRowKeys.value = checkedRowKeys.value.filter(i => i !== JSON.stringify(row))
+                  }else {
+                      checkedRowKeys.value.push(JSON.stringify(row))
                   }
-              },
-              src: row.courseImg,
-              width: 100
+                console.log( checkedRowKeys.value)
+
             }
-          ),
-          h(
-            'span',
-            {
-              style: {
-                marginLeft: '12px',
-                padding: '4px 0'
-              }
-            },
-            row.label
-          ),
-          h(
-            'span',
-            {
-              style: {
-                color: 'red',
-                marginLeft: '12px',
-                padding: '4px 0'
-              }
-            },
-            '课程id:(' + row.courseId + ')'
-          )
-        ]
+
+          },
+          [
+              h(
+                  'div',
+                  {
+                      style: {
+                          display:'flex',
+                          height: '100%',
+                          width: '100%',
+                          margin: '0px  10px 12px'
+
+                      },
+                  },
+                 [ h(NImage, {
+                     src: row.courseImg,
+                     style: {
+                         "pointer-events": 'none',
+                         previewDisabled:'true',
+                         width:' 140px',
+                         height: '78px',
+                         borderRadius: '8px',
+                         position: 'relative',
+                     }
+                 }),
+                     h(NCard, {
+                         title:row.label,
+                         style: {
+                             border:'none',
+                             "font-size":'5px',
+                             "pointer-events": 'none',
+                             previewDisabled:'true',
+                             width:' 100%',
+                             height: '78px',
+                             borderRadius: '8px',
+                             position: 'relative',
+                         },
+
+
+                     }),]
+
+
+
+              ),
+
+          ]
       )
 
     }
   }
 
 ]);
-const rowProps = (row: RowData) => {
-  return {
-    style: 'cursor: pointer;',
-    onClick: (event: Event) => {
-      event.stopPropagation(); // 阻止事件传播
-      if (row.children) {
-        return
-      }
-      setTimeout(()=>{
-        if (checkedRowKeys.value.includes(JSON.stringify(row))) {
-          checkedRowKeys.value = checkedRowKeys.value.filter(i => i !== JSON.stringify(row))
-          return
-        }
-        checkedRowKeys.value.push(JSON.stringify(row))
-      },1000)
-    }
-  }
-}
+
+
 const renderSingleSelectTag = ({option}) => {
   return h(
-    "div",
-    {
-      style: {
-        display: "flex",
-        alignItems: "center"
-      }
-    },
-    [
-      h(NAvatar, {
-        src: "/" + option.value + ".png",
-        round: true,
-        size: 24,
+      "div",
+      {
         style: {
-          marginRight: "12px"
+          display: "flex",
+          alignItems: "center"
         }
-      }),
-      option.label
-    ]
+      },
+      [
+        h(NAvatar, {
+          src: "/" + option.value + ".png",
+          round: true,
+          size: 24,
+          style: {
+            marginRight: "12px"
+          }
+        }),
+        option.label
+      ]
   );
 };
 const renderLabel = (option) => {
   return h(
-    "div",
-    {
-      style: {
-        display: "flex",
-        alignItems: "center"
-      }
-    },
-    [
+      "div",
+      {
+        style: {
+          display: "flex",
+          alignItems: "center"
+        }
+      },
+      [
 
-      h(NAvatar, {
-        src: "/" + option.value + ".png",
-        round: true,
-        size: "small"
-      }),
-      h(
-        "div",
-        {
-          style: {
-            marginLeft: "12px",
-            padding: "4px 0"
-          }
-        },
-        [
-          h("div", null, [option.label + ' (' + option.price + '龙币)']),
-          h(
-            NText,
-            {depth: 3, tag: "div"},
+        h(NAvatar, {
+          src: "/" + option.value + ".png",
+          round: true,
+          size: "small"
+        }),
+        h(
+            "div",
             {
-              default: () => option.msg
-            }
-          )
-        ]
-      )
-    ]
+              style: {
+                marginLeft: "12px",
+                padding: "4px 0"
+              }
+            },
+            [
+              h("div", null, [option.label + ' (' + option.price + '龙币)']),
+              h(
+                  NText,
+                  {depth: 3, tag: "div"},
+                  {
+                    default: () => option.msg
+                  }
+              )
+            ]
+        )
+      ]
   );
 };
 
@@ -309,7 +314,7 @@ const renderLabel = (option) => {
   <NSpace vertical :size="16">
     <n-card title="查询课程" :bordered="false" size="small" class="rounded-8px shadow-sm">
       <n-form-item label="请选择平台">
-        <n-select v-model:value="platValue" placeholder="请选择平台" :options="platList" filterable
+        <n-select v-model:value="platValue" placeholder="请选择平台" :options="platList"
                   :render-label="renderLabel" :render-tag="renderSingleSelectTag"/>
       </n-form-item>
       <n-form-item v-if="schoolList.length" label="学校" path="childNum">
@@ -318,10 +323,10 @@ const renderLabel = (option) => {
       <n-space :vertical="true" :size="10">
         <n-input-group>
           <n-input
-            v-model:value="account"
-            type="textarea"
-            placeholder="请填入 账号 密码,提交多个账号以回车换行分割"
-            :disabled="disableds"
+              v-model:value="account"
+              type="textarea"
+              placeholder="请填入 账号 密码,提交多个账号以回车换行分割"
+              :disabled="disableds"
           />
         </n-input-group>
         <n-button v-if="!checkedRowKeys.length" type="primary" :disabled="disableds" @click="query">查询</n-button>
@@ -330,13 +335,12 @@ const renderLabel = (option) => {
     </n-card>
     <n-card v-if="accountCourses.length">
       <n-data-table
-        :row-props="rowProps"
-        :default-expand-all="true"
-        v-model:checked-row-keys="checkedRowKeys"
-        :data="accountCourses"
-        :max-height="500"
-        :columns="columns"
-        :row-key="o => JSON.stringify(o)"
+          :default-expand-all="true"
+          v-model:checked-row-keys="checkedRowKeys"
+          :data="accountCourses"
+          :max-height="500"
+          :columns="columns"
+          :row-key="o => JSON.stringify(o)"
       />
     </n-card>
   </NSpace>
