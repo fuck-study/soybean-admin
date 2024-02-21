@@ -172,9 +172,8 @@ const columns = ref([
   {
     title: '信息',
     key: 'label',
-    render(row) {
-        console.log(row)
-      if (!row.courseImg) {
+    render(row: RowData) {
+      if (1==1) {
         return row.label
       }
       return h(
@@ -190,8 +189,6 @@ const columns = ref([
                   }else {
                       checkedRowKeys.value.push(JSON.stringify(row))
                   }
-                console.log( checkedRowKeys.value)
-
             }
 
           },
@@ -230,12 +227,7 @@ const columns = ref([
                              borderRadius: '8px',
                              position: 'relative',
                          },
-
-
                      }),]
-
-
-
               ),
 
           ]
