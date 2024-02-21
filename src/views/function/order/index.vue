@@ -103,7 +103,7 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
           }
         }
       },
-      width: 64,
+      width: 90,
       align: 'center'
     },
     {
@@ -150,7 +150,7 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
     {
       key: 'finish',
       title: "进度",
-      width: 80,
+      width: 130,
 
       render: row=>{
         let status = 'info';
@@ -180,7 +180,7 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
       key: 'operate',
       title: $t('common.operate'),
       align: 'center',
-      width: 100,
+      width: 130,
       render: row => (
           <div class="flex-center gap-8px">
             <NButton type="primary" ghost size="small" onClick={() => handleEdit(row.uuid)}>
@@ -284,7 +284,6 @@ function changeCard(){
           :data="data"
           size="small"
           :flex-height="!appStore.isMobile"
-          :scroll-x="800"
           :loading="loading"
           :pagination="pagination"
           :row-key="item => item.uuid"
