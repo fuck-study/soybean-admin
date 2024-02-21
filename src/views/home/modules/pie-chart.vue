@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { watch } from 'vue';
-import { $t } from '@/locales';
-import { useAppStore } from '@/store/modules/app';
-import { useEcharts } from '@/hooks/chart/use-echarts';
+import {watch} from 'vue';
+import {$t} from '@/locales';
+import {useAppStore} from '@/store/modules/app';
+import {useEcharts} from '@/hooks/chart/use-echarts';
+
 const props = defineProps<Props>();
 
 interface Props {
@@ -15,7 +16,7 @@ defineOptions({
 
 const appStore = useAppStore();
 
-const { domRef, updateOptions } = useEcharts(() => ({
+const {domRef, updateOptions} = useEcharts(() => ({
   tooltip: {
     trigger: 'item'
   },
@@ -29,6 +30,10 @@ const { domRef, updateOptions } = useEcharts(() => ({
   series: [
     {
       color: [
+        '#5da8ff',
+        '#8e9dff',
+        '#fedc69',
+        '#26deca',
         "#AC7BD9",
         "#5D8CE6",
         "#45D9B8",
@@ -81,9 +86,9 @@ async function mockData() {
     setTimeout(resolve, 500);
   });
   updateOptions(opts => {
-    opts.series[0].data = Object.keys(props.userData.graph).map(item=>{
-      return  { name: item, value: props.userData.graph[item] }
-    }).filter(i=>i.name != 'order_count')
+    opts.series[0].data = Object.keys(props.userData.graph).map(item => {
+      return {name: item, value: props.userData.graph[item]}
+    }).filter(i => i.name != 'order_count')
     return opts;
   });
 }
@@ -95,10 +100,10 @@ function updateLocale() {
     opts.series[0].name = originOpts.series[0].name;
 
     opts.series[0].data = [
-      { name: $t('page.home.study'), value: 20 },
-      { name: $t('page.home.entertainment'), value: 10 },
-      { name: $t('page.home.work'), value: 40 },
-      { name: $t('page.home.rest'), value: 30 }
+      {name: $t('page.home.study'), value: 20},
+      {name: $t('page.home.entertainment'), value: 10},
+      {name: $t('page.home.work'), value: 40},
+      {name: $t('page.home.rest'), value: 30}
     ];
 
     return opts;
