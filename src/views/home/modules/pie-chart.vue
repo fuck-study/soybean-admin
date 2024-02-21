@@ -3,6 +3,11 @@ import { watch } from 'vue';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useEcharts } from '@/hooks/chart/use-echarts';
+const props = defineProps<Props>();
+
+interface Props {
+  userData: any;
+}
 
 defineOptions({
   name: 'PieChart'
@@ -23,8 +28,28 @@ const { domRef, updateOptions } = useEcharts(() => ({
   },
   series: [
     {
-      color: ['#5da8ff', '#8e9dff', '#fedc69', '#26deca'],
-      name: $t('page.home.schedule'),
+      color: [
+        "#AC7BD9",
+        "#5D8CE6",
+        "#45D9B8",
+        "#E6C84D",
+        "#E65F4D",
+        "#E65091",
+        "#AAAAAA",
+        "#996E4F",
+        "#4FA8E6",
+        "#E65050",
+        "#5C92C6",
+        "#E6506E",
+        "#E6E675",
+        "#AC7BD9",
+        "#65CC4F",
+        "#7EDB81"
+      ]
+
+
+      ,
+      name: '订单分布',
       type: 'pie',
       radius: ['45%', '75%'],
       avoidLabelOverlap: false,
@@ -53,17 +78,12 @@ const { domRef, updateOptions } = useEcharts(() => ({
 
 async function mockData() {
   await new Promise(resolve => {
-    setTimeout(resolve, 1000);
+    setTimeout(resolve, 500);
   });
-
   updateOptions(opts => {
-    opts.series[0].data = [
-      { name: $t('page.home.study'), value: 20 },
-      { name: $t('page.home.entertainment'), value: 10 },
-      { name: $t('page.home.work'), value: 40 },
-      { name: $t('page.home.rest'), value: 30 }
-    ];
-
+    opts.series[0].data = Object.keys(props.userData.graph).map(item=>{
+      return  { name: item, value: props.userData.graph[item] }
+    }).filter(i=>i.name != 'order_count')
     return opts;
   });
 }
