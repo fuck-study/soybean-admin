@@ -88,7 +88,7 @@ async function mockData() {
   updateOptions(opts => {
     opts.series[0].data = Object.keys(props.userData.graph).map(item => {
       return {name: item, value: props.userData.graph[item]}
-    }).filter(i => i.name != 'order_count')
+    }).filter(i => i.name != 'order_count' && i.value >0)
     return opts;
   });
 }
