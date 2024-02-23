@@ -78,7 +78,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     const {data: info, error} = await fetchGetUserInfo();
 
     if (!error) {
-      info.roles = [loginToken.parentId === 0 ? 'R_ADMIN' : 'R_USER']
+      info.roles = ['R_ADMIN']
       Object.assign(userInfo, info);
       localStg.set('userInfo', userInfo);
       return true;
