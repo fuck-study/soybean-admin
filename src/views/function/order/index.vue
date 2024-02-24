@@ -65,33 +65,6 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
       align: 'center',
       width: 30
     },
-    {
-      key: 'order',
-      title: "科目",
-      render: row=>{
-        return row.courseName
-      },
-      width: 120,
-      align: 'center'
-    },
-    {
-      key: 'realName',
-      title: "姓名",
-      render: row=>{
-        return row.realName
-      },
-      width: 60,
-      align: 'center'
-    },
-    {
-      key: 'content',
-      title: "账号信息",
-      render: row=>{
-        return row.school + ' ' +  row.username + ' ' + row.password
-      },
-      width: 150,
-      align: 'center'
-    },
 
     {
       key: 'plat',
@@ -103,9 +76,37 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
           }
         }
       },
-      width: 90,
+      width: 100,
       align: 'center'
     },
+    {
+      key: 'order',
+      title: "科目",
+      render: row=>{
+        return row.courseName
+      },
+      width: 200,
+      align: 'center'
+    },
+    {
+      key: 'content',
+      title: "账号信息",
+      render: row=>{
+        const style = {
+          color: 'rgba(0, 128, 0, 0.7)',
+          fontSize: 'smaller',
+          fontWeight: 'bold'
+        };
+
+        return (
+          <p style={style}>{row.realName + " " +row.school + ' ' +  row.username + ' ' + row.password}</p>
+        );
+
+      },
+      width: 300,
+      align: 'center'
+    },
+
     {
       title: '状态',
       key: 'status',
@@ -129,24 +130,23 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
       }
     },
     {
-      key: 'createdAt',
-      title: "创建时间",
+      key: 'result',
+      title: "结果",
       render: row=>{
-        return row.createdAt
-      },
-      width: 110,
-      align: 'center'
-    },
-    {
-      key: 'nextCheckTime',
-      title: "更新时间",
-      render: row=>{
-        return row.nextCheckTime
-      },
-      width: 110,
-      align: 'center'
-    },
+        const style = {
+          // color: 'rgba(0, 128, 0, 0.7)',
+          fontSize: 'smaller',
+          // fontWeight: 'bold'
+        };
 
+        return (
+          <p style={style}>{row.result}</p>
+        );
+
+      },
+      width: 300,
+      align: 'center'
+    },
     {
       key: 'finish',
       title: "进度",
@@ -160,18 +160,18 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
           status = 'success';
         }
         return h(
-            NProgress,
-            {
-              style: {
-                // width:'130px'
-                // marginRight: '6px'
-              },
-              bordered: false,
-              type: 'line',
-              indicatorPlacement: 'inside',
-              processing: percentage < 100,
-              percentage
-            }
+          NProgress,
+          {
+            style: {
+              // width:'130px'
+              // marginRight: '6px'
+            },
+            bordered: false,
+            type: 'line',
+            indicatorPlacement: 'inside',
+            processing: percentage < 100,
+            percentage
+          }
         );
       },
       align: 'center'
@@ -182,23 +182,85 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
       align: 'center',
       width: 130,
       render: row => (
-          <div class="flex-center gap-8px">
-            <NButton type="primary" ghost size="small" onClick={() => handleEdit(row.uuid)}>
-              查看详情
-            </NButton>
-            <NPopconfirm onPositiveClick={() => handleDelete(row.uuid)}>
-              {{
-                default: () => $t('common.confirmDelete'),
-                trigger: () => (
-                    <NButton type="error" ghost size="small">
-                      删除
-                    </NButton>
-                )
-              }}
-            </NPopconfirm>
-          </div>
+        <div class="flex-center gap-8px">
+          <NButton type="primary" ghost size="small" onClick={() => handleEdit(row.uuid)}>
+            查看详情
+          </NButton>
+          <NPopconfirm onPositiveClick={() => handleDelete(row.uuid)}>
+            {{
+              default: () => $t('common.confirmDelete'),
+              trigger: () => (
+                <NButton type="error" ghost size="small">
+                  删除
+                </NButton>
+              )
+            }}
+          </NPopconfirm>
+        </div>
       )
-    }
+    },
+    {
+      key: 'updatedAt',
+      title: "更新时间",
+      render: row=>{
+        return row.updatedAt
+      },
+      width: 180,
+      align: 'center'
+    },
+    {
+      key: 'createdAt',
+      title: "创建时间",
+      render: row=>{
+        return row.createdAt
+      },
+      width: 180,
+      align: 'center'
+    },
+
+
+    {
+      key: 'examStartTime',
+      title: "开考时间",
+      render: row=>{
+        return row.examStartTime
+      },
+      width: 180,
+      align: 'center'
+    },
+    {
+      key: 'examEndTime',
+      title: "结考时间",
+      render: row=>{
+        return row.examEndTime
+      },
+      width: 180,
+      align: 'center'
+    },
+
+
+    {
+      key: 'courseStartTime',
+      title: "开课时间",
+      render: row=>{
+        return row.courseStartTime
+      },
+      width: 180,
+      align: 'center'
+    },
+    {
+      key: 'courseEndTime',
+      title: "结课时间",
+      render: row=>{
+        return row.courseEndTime
+      },
+      width: 180,
+      align: 'center'
+    },
+
+
+
+
   ]
 });
 
