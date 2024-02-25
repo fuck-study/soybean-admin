@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import { $t } from '@/locales';
 
 
 interface Props {
@@ -12,11 +10,11 @@ defineOptions({
   name: 'ProjectNews'
 });
 
-interface NewsItem {
-  id: number;
-  content: string;
-  time: string;
-}
+// interface NewsItem {
+//   id: number;
+//   content: string;
+//   time: string;
+// }
 
 </script>
 

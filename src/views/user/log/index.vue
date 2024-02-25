@@ -2,17 +2,17 @@
 import { onMounted, ref, watch } from 'vue';
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { useBoolean } from '~/packages/hooks';
-import { fetchDeleteUser, fetchGetUserList, fetchPlat } from '@/service/api';
+import {fetchDeleteUser, fetchGetUserList, fetchPlat, getTemplet} from '@/service/api';
 import { useAppStore } from '@/store/modules/app';
 import { useTable } from '@/hooks/common/table';
 import { $t } from '@/locales';
 // import {enableStatusRecord, userGenderRecord} from '@/constants/business';
-import UserOperateDrawer, { type OperateType } from './modules/user-operate-drawer.vue';
-import UserSearch from './modules/user-search.vue';
-import OrderSearch from "@/views/function/order/modules/order-search.vue";
+import UserOperateDrawer, { type OperateType } from '@/views/user/log/modules/user-operate-drawer.vue';
+import UserSearch from '@/views/user/log/modules/user-search.vue';
 
 const appStore = useAppStore();
 const platList = ref([])
+const templateList = ref([])
 const {bool: drawerVisible, setTrue: openDrawer} = useBoolean();
 
 const {columns, filteredColumns, data, loading, pagination, getData, searchParams, resetSearchParams} = useTable<
@@ -85,7 +85,25 @@ const {columns, filteredColumns, data, loading, pagination, getData, searchParam
       title: '平台',
       align: 'center',
       render: row => {
+        if (!isNaN(parseInt(row.price))){
+          row.templateId = parseInt(row.price)
+
+          row.platList = platList.value.map(item=>{
+            return {
+              cost: item.price,
+              plat: item.plat,
+              price: item.price,
+              name: item.name,
+              enable: false
+            }
+          })
+          console.log(templateList.value,row.price)
+
+          return <NTag type="error" style="margin:3px">{templateList.value.find(item=>item.value == row.price).label}</NTag>;
+
+        }
         try {
+
           row.platList = platList.value.map(item=>{
             for (let parseElement of JSON.parse(row.price)) {
               if (parseElement.plat === item.plat) {
@@ -182,6 +200,13 @@ watch(drawerVisible,  item => {
   }
 });
 onMounted(async () => {
+  const res = await getTemplet()
+  templateList.value = res.data.map(i=>{
+    return {
+      label:i.name,
+      value:i.id
+    }
+  })
   const data = await fetchPlat()
   platList.value = data.data
 })
@@ -242,6 +267,7 @@ function changeCard(){
         v-model:visible="drawerVisible"
         :operate-type="operateType"
         :row-data="editingData"
+        :templateList="templateList"
         @submitted="getData"
       />
     </NCard>

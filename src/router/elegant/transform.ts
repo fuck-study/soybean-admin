@@ -159,6 +159,8 @@ const routeMap: RouteMap = {
   "manage_log": "/manage/log",
   "manage_user-detail": "/manage/user-detail/:id",
   "user": "/user",
+  "user_log": "/user/log",
+  "user_templet": "/user/templet",
   "user-center": "/user-center"
 };
 

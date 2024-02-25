@@ -160,6 +160,14 @@ declare namespace Api {
       tags: string;
     }>;
 
+    type Tempter = Common.CommonRecord<{
+      id: number,
+      name: string;
+      overId:number;
+      template: string;
+
+    }>;
+
     //"createTime": "2024-02-15 19:46:44",
     // 			"id": 554,
     // 			"log": "您下单[中国茶文化与茶健康]课程,花费了30龙币",

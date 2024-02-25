@@ -122,8 +122,7 @@ export const generatedRoutes: GeneratedRoute[] = [
           title: 'manage_user-detail',
           i18nKey: 'route.manage_user-detail',
           hideInMenu: true,
-          roles: ['R_ADMIN'],
-          activeMenu: 'manage_user'
+          roles: ['R_ADMIN']
         }
       }
     ]
@@ -131,13 +130,33 @@ export const generatedRoutes: GeneratedRoute[] = [
   {
     name: 'user',
     path: '/user',
-    component: 'layout.base$view.user',
+    component: 'layout.base',
     meta: {
       roles: ['R_ADMIN'],
       title: 'user',
       i18nKey: 'route.user',
       order: 12
-    }
+    },
+    children: [
+      {
+        name: 'user_log',
+        path: '/user/log',
+        component: 'view.user_log',
+        meta: {
+          title: 'user_log',
+          i18nKey: 'route.user_log'
+        }
+      },
+      {
+        name: 'user_templet',
+        path: '/user/templet',
+        component: 'view.user_templet',
+        meta: {
+          title: 'user_templet',
+          i18nKey: 'route.user_templet'
+        }
+      }
+    ]
   },
   {
     name: 'user-center',
