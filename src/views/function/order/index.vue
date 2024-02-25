@@ -93,13 +93,13 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
       title: "账号信息",
       render: row=>{
         const style = {
-          color: 'rgba(0, 128, 0, 0.7)',
-          fontSize: 'smaller',
-          fontWeight: 'bold'
+          // color: 'rgba(0, 128, 0, 0.7)',
+          // fontSize: 'smaller',
+          // fontWeight: 'bold'
         };
 
         return (
-          <p style={style}>{row.realName + " " +row.school + ' ' +  row.username + ' ' + row.password}</p>
+          <p>{row.realName + " " +row.school + ' ' +  row.username + ' ' + row.password}</p>
         );
 
       },

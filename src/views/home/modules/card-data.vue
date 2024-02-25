@@ -27,16 +27,17 @@ interface CardData {
 console.log(props)
 const cardData = computed<CardData[]>(() => [
   {
-    key: 'visitCount',
-    title: "平台数量",
-    value:  props.userData.platCount,
+    key: 'dealCount',
+    title: '订单数量',
+    value: props.userData.orderCount,
     unit: '',
     color: {
-      start: '#ec4786',
-      end: '#b955a4'
+      start: '#fcbc25',
+      end: '#f68057'
     },
-    icon: 'ant-design:bar-chart-outlined'
+    icon: 'carbon:document-download'
   },
+
   {
     key: 'turnover',
     title: '龙币',
@@ -48,28 +49,30 @@ const cardData = computed<CardData[]>(() => [
     },
     icon: 'ant-design:money-collect-outlined'
   },
-  // {
-  //   key: 'downloadCount',
-  //   title: 'ww',
-  //   value: 970925,
-  //   unit: '',
-  //   color: {
-  //     start: '#56cdf3',
-  //     end: '#719de3'
-  //   },
-  //   icon: 'carbon:document-download'
-  // },
   {
-    key: 'dealCount',
-    title: '成交量',
-    value: props.userData.orderCount,
+    key: 'visitCount',
+    title: "平台数量",
+    value:  props.userData.platCount,
     unit: '',
     color: {
-      start: '#fcbc25',
-      end: '#f68057'
+      start: '#ec4786',
+      end: '#b955a4'
+    },
+    icon: 'ant-design:bar-chart-outlined'
+  },
+
+  {
+    key: 'downloadCount',
+    title: '用户数',
+    value: props.userData.userCount,
+    unit: '',
+    color: {
+      start: '#56cdf3',
+      end: '#719de3'
     },
     icon: 'ant-design:trademark-circle-outlined'
-  }
+  },
+
 ]);
 
 interface GradientBgProps {
