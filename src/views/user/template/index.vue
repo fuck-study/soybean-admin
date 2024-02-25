@@ -7,7 +7,7 @@ import {addTemplet, delTemplet, fetchDeleteUser, fetchPlat, getTemplet, updateTe
 import {NButton} from "naive-ui";
 import {useTable} from "@/hooks/common/table";
 import {$t} from "@/locales";
-import OperateDrawer, { type OperateType } from '@/views/user/templet/modules/operate-drawer.vue';
+import OperateDrawer, { type OperateType } from '@/views/user/template/modules/operate-drawer.vue';
 import {useBoolean} from "~/packages/hooks";
 
 

@@ -33,8 +33,8 @@ declare module "@elegant-router/types" {
     "manage_log": "/manage/log";
     "manage_user-detail": "/manage/user-detail/:id";
     "user": "/user";
-    "user_log": "/user/log";
-    "user_templet": "/user/templet";
+    "user_list": "/user/list";
+    "user_template": "/user/template";
     "user-center": "/user-center";
   };
 
@@ -107,8 +107,8 @@ declare module "@elegant-router/types" {
     | "manage_log"
     | "manage_user-detail"
     | "user-center"
-    | "user_log"
-    | "user_templet"
+    | "user_list"
+    | "user_template"
   >;
 
   /**

@@ -139,21 +139,21 @@ export const generatedRoutes: GeneratedRoute[] = [
     },
     children: [
       {
-        name: 'user_log',
-        path: '/user/log',
-        component: 'view.user_log',
+        name: 'user_list',
+        path: '/user/list',
+        component: 'view.user_list',
         meta: {
-          title: 'user_log',
-          i18nKey: 'route.user_log'
+          title: 'user_list',
+          i18nKey: 'route.user_list'
         }
       },
       {
-        name: 'user_templet',
-        path: '/user/templet',
-        component: 'view.user_templet',
+        name: 'user_template',
+        path: '/user/template',
+        component: 'view.user_template',
         meta: {
-          title: 'user_templet',
-          i18nKey: 'route.user_templet'
+          title: 'user_template',
+          i18nKey: 'route.user_template'
         }
       }
     ]

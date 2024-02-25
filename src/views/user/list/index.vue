@@ -6,9 +6,8 @@ import {fetchDeleteUser, fetchGetUserList, fetchPlat, getTemplet} from '@/servic
 import { useAppStore } from '@/store/modules/app';
 import { useTable } from '@/hooks/common/table';
 import { $t } from '@/locales';
-// import {enableStatusRecord, userGenderRecord} from '@/constants/business';
-import UserOperateDrawer, { type OperateType } from '@/views/user/log/modules/user-operate-drawer.vue';
-import UserSearch from '@/views/user/log/modules/user-search.vue';
+import UserOperateDrawer, { type OperateType } from '@/views/user/list/modules/user-operate-drawer.vue';
+import UserSearch from '@/views/user/list/modules/user-search.vue';
 
 const appStore = useAppStore();
 const platList = ref([])
