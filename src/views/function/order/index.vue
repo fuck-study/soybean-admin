@@ -18,7 +18,12 @@ const tags = ref([])
 onMounted(async ()=>{
   const data  = await fetchPlat()
   const res = await fetchUserInfo()
-  tags.value = res.data.tags
+  try{
+    tags.value = JSON.parse(res.data.tags)
+  }catch (e) {
+
+  }
+
   platList.value = data.data
 })
 
@@ -85,9 +90,10 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
       key: 'order',
       title: "科目",
       render: row=>{
-        return row.courseName
+        return (<span>{row.courseName}</span>)
+
       },
-      width: 200,
+      width: 250,
       align: 'center'
     },
     {
@@ -136,14 +142,23 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
       title: "结果",
       render: row=>{
         const style = {
-          // color: 'rgba(0, 128, 0, 0.7)',
+          color: 'rgba(0, 128, 0, 0.7)',
           fontSize: 'smaller',
-          // fontWeight: 'bold'
+          fontWeight: 'bold'
         };
+        if (!row.totalScore){
+          return (
+            <p style={style}>{row.result}</p>
+          );
+        }
 
         return (
-          <p style={style}>{row.result}</p>
-        );
+          <div>
+            <div style={style}>综合分数({row.totalScore})</div>
+            <div>{row.result}</div>
+          </div>
+        )
+
 
       },
       width: 300,

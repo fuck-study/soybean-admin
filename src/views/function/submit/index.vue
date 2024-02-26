@@ -33,7 +33,11 @@ const checkedRowKeys = ref([]);
 onMounted(async () => {
   const res = await fetchPlat()
   const tags = await fetchUserInfo()
-  tagList.value = tags.data.tags
+  try{
+    tagList.value = JSON.parse(tags.data.tags)
+  }catch (e){
+  }
+
   if (Array.isArray(res.data)) {
     platList.value = res.data.map(i => {
       return {
