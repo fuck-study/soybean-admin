@@ -128,6 +128,17 @@ export const generatedRoutes: GeneratedRoute[] = [
     ]
   },
   {
+    name: 'plat-center',
+    path: '/plat-center',
+    component: 'layout.base$view.plat-center',
+    meta: {
+      title: 'plat-center',
+      i18nKey: 'route.plat-center',
+      icon: 'carbon:document-download',
+      order: 14
+    }
+  },
+  {
     name: 'user',
     path: '/user',
     component: 'layout.base',
@@ -165,7 +176,7 @@ export const generatedRoutes: GeneratedRoute[] = [
     meta: {
       title: 'user-center',
       i18nKey: 'route.user-center',
-      hideInMenu: true
+      order: 13
     }
   }
 ];

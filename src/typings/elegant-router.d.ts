@@ -32,6 +32,7 @@ declare module "@elegant-router/types" {
     "manage": "/manage";
     "manage_log": "/manage/log";
     "manage_user-detail": "/manage/user-detail/:id";
+    "plat-center": "/plat-center";
     "user": "/user";
     "user_list": "/user/list";
     "user_template": "/user/template";
@@ -78,6 +79,7 @@ declare module "@elegant-router/types" {
     | "home"
     | "login"
     | "manage"
+    | "plat-center"
     | "user"
     | "user-center"
   >;
@@ -106,6 +108,7 @@ declare module "@elegant-router/types" {
     | "home"
     | "manage_log"
     | "manage_user-detail"
+    | "plat-center"
     | "user-center"
     | "user_list"
     | "user_template"

@@ -2,8 +2,7 @@
 import { computed } from 'vue';
 import { $t } from '@/locales';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
-import { enableStatusOptions, userGenderOptions } from '@/constants/business';
-import { orderStatus, translateOptions, translatePlatList } from '@/utils/common';
+import { orderStatus, translatePlatList ,tagsList} from '@/utils/common';
 
 defineOptions({
   name: 'UserSearch'
@@ -16,6 +15,7 @@ interface Emits {
 
 interface Props {
   platList: any;
+  tags:any;
 }
 
 const props = defineProps<Props>();
@@ -84,6 +84,13 @@ async function search() {
         <NFormItemGi span="24 s:12 m:6" label="课程名"  class="pr-24px">
           <NInput v-model:value="model.courseName" placeholder="请输入课程名称" />
         </NFormItemGi>
+        <NFormItemGi span="24 s:12 m:6" label="归属标记"  class="pr-24px">
+          <NSelect
+              v-model:value="model.tag"
+              placeholder="请选归属标记"
+              :options="tagsList(tags)"
+              clearable
+          />        </NFormItemGi>
 <!--        <NFormItemGi span="24 s:12 m:6" label="平台" class="pr-24px">-->
 <!--          <NInput v-model:value="model.plat" placeholder="请输入平台" />-->
 <!--        </NFormItemGi>-->

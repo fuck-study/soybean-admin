@@ -1,8 +1,8 @@
 <script setup lang="tsx">
-import {h, onMounted, ref, watch} from 'vue';
+import {h, onMounted, ref} from 'vue';
 import { NButton, NPopconfirm, NTag, NProgress } from 'naive-ui';
 import { useBoolean } from '@sa/hooks';
-import { delOrder, editOrder, fetchGetOrder, fetchPlat, fetchPostOrder } from '@/service/api';
+import {delOrder, editOrder, fetchPlat, fetchPostOrder, fetchUserInfo} from '@/service/api';
 import { useAppStore } from '@/store/modules/app';
 import { useTable } from '@/hooks/common/table';
 import { $t } from '@/locales';
@@ -14,9 +14,11 @@ import { orderStatus } from "@/utils/common";
 const appStore = useAppStore();
 const { bool: drawerVisible, setTrue: openDrawer } = useBoolean()
 const platList = ref([])
-
+const tags = ref([])
 onMounted(async ()=>{
   const data  = await fetchPlat()
+  const res = await fetchUserInfo()
+  tags.value = res.data.tags
   platList.value = data.data
 })
 
@@ -321,7 +323,7 @@ function changeCard(){
 
 <template>
   <div class="flex-vertical-stretch gap-16px  <sm:overflow-auto">
-    <OrderSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" :plat-list="platList" v-if="card" />
+    <OrderSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" :plat-list="platList" :tags="tags" v-if="card" />
     <NCard :bordered="false" size="small" class="" style="height: 5px;background-color: rgba(100, 108, 255, 0.1);" @click="changeCard"  >
       <n-button type="info"  size="small" circle style="position:relative;left: 50%;top:-23px;border:none">
         {{ text }}
@@ -345,11 +347,12 @@ function changeCard(){
           :columns="columns"
           :data="data"
           size="small"
+          :scroll-x="2800"
           :flex-height="!appStore.isMobile"
           :loading="loading"
           :pagination="pagination"
           :row-key="item => item.uuid"
-          :min-height="440"
+          :min-height="500"
       />
       <RoleOperateDrawer
           v-model:visible="drawerVisible"

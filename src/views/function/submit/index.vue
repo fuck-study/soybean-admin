@@ -2,7 +2,9 @@
 import {onMounted, ref, watch, h} from 'vue';
 import {useRouterPush} from '@/hooks/common/router';
 import {useTabStore} from '@/store/modules/tab';
-import {fetchPlat, getCourse, submitCourse} from "@/service/api";
+import { tagsList} from '@/utils/common';
+
+import {fetchPlat, fetchUserInfo, getCourse, submitCourse} from "@/service/api";
 import {NButton, NCard, NAvatar, NText, NImage} from 'naive-ui';
 import {RowData} from "naive-ui/es/data-table/src/interface";
 
@@ -13,17 +15,25 @@ const platList = ref([])
 const selectCourses = ref([]);
 // 用户的所有课程树状
 const accountCourses = ref([]);
+const setOther = ref(false)
 // 保存用户所有的账号信息
 const account = ref('');
+const tagName = ref(null)
+const cityName = ref(null)
 const platValue = ref(null);
 const childSchool = ref(null);
 const schoolList = ref([]);
+const tagList = ref([])
+const cityList = ref([])
+
 const disableds = ref(false)
 const checkedRowKeys = ref([]);
 
 
 onMounted(async () => {
   const res = await fetchPlat()
+  const tags = await fetchUserInfo()
+  tagList.value = tags.data.tags
   if (Array.isArray(res.data)) {
     platList.value = res.data.map(i => {
       return {
@@ -103,6 +113,8 @@ async function query() {
               type: 0, // 这里有全包啥的，先写死
               label: i.name,
               courseImg: i.img,
+              city: cityName.value,
+              tag:tagName.value,
               courseId: i.id,
               courses: i.hash
             };
@@ -321,8 +333,36 @@ const renderLabel = (option) => {
               :disabled="disableds"
           />
         </n-input-group>
-        <n-button v-if="!checkedRowKeys.length" type="primary" :disabled="disableds" @click="query">查询</n-button>
-        <n-button v-if="checkedRowKeys.length" type="warning" :disabled="disableds" @click="submit">提交</n-button>
+        <n-card v-if="setOther">
+          <n-form-item label="标记订单">
+            <n-select
+                v-model:value="tagName"
+                default-expand-all="true"
+                :options="tagsList(tagList)"
+                placeholder="如有需要请选择标记"
+            />
+          </n-form-item>
+          <n-form-item label="代理IP">
+            <n-select
+                v-model:value="cityName"
+                default-expand-all="true"
+                :options="cityList"
+                placeholder="如有需要请选择归属地"
+            />
+          </n-form-item>
+        </n-card>
+
+        <div style="margin: 0 15px">
+          <n-button v-if="!checkedRowKeys.length" type="primary" :disabled="disableds" @click="query">查询</n-button>
+          <n-button v-if="checkedRowKeys.length" type="warning" :disabled="disableds" @click="submit">提交</n-button>
+
+          <n-button style="margin-left: 10px" type="warning"   @click='setOther = !setOther'  :disabled="disableds" >高级</n-button>
+
+
+        </div>
+
+
+
       </n-space>
     </n-card>
     <n-card v-if="accountCourses.length">

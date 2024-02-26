@@ -158,6 +158,7 @@ const routeMap: RouteMap = {
   "manage": "/manage",
   "manage_log": "/manage/log",
   "manage_user-detail": "/manage/user-detail/:id",
+  "plat-center": "/plat-center",
   "user": "/user",
   "user_list": "/user/list",
   "user_template": "/user/template",

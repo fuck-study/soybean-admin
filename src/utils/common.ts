@@ -49,6 +49,22 @@ export function translatePlatList(options: any[]) {
   }));
 }
 
+export function tagsList(options: any) {
+  if (Array.isArray(options)){
+    return options.map(option => ({
+      value: option,
+      label: option
+    }));
+  }
+  options =JSON.parse(options)
+  return options.map(option => ({
+    value: option,
+    label: option
+  }));
+
+}
+
+
 export const orderStatus = [
   {
     value: -1,
