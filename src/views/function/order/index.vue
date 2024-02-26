@@ -93,25 +93,19 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
         return (<span>{row.courseName}</span>)
 
       },
-      width: 250,
+      width: 200,
       align: 'center'
     },
     {
       key: 'content',
       title: "账号信息",
       render: row=>{
-        const style = {
-          // color: 'rgba(0, 128, 0, 0.7)',
-          // fontSize: 'smaller',
-          // fontWeight: 'bold'
-        };
-
         return (
           <p>{row.realName + " " +row.school + ' ' +  row.username + ' ' + row.password}</p>
         );
 
       },
-      width: 300,
+      width: 250,
       align: 'center'
     },
 
@@ -141,25 +135,45 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
       key: 'result',
       title: "结果",
       render: row=>{
+        //没有明确的totalScore
+        if (!row.totalScore){
+          if (row.result && String(row.result).includes('异常:')){
+            return (
+              <p style="color:rgba(255, 0, 0, 0.7)">{row.result}</p>
+            );
+          }else {
+            return (
+              <p>{row.result}</p>
+            );
+          }
+        }
+
+        //如果有明确的score，那么在上方显示
         const style = {
           color: 'rgba(0, 128, 0, 0.7)',
           fontSize: 'smaller',
           fontWeight: 'bold'
         };
-        if (!row.totalScore){
+
+        if (row.result && String(row.result).includes('异常:')){
           return (
-            <p>{row.result}</p>
-          );
+            <div>
+              <div style={style}>{row.totalScore}</div>
+              <div style="color:rgba(255, 0, 0, 0.7)">{row.result}</div>
+            </div>
+          )
+
+        }else {
+          return (
+            <div>
+              <div style={style}>{row.totalScore}</div>
+              <div>{row.result}</div>
+            </div>
+          )
         }
 
-        return (
-          <div>
-            <div style={style}>{row.totalScore}</div>
-            <div>{row.result}</div>
-          </div>
-        )
       },
-      width: 300,
+      width: 400,
       align: 'center'
     },
     {
