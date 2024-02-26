@@ -30,9 +30,6 @@ async function submitUid() {
                   label-placement="top"
                   require-mark-placement="right-hanging"
               >
-                <n-form-item label="昵称" path="nickname">
-                  <n-input placeholder="昵称" v-model:value="userContent.nickname" :disabled="true"/>
-                </n-form-item>
                 <n-form-item label="账号" path="username" >
                   <n-input placeholder="账号" v-model:value="userContent.username" :disabled="true"/>
                 </n-form-item>
