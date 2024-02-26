@@ -10,7 +10,7 @@ onMounted(async () => {
   platList.value = list.data
 })
 const gap = computed(() => (appStore.isMobile ? 0 : 16));
-
+const host= location.host
 const show = ref(false)
 const code = `
  {
@@ -81,7 +81,7 @@ const queryCode = `
                 <n-card title="URL">
                   <p >
                     <n-gradient-text type="info">
-                      http://localhost:8080/api.php?act=get
+                      http://{{host}}/api.php?act=get
                     </n-gradient-text>
                   </p>
                 </n-card>
@@ -228,7 +228,7 @@ const queryCode = `
                 <n-card title="URL">
                   <p >
                     <n-gradient-text type="info">
-                      http://localhost:8080/api.php?act=add
+                      http://{{host}}/api.php?act=add
                     </n-gradient-text>
                   </p>
                 </n-card>
@@ -320,7 +320,7 @@ const queryCode = `
                 <n-card title="URL">
                   <p >
                     <n-gradient-text type="info">
-                      http://localhost:8080/api.php?act=chadan
+                      http://{{host}}/api.php?act=chadan
                     </n-gradient-text>
                   </p>
                 </n-card>
@@ -402,7 +402,7 @@ const queryCode = `
                 <n-card title="URL">
                   <p >
                     <n-gradient-text type="info">
-                      http://localhost:8080/api.php?act=budan
+                      http://{{host}}/api.php?act=budan
                     </n-gradient-text>
                   </p>
                 </n-card>
