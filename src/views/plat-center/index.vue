@@ -141,12 +141,12 @@ const queryCode = `
                   </tr>
                   <tr>
                     <td>uid</td>
-                    <td>666666666</td>
+                    <td>sda******</td>
                     <td>平台用户名</td>
                   </tr>
                   <tr>
                     <td>key</td>
-                    <td>123456</td>
+                    <td>1*****</td>
                     <td>平台密码</td>
                   </tr>
 
@@ -204,12 +204,12 @@ const queryCode = `
                       </tr>
                       <tr>
                         <td>uid</td>
-                        <td>666666666</td>
+                        <td>sda******</td>
                         <td>平台用户名</td>
                       </tr>
                       <tr>
                         <td>key</td>
-                        <td>123456</td>
+                        <td>1*****</td>
                         <td>平台密码</td>
                       </tr>
 
@@ -291,12 +291,12 @@ const queryCode = `
                   </tr>
                   <tr>
                     <td>uid</td>
-                    <td>666666666</td>
+                    <td>sda******</td>
                     <td>平台用户名</td>
                   </tr>
                   <tr>
                     <td>key</td>
-                    <td>123456</td>
+                    <td>1*****</td>
                     <td>平台密码</td>
                   </tr>
 
@@ -369,12 +369,12 @@ const queryCode = `
 
                   <tr>
                     <td>uid</td>
-                    <td>666666666</td>
+                    <td>sda******</td>
                     <td>平台用户名</td>
                   </tr>
                   <tr>
                     <td>key</td>
-                    <td>123456</td>
+                    <td>1*****</td>
                     <td>平台密码</td>
                   </tr>
                   <tr>
@@ -452,12 +452,12 @@ const queryCode = `
 
                   <tr>
                     <td>uid</td>
-                    <td>666666666</td>
+                    <td>sda******</td>
                     <td>平台用户名</td>
                   </tr>
                   <tr>
                     <td>key</td>
-                    <td>123456</td>
+                    <td>1*****</td>
                     <td>平台密码</td>
                   </tr>
                   <tr>
