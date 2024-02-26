@@ -148,18 +148,16 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
         };
         if (!row.totalScore){
           return (
-            <p style={style}>{row.result}</p>
+            <p>{row.result}</p>
           );
         }
 
         return (
           <div>
-            <div style={style}>综合分数({row.totalScore})</div>
+            <div style={style}>{row.totalScore}</div>
             <div>{row.result}</div>
           </div>
         )
-
-
       },
       width: 300,
       align: 'center'
