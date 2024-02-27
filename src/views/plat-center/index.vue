@@ -168,7 +168,7 @@ const queryCode = `
               </n-card>
               <n-card title="说明">
                 <div style="overflow: auto;color: blueviolet ">
-                  如遇到平台需要区分对应院校时，(例如学起等多院校平台)请务必将上述school字段中内容替换为我们所提供的学校内容
+                  如遇到平台需要区分对应院校时，(例如学起等多院校平台)请务必将上述school字段中内容替换为所提供院校的全称
                 </div>
                 <n-collapse arrow-placement="right"  style="margin-bottom: 20px">
                   <n-collapse-item title="查看实例">
@@ -193,7 +193,7 @@ const queryCode = `
                       </tr>
                       <tr>
                         <td>school</td>
-                        <td>qnji.web2.superchutou.com</td>
+                        <td>贵州黔南经济学院</td>
                         <td>学校信息</td>
                       </tr>
 
