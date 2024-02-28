@@ -326,7 +326,7 @@ const renderLabel = (option) => {
                   :render-label="renderLabel" :render-tag="renderSingleSelectTag"/>
       </n-form-item>
       <n-form-item v-if="schoolList.length" label="学校" path="childNum">
-        <n-select v-model:value="childSchool" :options="schoolList"   filterable="true" placeholder="请选择学校"/>
+        <n-select v-model:value="childSchool" :options="schoolList"   :filterable="true" placeholder="请选择学校"/>
       </n-form-item>
       <n-space :vertical="true" :size="10">
         <n-input-group>
