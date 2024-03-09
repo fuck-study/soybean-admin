@@ -2,7 +2,7 @@
 import {h, onMounted, ref} from 'vue';
 import { NButton, NPopconfirm, NTag, NProgress } from 'naive-ui';
 import { useBoolean } from '@sa/hooks';
-import {delOrder, editOrder, fetchPlat, fetchPostOrder, fetchUserInfo} from '@/service/api';
+import { delOrder, editOrder, fetchPlat, fetchPostExportOrder, fetchPostOrder, fetchUserInfo } from '@/service/api';
 import { useAppStore } from '@/store/modules/app';
 import { useTable } from '@/hooks/common/table';
 import { $t } from '@/locales';
@@ -11,6 +11,7 @@ import RoleOperateDrawer, {type OperateType} from './modules/order-operate-drawe
 
 import OrderSearch from './modules/order-search.vue';
 import { orderStatus } from "@/utils/common";
+import axios from "axios";
 const appStore = useAppStore();
 const { bool: drawerVisible, setTrue: openDrawer } = useBoolean()
 const platList = ref([])
@@ -37,6 +38,24 @@ function getStatusTypeByStatus(status) {
     label: '未知',
     tag: 'warning'
   };
+}
+
+function downloadFile() {
+  fetchPostExportOrder(searchParams).then(response => {
+      // 创建URL并触发下载
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'database_export_dynamic.xlsx');
+      document.body.appendChild(link);
+      link.click();
+      // 清理URL对象
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(link);
+    })
+    .catch(error => {
+      console.error('Error downloading file:', error);
+    });
 }
 
 const { columns, filteredColumns, data, loading, pagination, getData, searchParams, resetSearchParams } = useTable<
@@ -362,8 +381,9 @@ function changeCard(){
             v-model:columns="filteredColumns"
             :disabled-delete="checkedRowKeys.length === 0"
             :loading="loading"
-            :allow="['batchEdit']"
+            :allow="['batchEdit','export']"
             @batch-edit="handleBatchEdit"
+            @export-orders="downloadFile"
             @delete="handleBatchDelete"
             @refresh="getData"
         />

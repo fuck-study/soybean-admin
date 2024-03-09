@@ -18,6 +18,7 @@ interface Emits {
   (e: 'delete'): void;
   (e: 'refresh'): void;
   (e: 'batchEdit'): void;
+  (e: 'exportOrders'): void;
 }
 
 const emit = defineEmits<Emits>();
@@ -38,6 +39,9 @@ function batchEdit() {
   emit('batchEdit');
 }
 
+function exportOrders(){
+  emit('exportOrders')
+}
 function refresh() {
   emit('refresh');
 }
@@ -75,6 +79,12 @@ function refresh() {
         <icon-mdi-refresh class="text-icon" :class="{ 'animate-spin': loading }" />
       </template>
       刷新
+    </NButton>
+    <NButton size="small" @click="exportOrders" v-if="allow?.includes('export')">
+      <template #icon>
+        <icon-mdi-refresh class="text-icon" :class="{ 'animate-spin': loading }" />
+      </template>
+      导出订单
     </NButton>
     <TableColumnSetting v-model:columns="columns" />
   </NSpace>

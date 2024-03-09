@@ -75,9 +75,18 @@ export async function submitCourse(data: any, plat: number) {
 export function fetchPostOrder(data?: Api.SystemManage.Order) {
     return request<Api.SystemManage.Order>({
         url: `/api/queryOrders`,
-        method: 'post', // 'get' | 'post' | 'put' | 'delete' | 'patch' | 'head' | 'options
+        method: 'post',
         data,
     });
+}
+
+export function fetchPostExportOrder(data?: Api.SystemManage.Order) {
+  return request<Api.SystemManage.Order>({
+    url: `/api/exportOrders`,
+    method: 'post',
+    data,
+    responseType:'blob'
+  });
 }
 
 
