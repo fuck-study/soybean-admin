@@ -96,9 +96,10 @@ const {columns, filteredColumns, data, loading, pagination, getData, searchParam
               enable: false
             }
           })
-          console.log(templateList.value,row.price)
-
-          return <NTag type="error" style="margin:3px">{templateList.value.find(item=>item.value == row.price).label}</NTag>;
+            if (!row.price || !templateList.value.find(item=>item.value == row.price)){
+                return
+            }
+            return <NTag type="error" style="margin:3px">{templateList.value.find(item=>item.value == row.price).label}</NTag>;
 
         }
         try {
@@ -135,9 +136,12 @@ const {columns, filteredColumns, data, loading, pagination, getData, searchParam
       key: 'operate',
       title: $t('common.operate'),
       align: 'center',
-      width: 130,
+      width: 170,
       render: row => (
         <div class="flex-center gap-8px">
+            <NButton type="primary" ghost size="small" onClick={() => addToken(row.id)}>
+                充值
+            </NButton>
           <NButton type="primary" ghost size="small" onClick={() => handleEdit(row.id)}>
             {$t('common.edit')}
           </NButton>
@@ -185,6 +189,12 @@ function handleEdit(id: number) {
   operateType.value = 'edit';
   editingData.value = data.value.find(item => item.id === id) || null;
   openDrawer();
+}
+
+function addToken(id: number) {
+    operateType.value = 'token';
+    editingData.value = data.value.find(item => item.id === id) || null;
+    openDrawer();
 }
 
 async function handleDelete(id: number) {

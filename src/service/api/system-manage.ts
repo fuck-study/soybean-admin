@@ -55,6 +55,16 @@ export function fetchCreateUser(data?: Api.SystemManage.User) {
     });
 }
 
+
+export function updateIntegral(id: number, money:number,data?: Api.SystemManage.User) {
+    return request<Api.SystemManage.User>({
+        url: `/api/user/${id}/money/${money}`,
+        method: 'put',
+        data
+    });
+}
+
+
 export async function getCourse(data: any, plat: number) {
     return request({
         url: `/api/query/${plat}`,
