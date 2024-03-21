@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from 'vue';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
-import {fetchCreateUser, fetchPlat, updateUser} from '@/service/api';
+import {fetchCreateUser, fetchPlat, resetOrder, updateUser} from '@/service/api';
 import { $t } from '@/locales';
 // import { enableStatusOptions, userGenderOptions } from '@/constants/business';
 
@@ -109,8 +109,12 @@ function closeDrawer() {
 
 async function handleSubmit() {
   await validate();
+  await resetOrder(model.uuid,{
+      password: model.password
+  })
   window.$message?.success($t('common.updateSuccess'));
   closeDrawer();
+
   emit('submitted');
 }
 
