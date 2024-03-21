@@ -108,7 +108,7 @@ export function fetchGetOrder(params?: Api.SystemManage.Order) {
 }
 
 
-export function resetOrder(data: any) {
+export function resetOrder(uuid:string,data: any) {
     return request({
         url: `/api/editOrder/${uuid}`,
         method: 'post',
