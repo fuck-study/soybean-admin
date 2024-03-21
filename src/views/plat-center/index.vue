@@ -357,17 +357,6 @@ const queryCode = `
                   </thead>
                   <tbody>
                   <tr>
-                    <td>user</td>
-                    <td>152****7687</td>
-                    <td>学生账号</td>
-                  </tr>
-                  <tr>
-                    <td>pass</td>
-                    <td>sasdas@1133</td>
-                    <td>学生密码</td>
-                  </tr>
-
-                  <tr>
                     <td>uid</td>
                     <td>sda******</td>
                     <td>平台用户名</td>
@@ -378,7 +367,7 @@ const queryCode = `
                     <td>平台密码</td>
                   </tr>
                   <tr>
-                    <td>usernam</td>
+                    <td>username</td>
                     <td>152****7687</td>
                     <td>待查询的账号</td>
                   </tr>
@@ -439,17 +428,6 @@ const queryCode = `
                   </tr>
                   </thead>
                   <tbody>
-                  <tr>
-                    <td>user</td>
-                    <td>152****7687</td>
-                    <td>学生账号</td>
-                  </tr>
-                  <tr>
-                    <td>pass</td>
-                    <td>sasdas@1133</td>
-                    <td>学生密码</td>
-                  </tr>
-
                   <tr>
                     <td>uid</td>
                     <td>sda******</td>
