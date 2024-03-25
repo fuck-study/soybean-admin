@@ -19,6 +19,7 @@ const setOther = ref(false)
 // 保存用户所有的账号信息
 const account = ref('');
 const tagName = ref(null)
+const remark  = ref('')
 const cityName = ref(null)
 const platValue = ref(null);
 const childSchool = ref(null);
@@ -114,11 +115,11 @@ async function query() {
           children: data.courses.map((i, y) => {
             return {
               ...data,
-              type: 0, // 这里有全包啥的，先写死
               label: i.name,
               courseImg: i.img,
               city: cityName.value,
-              tag:tagName.value,
+              tag: tagName.value,
+              remark: remark.value,
               courseId: i.id,
               courses: i.hash
             };
@@ -128,7 +129,7 @@ async function query() {
       } else {
         // 登录失败的
         if (res.data && !res.data.status!) {
-          window.$message?.error(`${item.username}---账号或密码错误,${res.data.msg!}`);
+          window.$message?.error(`${item.username}---${res.data.msg}`);
         }
         const body = {
           key: item.username,
@@ -352,6 +353,12 @@ const renderLabel = (option) => {
                 default-expand-all="true"
                 :options="cityList"
                 placeholder="如有需要请选择归属地"
+            />
+          </n-form-item>
+          <n-form-item label="备注">
+            <n-input
+              v-model:value="remark"
+              placeholder="如有需要请备注订单"
             />
           </n-form-item>
         </n-card>
