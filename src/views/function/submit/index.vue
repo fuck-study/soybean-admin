@@ -117,9 +117,6 @@ async function query() {
               ...data,
               label: i.name,
               courseImg: i.img,
-              city: cityName.value,
-              tag: tagName.value,
-              remark: remark.value,
               courseId: i.id,
               courses: i.hash
             };
@@ -149,14 +146,14 @@ async function submit() {
   const processedUsernames = {};
 
   for (const item of checkedRowKeys.value) {
-    const {username, password, school, city,remark, type, name, courses, tag} = JSON.parse(item);
+    const {username, password, school, type, name, courses} = JSON.parse(item);
     if (!processedUsernames[username]) {
       processedUsernames[username] = {
         type,
-        city,
-        tag,
+        city: cityName.value,
+        tag: tagName.value,
         name,
-        remark,
+        remark: remark.value,
         school,
         username,
         password,
