@@ -149,18 +149,19 @@ async function submit() {
   const processedUsernames = {};
 
   for (const item of checkedRowKeys.value) {
-    const {username, password, school, city, type, name, courses, tag} = JSON.parse(item);
+    const {username, password, school, city,remark, type, name, courses, tag} = JSON.parse(item);
     if (!processedUsernames[username]) {
       processedUsernames[username] = {
         type,
         city,
         tag,
         name,
+        remark,
         school,
         username,
         password,
         courses: []
-      };
+      }
       outputJson.push(processedUsernames[username]);
     }
     if (courses && courses.length > 0) {
@@ -169,6 +170,9 @@ async function submit() {
   }
   // 根据username将一纬数组升纬
   for (const i of outputJson) {
+    if (i.courses.length === 0){
+      continue
+    }
     // eslint-disable-next-line no-await-in-loop
     const {data: msg, error} = await submitCourse(i, platValue.value);
     if (!error) {
