@@ -19,11 +19,12 @@ const setOther = ref(false)
 // 保存用户所有的账号信息
 const account = ref('');
 const tagName = ref(null)
-const remark  = ref('')
+const remark  = ref(null)
 const cityName = ref(null)
 const platValue = ref(null);
 const childSchool = ref(null);
 const schoolList = ref([]);
+const remarksList = ref([]);
 const tagList = ref([])
 const cityList = ref([])
 
@@ -38,18 +39,17 @@ onMounted(async () => {
     tagList.value = JSON.parse(tags.data.tags)
   }catch (e){
   }
-
-  if (Array.isArray(res.data)) {
-    platList.value = res.data.map(i => {
-      return {
-        label: i.name,
-        value: i.plat,
-        school: i.school,
-        price: i.price,
-        msg: i.description
-      }
-    })
-  }
+  platList.value = res.data.map(i => {
+    console.log(i.remarks)
+    return {
+      remarks: i.remarks,
+      label: i.name,
+      value: i.plat,
+      school: i.school,
+      price: i.price,
+      msg: i.description
+    }
+  })
 })
 
 watch(platValue, newValue => {
@@ -58,6 +58,8 @@ watch(platValue, newValue => {
     childSchool.value = null
     const arr = platList.value.filter(i => i.value === newValue);
     schoolList.value = platList.value ? arr.flatMap(item => item.school).filter(i => i) : [];
+    remarksList.value = arr[0].remarks || []
+    console.log(remarksList.value)
     window.$message?.info(arr[0].msg + ' ' + arr[0].price + '龙币');
   }
 });
@@ -357,9 +359,11 @@ const renderLabel = (option) => {
             />
           </n-form-item>
           <n-form-item label="备注">
-            <n-input
-              v-model:value="remark"
-              placeholder="如有需要请备注订单"
+            <n-select
+                v-model:value="remark"
+                default-expand-all="true"
+                :options="tagsList(remarksList)"
+                placeholder="如有需要请备注"
             />
           </n-form-item>
         </n-card>
