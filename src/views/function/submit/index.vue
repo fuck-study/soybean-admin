@@ -107,10 +107,9 @@ async function query() {
   accountInfo.forEach(item => {
     getCourse(item, platValue.value).then(res => {
       disableds.value = false;
-      let data;
       // 登录成功的
       if (res.data && res.data.status) {
-        data = res.data;
+        const data = res.data;
         const dataBody = {
           key: data.username,
           label: `${data.name} ${data.username} ${data.password}`,
@@ -148,15 +147,14 @@ async function submit() {
   const processedUsernames = {};
 
   for (const item of checkedRowKeys.value) {
-    const {username, password, school, type, name, courses} = JSON.parse(item);
+    const {username, password, school, name, courses} = JSON.parse(item);
     if (!processedUsernames[username]) {
       processedUsernames[username] = {
-        type,
         city: cityName.value,
         tag: tagName.value,
-        name,
+        name: name || '',
         remark: remark.value,
-        school,
+        school: school || '' ,
         username,
         password,
         courses: []
