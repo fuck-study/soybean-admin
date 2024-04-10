@@ -81,7 +81,7 @@ export const orderStatus = [
   },
   {
     value: 0,
-    label: '待处理',
+    label: '队列中',
     tag: 'default'
   },
   {
