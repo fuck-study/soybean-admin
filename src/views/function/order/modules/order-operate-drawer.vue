@@ -171,6 +171,8 @@ function psd() {
           <NFormItem :label="$t('page.manage.user.password')" path="password">
             <NInput v-model:value="model.password" placeholder="请输入密码" @input="psd" />
           </NFormItem>
+
+
           <n-collapse arrow-placement="right" style="margin-bottom: 20px">
             <n-collapse-item title="查看详细信息">
               <n-table :bordered="false" :single-line="false">

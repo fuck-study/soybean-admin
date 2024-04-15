@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import {computed,onMounted, ref} from 'vue'
+import {computed, onMounted, ref} from 'vue'
 import {fetchPlat} from "@/service/api";
 import {useAppStore} from "@/store/modules/app";
+
 const appStore = useAppStore();
 
 const platList = ref([])
@@ -10,7 +11,7 @@ onMounted(async () => {
   platList.value = list.data
 })
 const gap = computed(() => (appStore.isMobile ? 0 : 16));
-const host= location.host
+const host = location.host
 const show = ref(false)
 const code = `
  {
@@ -75,13 +76,13 @@ const queryCode = `
     <n-card title="接口文档" style="margin-bottom: 16px">
       <n-tabs default-value="查询课程" justify-content="space-evenly" type="line" animated>
         <n-tab-pane name="查询课程" tab="查询课程">
-          <NGrid :x-gap="gap"  responsive="screen" item-responsive :cols="3">
+          <NGrid :x-gap="gap" responsive="screen" item-responsive :cols="3">
             <NGi span="24 s:24 m:1">
               <n-card title="基本信息">
                 <n-card title="URL">
-                  <p >
+                  <p>
                     <n-gradient-text type="info">
-                      http://{{host}}/api.php?act=get
+                      http://{{ host }}/api.php?act=get
                     </n-gradient-text>
                   </p>
                 </n-card>
@@ -99,7 +100,7 @@ const queryCode = `
                 </n-card>
 
                 <n-card title="返回类型">
-                  <p >
+                  <p>
                     <n-gradient-text type="info">
                       JSON
                     </n-gradient-text>
@@ -170,7 +171,7 @@ const queryCode = `
                 <div style="overflow: auto;color: blueviolet ">
                   如遇到平台需要区分对应院校时，(例如学起等多院校平台)请务必将上述school字段中内容替换为所提供院校的全称
                 </div>
-                <n-collapse arrow-placement="right"  style="margin-bottom: 20px">
+                <n-collapse arrow-placement="right" style="margin-bottom: 20px">
                   <n-collapse-item title="查看实例">
                     <n-table>
                       <thead>
@@ -222,13 +223,13 @@ const queryCode = `
           </NGrid>
         </n-tab-pane>
         <n-tab-pane name="下单" tab="下单">
-          <NGrid :x-gap="gap"  responsive="screen" item-responsive :cols="3">
+          <NGrid :x-gap="gap" responsive="screen" item-responsive :cols="3">
             <NGi span="24 s:24 m:1">
               <n-card title="基本信息">
                 <n-card title="URL">
-                  <p >
+                  <p>
                     <n-gradient-text type="info">
-                      http://{{host}}/api.php?act=add
+                      http://{{ host }}/api.php?act=add
                     </n-gradient-text>
                   </p>
                 </n-card>
@@ -244,7 +245,7 @@ const queryCode = `
 
                 </n-card>
                 <n-card title="返回类型">
-                  <p >
+                  <p>
                     <n-gradient-text type="info">
                       JSON
                     </n-gradient-text>
@@ -300,6 +301,7 @@ const queryCode = `
                     <td>平台密码</td>
                   </tr>
 
+
                   </tbody>
                 </n-table>
               </n-card>
@@ -314,13 +316,13 @@ const queryCode = `
           </NGrid>
         </n-tab-pane>
         <n-tab-pane name="获取订单" tab="获取订单">
-          <NGrid :x-gap="gap"  responsive="screen" item-responsive :cols="3">
+          <NGrid :x-gap="gap" responsive="screen" item-responsive :cols="3">
             <NGi span="24 s:24 m:1">
               <n-card title="基本信息">
                 <n-card title="URL">
-                  <p >
+                  <p>
                     <n-gradient-text type="info">
-                      http://{{host}}/api.php?act=chadan
+                      http://{{ host }}/api.php?act=chadan
                     </n-gradient-text>
                   </p>
                 </n-card>
@@ -336,7 +338,7 @@ const queryCode = `
 
                 </n-card>
                 <n-card title="返回类型">
-                  <p >
+                  <p>
                     <n-gradient-text type="info">
                       JSON
                     </n-gradient-text>
@@ -371,6 +373,18 @@ const queryCode = `
                     <td>152****7687</td>
                     <td>待查询的账号</td>
                   </tr>
+                  <tr>
+                    <td>startTime</td>
+                    <td>2024-03-27</td>
+                    <td>起始时间</td>
+                  </tr>
+
+                  <tr>
+                    <td>endTime</td>
+                    <td>2024-04-08</td>
+                    <td>结束时间</td>
+                  </tr>
+
                   </tbody>
                 </n-table>
               </n-card>
@@ -385,13 +399,13 @@ const queryCode = `
           </NGrid>
         </n-tab-pane>
         <n-tab-pane name="补单" tab="补单">
-          <NGrid :x-gap="gap"  responsive="screen" item-responsive :cols="3">
+          <NGrid :x-gap="gap" responsive="screen" item-responsive :cols="3">
             <NGi span="24 s:24 m:1">
               <n-card title="基本信息">
                 <n-card title="URL">
-                  <p >
+                  <p>
                     <n-gradient-text type="info">
-                      http://{{host}}/api.php?act=budan
+                      http://{{ host }}/api.php?act=budan
                     </n-gradient-text>
                   </p>
                 </n-card>
@@ -407,7 +421,7 @@ const queryCode = `
 
                 </n-card>
                 <n-card title="返回类型">
-                  <p >
+                  <p>
                     <n-gradient-text type="info">
                       JSON
                     </n-gradient-text>
@@ -482,8 +496,8 @@ const queryCode = `
                     </thead>
                     <tbody>
                     <tr v-for="(item,index) in item.school" :key="index">
-                      <td>{{  item.value || '暂无' }}</td>
-                      <td>{{  item.label || '暂无' }}</td>
+                      <td>{{ item.value || '暂无' }}</td>
+                      <td>{{ item.label || '暂无' }}</td>
                     </tr>
                     </tbody>
                   </n-table>

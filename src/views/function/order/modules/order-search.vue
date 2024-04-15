@@ -84,6 +84,11 @@ async function search() {
         <NFormItemGi span="24 s:12 m:6" label="课程名"  class="pr-24px">
           <NInput v-model:value="model.courseName" placeholder="请输入课程名称" />
         </NFormItemGi>
+
+
+
+
+
         <NFormItemGi span="24 s:12 m:6" label="归属标记"  class="pr-24px">
           <NSelect
               v-model:value="model.tag"
@@ -97,6 +102,12 @@ async function search() {
 <!--        <NFormItemGi span="24 s:12 m:6" :label="$t('page.manage.user.nickname')" path="nickname" class="pr-24px">-->
 <!--          <NInput v-model:value="model.nickname" :placeholder="$t('page.manage.user.form.nickname')" />-->
 <!--        </NFormItemGi>-->
+
+
+        <NFormItemGi span="24 s:12 m:9" label="时间范围"  class="pr-24px">
+          <n-date-picker v-model:value="model.range" type="daterange" clearable />
+        </NFormItemGi>
+
 
         <NFormItemGi span="24 s:12" class="pr-24px">
           <NSpace class="w-full" justify="end">
