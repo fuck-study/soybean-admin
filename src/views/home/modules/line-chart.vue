@@ -108,7 +108,7 @@ const { domRef, updateOptions } = useEcharts(() => ({
 
 async function mockData() {
   await new Promise(resolve => {
-    setTimeout(resolve, 1000);
+    setTimeout(resolve, 2000);
   });
 
   updateOptions(opts => {

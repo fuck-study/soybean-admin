@@ -304,11 +304,7 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
       },
       width: 180,
       align: 'center'
-    },
-
-
-
-
+    }
   ]
 });
 
@@ -353,6 +349,11 @@ async function handleDelete(id: number) {
   getData();
 }
 
+async function searchData(){
+  pagination.page = 1
+  await getData()
+}
+
 const card = ref(true)
 const text = ref("-")
 function changeCard(){
@@ -369,7 +370,7 @@ function changeCard(){
 
 <template>
   <div class="flex-vertical-stretch gap-16px  <sm:overflow-auto">
-    <OrderSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" :plat-list="platList" :tags="tags" v-if="card" />
+    <OrderSearch v-model:model="searchParams" @reset="resetSearchParams" @search="searchData" :plat-list="platList" :tags="tags" v-if="card" />
     <NCard :bordered="false" size="small" class="" style="height: 5px;background-color: rgba(100, 108, 255, 0.1);" @click="changeCard"  >
       <n-button type="info"  size="small" circle style="position:relative;left: 50%;top:-23px;border:none">
         {{ text }}

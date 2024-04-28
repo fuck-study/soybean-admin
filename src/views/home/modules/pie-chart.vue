@@ -83,7 +83,7 @@ const {domRef, updateOptions} = useEcharts(() => ({
 
 async function mockData() {
   await new Promise(resolve => {
-    setTimeout(resolve, 500);
+    setTimeout(resolve, 2000);
   });
   updateOptions(opts => {
     opts.series[0].data = Object.keys(props.userData.graph).map(item => {
