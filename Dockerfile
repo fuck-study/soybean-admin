@@ -8,6 +8,7 @@ COPY ./ $WORKDIR/
 
 ARG version
 ENV COMMITID=$version
+ENV COREPACK_ENABLE_STRICT=0
 
 RUN npm i -g pnpm
 
