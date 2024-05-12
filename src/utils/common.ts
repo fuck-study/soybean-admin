@@ -57,6 +57,14 @@ export function tagsList(options: any) {
 
 }
 
+export function ipList(options: any) {
+  return options.map(option => ({
+    value: option,
+    label: option
+  }));
+
+}
+
 
 export const orderStatus = [
   {

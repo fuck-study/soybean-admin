@@ -58,6 +58,7 @@ async function search() {
             placeholder="请选择平台"
             :options="translatePlatList(platList)"
             clearable
+            :filterable="true"
           />
         </NFormItemGi>
         <NFormItemGi span="24 s:12 m:6" label="订单状态" path="userStatus" class="pr-24px">
@@ -94,6 +95,7 @@ async function search() {
               v-model:value="model.tag"
               placeholder="请选归属标记"
               :options="tagsList(tags)"
+              :filterable="true"
               clearable
           />        </NFormItemGi>
 <!--        <NFormItemGi span="24 s:12 m:6" label="平台" class="pr-24px">-->

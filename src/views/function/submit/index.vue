@@ -2,7 +2,7 @@
 import {onMounted, ref, watch, h} from 'vue';
 import {useRouterPush} from '@/hooks/common/router';
 import {useTabStore} from '@/store/modules/tab';
-import { tagsList} from '@/utils/common';
+import {ipList, tagsList} from '@/utils/common';
 
 import {fetchPlat, fetchUserInfo, getCourse, submitCourse} from "@/service/api";
 import {NButton, NCard, NAvatar, NText, NImage} from 'naive-ui';
@@ -26,7 +26,7 @@ const childSchool = ref(null);
 const schoolList = ref([]);
 const remarksList = ref([]);
 const tagList = ref([])
-const cityList = ref([])
+const cityList = ref(["重庆", "安徽", "福建", "广东", "广西", "河北", "河南", "湖北", "湖南", "海南", "黑龙江", "江苏", "江西", "辽宁", "山东", "四川", "陕西", "浙江", "上海", "内蒙古", "北京"])
 
 const disableds = ref(false)
 const checkedRowKeys = ref([]);
@@ -324,7 +324,7 @@ const renderLabel = (option) => {
   <NSpace vertical :size="16">
     <n-card title="查询课程" :bordered="false" size="small" class="rounded-8px shadow-sm">
       <n-form-item label="请选择平台">
-        <n-select v-model:value="platValue" placeholder="请选择平台" :options="platList"
+        <n-select v-model:value="platValue" placeholder="请选择平台" :options="platList" :filterable="true"
                   :render-label="renderLabel" :render-tag="renderSingleSelectTag"/>
       </n-form-item>
       <n-form-item v-if="schoolList.length" label="学校" path="childNum">
@@ -352,7 +352,7 @@ const renderLabel = (option) => {
             <n-select
                 v-model:value="cityName"
                 default-expand-all="true"
-                :options="cityList"
+                :options="ipList(cityList)"
                 placeholder="如有需要请选择归属地"
             />
           </n-form-item>
