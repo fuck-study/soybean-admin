@@ -346,6 +346,7 @@ const renderLabel = (option) => {
                 default-expand-all="true"
                 :options="tagsList(tagList)"
                 placeholder="如有需要请选择标记"
+                :filterable="true"
             />
           </n-form-item>
           <n-form-item label="代理IP">
