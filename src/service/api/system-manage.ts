@@ -151,6 +151,11 @@ export async function fetchUserInfo() {
 }
 
 
+export async function fetchUserDev() {
+    return request({url: `/api/dev`, method: 'get'});
+}
+
+
 export async function getUserData() {
     return request({url: `/api/dashboard`, method: 'get'});
 }
