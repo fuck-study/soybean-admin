@@ -121,7 +121,7 @@ function changeCard(){
               <td>{{item.name || "暂无"}}</td>
               <td>{{item.money || "暂无"}}</td>
               <td>{{item.income || "暂无"}}</td>
-              <td>{{item.status === '1' ? '已返现' : '等待返现'}}</td>
+              <td>{{item.status == '1' ? '已返现' : '等待返现'}}</td>
             </tr>
             </tbody>
           </n-table>
