@@ -113,6 +113,7 @@ function changeCard(){
               <th>平台</th>
               <th>金额</th>
               <th>当前</th>
+              <th>状态</th>
             </tr>
             </thead>
             <tbody  v-for="(item,index) in devList" :key =index>
@@ -120,6 +121,7 @@ function changeCard(){
               <td>{{item.name || "暂无"}}</td>
               <td>{{item.money || "暂无"}}</td>
               <td>{{item.income || "暂无"}}</td>
+              <td>{{item.status === '1' ? '已返现' : '等待返现'}}</td>
             </tr>
             </tbody>
           </n-table>
