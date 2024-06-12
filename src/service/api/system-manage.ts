@@ -95,7 +95,8 @@ export function fetchPostExportOrder(data?: Api.SystemManage.Order) {
     url: `/api/exportOrders`,
     method: 'post',
     data,
-    responseType:'blob'
+    responseType:'blob',
+    timeout: 60 * 1000
   });
 }
 
