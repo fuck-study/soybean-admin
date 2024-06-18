@@ -49,6 +49,7 @@ export function fetchPlat() {
 /** get log list */
 export function fetchCreateUser(data?: Api.SystemManage.User) {
     return request<Api.SystemManage.User>({
+        timeout: 60 * 1000,
         url: '/api/user',
         method: 'post',
         data
