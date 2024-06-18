@@ -68,6 +68,7 @@ export function updateIntegral(id: number, money:number,data?: Api.SystemManage.
 
 export async function getCourse(data: any, plat: number) {
     return request({
+        timeout: 60 * 1000,
         url: `/api/query/${plat}`,
         method: 'post',
         data,
