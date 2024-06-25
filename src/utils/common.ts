@@ -88,6 +88,11 @@ export const orderStatus = [
     tag: 'error'
   },
   {
+    value: -32,
+    label: '未出分',
+    tag: 'error'
+  },
+  {
     value: -11,
     label: '已结课',
     tag: 'error'
