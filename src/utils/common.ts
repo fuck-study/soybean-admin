@@ -88,7 +88,7 @@ export const orderStatus = [
     tag: 'error'
   },
   {
-    value: -30,
+    value: -31,
     label: '人脸未通过',
     tag: 'error'
   },
