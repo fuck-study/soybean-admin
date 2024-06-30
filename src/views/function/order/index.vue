@@ -248,21 +248,21 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
       )
     },
     {
-      key: 'updatedAt',
-      title: "更新时间",
-      render: row=>{
-        return row.updatedAt
-      },
-      width: 180,
-      align: 'center'
-    },
-    {
       key: 'tag',
       title: "归属标记",
       render: row=>{
         return row.tag
       },
       width: 100,
+      align: 'center'
+    },
+    {
+      key: 'updatedAt',
+      title: "更新时间",
+      render: row=>{
+        return row.updatedAt
+      },
+      width: 180,
       align: 'center'
     },
 
