@@ -257,6 +257,16 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
       align: 'center'
     },
     {
+      key: 'tag',
+      title: "归属标记",
+      render: row=>{
+        return row.tag
+      },
+      width: 100,
+      align: 'center'
+    },
+
+    {
       key: 'createdAt',
       title: "创建时间",
       render: row=>{
