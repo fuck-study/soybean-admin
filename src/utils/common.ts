@@ -94,7 +94,7 @@ export const orderStatus = [
   },
   {
     value: -32,
-    label: '未出分',
+    label: '视频解析失败',
     tag: 'error'
   },
   {
