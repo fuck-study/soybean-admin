@@ -169,7 +169,7 @@ function psd() {
             <NInput v-model:value="model.username" :placeholder="$t('page.manage.user.form.username')" :disabled="showStatus"  @input="validateInput"/>
           </NFormItem>
           <NFormItem :label="$t('page.manage.user.password')" path="password">
-            <NInput v-model:value="model.password" placeholder="请输入密码" @input="psd" />
+            <NInput v-model:value="model.password" placeholder="请输入密码" />
           </NFormItem>
 
 

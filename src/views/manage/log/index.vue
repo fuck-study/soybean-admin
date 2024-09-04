@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import {ref, watch} from 'vue';
+import { ref, watch } from 'vue';
 import { NTag } from 'naive-ui';
 // import { useBoolean } from '@sa/hooks';
 import { fetchLogList } from '@/service/api';
@@ -8,7 +8,7 @@ import { useTable } from '@/hooks/common/table';
 
 const appStore = useAppStore();
 // const {bool: drawerVisible, setTrue: openDrawer} = useBoolean();
-
+const type = ref("0")
 
 const {columns, data, loading, pagination, getData, searchParams, resetSearchParams} = useTable<
   Api.SystemManage.Log,
@@ -19,10 +19,10 @@ const {columns, data, loading, pagination, getData, searchParams, resetSearchPar
   apiParams: {
     pageNo: 1,
     pageSize: 10,
+    type: type,
   },
   transformer: res => {
     const {records = [], current = 1, size = 10, total = 0} = res.data || {};
-    console.log(current, size, total)
     return {
       data: records,
       pageNum: current,
@@ -62,10 +62,34 @@ const checkedRowKeys = ref<string[]>([]);
 //   console.log(item)
 // })
 
+const update = (val, idx) => {
+  getData()
+}
+
 </script>
 
 <template>
   <div class="flex-vertical-stretch gap-16px overflow-hidden <sm:overflow-auto">
+    <n-radio-group
+      @change="update"
+      v-model:value="type"
+      name="left-size"
+      style="margin-bottom: 12px"
+    >
+      <n-radio-button value="0">
+        全部
+      </n-radio-button>
+      <n-radio-button value="3">
+        充值/修改余额
+      </n-radio-button>
+      <n-radio-button value="1">
+        自行下单
+      </n-radio-button>
+      <n-radio-button value="2">
+        代理下单
+      </n-radio-button>
+    </n-radio-group>
+
     <NCard title="日志列表" :bordered="false" size="small" class="card-wrapper sm:flex-1-hidden">
       <NDataTable
         remote

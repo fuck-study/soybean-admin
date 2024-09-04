@@ -146,10 +146,6 @@ function validateInput() {
   model.username = model.username.replace(/[^\w\s]/gi, '').trim();
 }
 
-function psd() {
-  model.password = model.password.replace(/[^\w\s]/gi, '').trim();
-
-}
 </script>
 
 <template>
@@ -165,7 +161,7 @@ function psd() {
             <NInput v-model:value="model.nickname" placeholder="请输入昵称"/>
           </NFormItem>
           <NFormItem label="密码" path="password">
-            <NInput v-model:value="model.password" placeholder="请输入密码" @input="psd"/>
+            <NInput v-model:value="model.password" placeholder="请输入密码"/>
           </NFormItem>
           <NFormItem label="余额" path="money">
             <NInput v-model:value="model.money" placeholder="请输入余额"/>
