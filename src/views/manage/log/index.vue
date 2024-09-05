@@ -52,9 +52,9 @@ const {columns, data, loading, pagination, getData} = useTable<
         if (row.type === 3){
           return <NTag type="success">充值/修改余额</NTag>
         }else if (row.type === 1){
-          return <NTag type="success">自行下单</NTag>
+          return <NTag type="info">自行下单</NTag>
         }else if (row.type === 2){
-          return <NTag type="success">代理下单</NTag>
+          return <NTag type="warning">代理下单</NTag>
         }
       }
     },
