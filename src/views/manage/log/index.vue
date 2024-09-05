@@ -1,19 +1,19 @@
 <script setup lang="tsx">
-import { ref, watch } from 'vue';
-import { NTag } from 'naive-ui';
+import {ref} from 'vue';
+import {NTag} from 'naive-ui';
 // import { useBoolean } from '@sa/hooks';
-import { fetchLogList } from '@/service/api';
-import { useAppStore } from '@/store/modules/app';
-import { useTable } from '@/hooks/common/table';
+import {fetchLogList} from '@/service/api';
+import {useAppStore} from '@/store/modules/app';
+import {useTable} from '@/hooks/common/table';
 
 const appStore = useAppStore();
 // const {bool: drawerVisible, setTrue: openDrawer} = useBoolean();
 const type = ref("0")
 
-const {columns, data, loading, pagination, getData, searchParams, resetSearchParams} = useTable<
-  Api.SystemManage.Log,
-  typeof fetchLogList,
-  'index' | 'operate'
+const {columns, data, loading, pagination, getData} = useTable<
+    Api.SystemManage.Log,
+    typeof fetchLogList,
+    'index' | 'operate'
 >({
   apiFn: fetchLogList,
   apiParams: {
@@ -41,9 +41,40 @@ const {columns, data, loading, pagination, getData, searchParams, resetSearchPar
       key: 'type',
       title: '类型',
       align: 'center',
-      width: 50,
+      width: 100,
       render: row => {
-        return <NTag type="success">下单</NTag>
+        if (row.type === 3){
+          return <NTag type="success">充值/修改余额</NTag>
+        }else if (row.type === 1){
+          return <NTag type="success">自行下单</NTag>
+        }else if (row.type === 2){
+          return <NTag type="success">代理下单</NTag>
+        }
+      }
+    },
+    {
+      key: 'oldMoney',
+      title: '原余额',
+      align: 'center',
+      width: 100,
+    },
+    {
+      key: 'newMoney',
+      title: '现余额',
+      align: 'center',
+      width: 100,
+    },
+    {
+      key: 'costMoney',
+      title: '变动',
+      align: 'center',
+      width: 100,
+      render: row => {
+        if (row.costMoney < 0){
+          return <NTag type="error">{row.costMoney}</NTag>
+        }else {
+          return <NTag type="success">{row.costMoney}</NTag>
+        }
       }
     },
     {
@@ -71,10 +102,10 @@ const update = (val, idx) => {
 <template>
   <div class="flex-vertical-stretch gap-16px overflow-hidden <sm:overflow-auto">
     <n-radio-group
-      @change="update"
-      v-model:value="type"
-      name="left-size"
-      style="margin-bottom: 12px"
+        @change="update"
+        v-model:value="type"
+        name="left-size"
+        style="margin-bottom: 12px"
     >
       <n-radio-button value="0">
         全部
@@ -92,17 +123,17 @@ const update = (val, idx) => {
 
     <NCard title="日志列表" :bordered="false" size="small" class="card-wrapper sm:flex-1-hidden">
       <NDataTable
-        remote
-        v-model:checked-row-keys="checkedRowKeys"
-        :columns="columns"
-        :data="data"
-        size="small"
-        :flex-height="!appStore.isMobile"
-        :scroll-x="640"
-        :loading="loading"
-        :pagination="pagination"
-        :row-key="item => item.id"
-        class="sm:h-full"
+          remote
+          v-model:checked-row-keys="checkedRowKeys"
+          :columns="columns"
+          :data="data"
+          size="small"
+          :flex-height="!appStore.isMobile"
+          :scroll-x="640"
+          :loading="loading"
+          :pagination="pagination"
+          :row-key="item => item.id"
+          class="sm:h-full"
       />
     </NCard>
   </div>
