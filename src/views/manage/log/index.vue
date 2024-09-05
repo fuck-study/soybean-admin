@@ -32,6 +32,12 @@ const {columns, data, loading, pagination, getData} = useTable<
   },
   columns: () => [
     {
+      key: 'ip',
+      title: 'IP',
+      align: 'center',
+      width: 150,
+    },
+    {
       key: 'createTime',
       title: '时间',
       align: 'center',
@@ -41,7 +47,7 @@ const {columns, data, loading, pagination, getData} = useTable<
       key: 'type',
       title: '类型',
       align: 'center',
-      width: 100,
+      width: 120,
       render: row => {
         if (row.type === 3){
           return <NTag type="success">充值/修改余额</NTag>
@@ -56,13 +62,7 @@ const {columns, data, loading, pagination, getData} = useTable<
       key: 'oldMoney',
       title: '原余额',
       align: 'center',
-      width: 100,
-    },
-    {
-      key: 'newMoney',
-      title: '现余额',
-      align: 'center',
-      width: 100,
+      width: 120,
     },
     {
       key: 'costMoney',
@@ -70,16 +70,18 @@ const {columns, data, loading, pagination, getData} = useTable<
       align: 'center',
       width: 100,
       render: row => {
-        if (row.costMoney < 0){
-          return <NTag type="error">{row.costMoney}</NTag>
-        }else {
-          return <NTag type="success">{row.costMoney}</NTag>
-        }
+        return <NTag type={row.costMoney >= 0 ? 'success' : 'error'}>{row.costMoney}</NTag>
       }
     },
     {
+      key: 'newMoney',
+      title: '现余额',
+      align: 'center',
+      width: 120,
+    },
+    {
       key: 'log',
-      title: '内容',
+      title: '日志',
       align: 'center',
     }
   ]

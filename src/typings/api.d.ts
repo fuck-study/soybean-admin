@@ -30,6 +30,7 @@ declare namespace Api {
 
     /** common record */
     type CommonRecord<T extends NonNullable<unknown>> = {
+      ip:string,
       newMoney:number,
       costMoney:number,
       oldMoney:number,
