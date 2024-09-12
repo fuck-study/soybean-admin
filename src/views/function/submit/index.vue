@@ -155,6 +155,7 @@ async function submit() {
     const {username, password, school, name, courses} = JSON.parse(item);
     if (!processedUsernames[username]) {
       processedUsernames[username] = {
+        face: face.value,
         city: cityName.value,
         tag: tagName.value,
         name: name || '',
