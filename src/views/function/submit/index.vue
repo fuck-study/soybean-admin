@@ -370,7 +370,7 @@ const renderLabel = (option) => {
           </n-form-item>
 
           <n-form-item label="人脸">
-            <n-upload action="/api/file"  @finish="handleFinish">
+            <n-upload action="/api/file?parentDir=face"  @finish="handleFinish">
               <n-button>上传文件</n-button>
             </n-upload>
           </n-form-item>
