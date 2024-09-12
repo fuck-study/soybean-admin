@@ -17,7 +17,7 @@ const selectCourses = ref([]);
 const accountCourses = ref([]);
 const setOther = ref(false)
 // 保存用户所有的账号信息
-const face = ref([])
+const face = ref('')
 const account = ref('');
 const tagName = ref(null)
 const remark = ref(null)
@@ -60,22 +60,20 @@ watch(platValue, newValue => {
     const arr = platList.value.filter(i => i.value === newValue);
     schoolList.value = platList.value ? arr.flatMap(item => item.school).filter(i => i) : [];
     remarksList.value = arr[0].remarks || []
-    console.log(remarksList.value)
     window.$message?.info(arr[0].msg + ' ' + arr[0].price + '龙币');
   }
 });
 
-function handleFinish(file,event) {
-  console.log(file)
-  console.log(event.target.response)
+function handleFinish(obj) {
+  face.value = obj.event.target.response
 }
 
 async function query() {
-  console.log(JSON.stringify(face.value))
   // 清除用户输入框，清除用户搜索框，清楚用户课程列表，清楚用户选择的课程
   accountCourses.value = [];
   selectCourses.value = [];
   disableds.value = true;
+  face.value = ''
   // 一定会取消禁用
   setTimeout(() => {
     disableds.value = false;
@@ -371,7 +369,7 @@ const renderLabel = (option) => {
           </n-form-item>
 
           <n-form-item label="人脸">
-            <n-upload action="/api/file" :default-file-list="face" @finish="handleFinish">
+            <n-upload action="/api/file"  @finish="handleFinish">
               <n-button>上传文件</n-button>
             </n-upload>
           </n-form-item>
