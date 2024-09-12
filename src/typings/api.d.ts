@@ -30,6 +30,11 @@ declare namespace Api {
 
     /** common record */
     type CommonRecord<T extends NonNullable<unknown>> = {
+      ip:string,
+      newMoney:number,
+      costMoney:number,
+      oldMoney:number,
+
       /** record id */
       id: number;
       /** record creator */
@@ -174,6 +179,9 @@ declare namespace Api {
     // 			"overId": 0,
     // 			"type": 1
     type Log = Common.CommonRecord<{
+
+
+
       /** user name */
       createTime: string | null | undefined;
       /** user nick name */
