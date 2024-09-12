@@ -102,7 +102,7 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
           }
         }
       },
-      width: 100,
+      width: 150,
       align: 'center'
     },
     {
@@ -248,15 +248,6 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
       )
     },
     {
-      key: 'tag',
-      title: "归属标记",
-      render: row=>{
-        return row.tag
-      },
-      width: 100,
-      align: 'center'
-    },
-    {
       key: 'updatedAt',
       title: "更新时间",
       render: row=>{
@@ -275,6 +266,43 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
       width: 180,
       align: 'center'
     },
+    {
+      key: 'tag',
+      title: "归属标记",
+      render: row=>{
+        return row.tag
+      },
+      width: 150,
+      align: 'center'
+    },
+    {
+      key: 'remarks',
+      title: "备注",
+      render: row=>{
+        return row.remarks
+      },
+      width: 200,
+      align: 'center'
+    },
+    {
+      key: 'face',
+      title: "人脸视频",
+      render: row=>{
+        return row.face ? row.face.split('/').pop() : ''
+      },
+      width: 200,
+      align: 'center'
+    },
+    {
+      key: 'ip',
+      title: "代理IP",
+      render: row=>{
+        return row.city
+      },
+      width: 90,
+      align: 'center'
+    },
+
 
 
     {
