@@ -1,7 +1,7 @@
 <script setup lang="tsx">
 import { ref } from 'vue';
 import { NTag } from 'naive-ui';
-import { fetchReportList, putReport } from '@/service/api';
+import { avtTime, fetchReportList, putReport } from '@/service/api';
 import { useAppStore } from '@/store/modules/app';
 import { useTable } from '@/hooks/common/table';
 import { $t } from "@/locales";
@@ -80,18 +80,32 @@ const {columns, data, loading, pagination, getData} = useTable<
       )
     }
   ]
-});
+})
+
+
+
+
+const useTime = ref(0)
+avtTime().then(res=>{
+  function secToTime(alltime) {
+    var hh = parseInt(alltime / 3600);
+    if (hh < 10) hh = "0" + hh;
+    var mm = parseInt((alltime - parseInt(hh) * 3600) / 60);
+    if (mm < 10) mm = "0" + mm;
+    var ss = parseInt((alltime - parseInt(hh) * 3600) % 60);
+    if (ss < 10) ss = "0" + ss;
+    var alltm = hh + ":" + mm + ":" + ss;
+    return alltm
+  }
+   useTime.value = secToTime(res.data)
+  console.log(useTime.value)
+})
 
 const checkedRowKeys = ref<string[]>([]);
-
-const update = (val, idx) => {
-  getData()
-}
 
 const handleOpenDrawer = (row)=>{
   active.value = true
   raw.value = row
-  // raw.
 }
 
 const submit =  async ()=>{
@@ -104,6 +118,9 @@ const submit =  async ()=>{
 <template>
   <div class="flex-vertical-stretch gap-16px overflow-hidden <sm:overflow-auto">
     <NCard title="问题列表" :bordered="false" size="small" class="card-wrapper sm:flex-1-hidden">
+      <template #header-extra>
+        <p style="color: red">平均响应时间 {{useTime}}</p>
+      </template>
       <NDataTable
         remote
         v-model:checked-row-keys="checkedRowKeys"

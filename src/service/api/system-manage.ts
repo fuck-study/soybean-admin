@@ -137,6 +137,14 @@ export function putReport(data: any) {
   });
 }
 
+export function avtTime() {
+  return request({
+    url: `/api/avgTime`,
+    method: 'get',
+  });
+}
+
+
 export function resetOrder(uuid:string,data: any) {
   return request({
     url: `/api/editOrder/${uuid}`,

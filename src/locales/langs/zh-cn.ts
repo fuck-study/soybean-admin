@@ -124,7 +124,7 @@ const local: App.I18n.Schema = {
     404: '页面不存在',
     500: '服务器错误',
     home: '首页',
-    user: '代理管理',
+    user: '代理中心',
     'plat-center': '对接中心',
     function: '查课下单',
     function_order: '订单列表',

@@ -22,6 +22,7 @@ interface Props {
   /** the edit row data */
   rowData?: Api.SystemManage.Tempter | null;
 
+  allData?: Api.SystemManage.Tempter[];
 }
 
 const props = defineProps<Props>();
@@ -76,6 +77,12 @@ function createDefaultModel(): Model {
 function handleUpdateModelWhenEdit() {
   if (props.operateType === 'add') {
     Object.assign(model, createDefaultModel());
+    options.value.push(...props.allData.map(i=>{
+      return {
+        label: i.name,
+        key: i.id
+      }
+    }))
     return;
   }
 
@@ -121,15 +128,27 @@ watch(visible, () => {
   }
 });
 
+const options = ref([])
+
+const handleSelect = (key)=>{
+  const copy = props.allData.filter(i=>i.id == key)[0]
+ model.template = copy.template
+  window.$message?.success('已经成功复制'+copy.name+'模版,请点击保存')
+}
 </script>
 
 <template>
-  <NDrawer v-model:show="visible" :title="title" display-directive="show" :width="360">
-    <NDrawerContent :title="title" :native-scrollbar="false" closable>
+  <NDrawer v-model:show="visible" title="新增模版" display-directive="show" :width="360">
+    <NDrawerContent title="新增模版" :native-scrollbar="false" closable>
       <n-card>
         <NForm ref="formRef" :model="model" :rules="rules">
           <NFormItem label="模版名称" >
             <NInput v-model:value="model.name" placeholder="请输入模版名称"/>
+            <n-space v-if="operateType === 'add'">
+              <n-dropdown trigger="hover" :options="options" @select="handleSelect">
+                <n-button>复制</n-button>
+              </n-dropdown>
+            </n-space>
           </NFormItem>
 
           <n-form-item  :span="12" path="plat" v-if="operateType==='edit'">

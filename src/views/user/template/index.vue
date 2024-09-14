@@ -1,8 +1,7 @@
 <script setup lang="tsx">
 import {onMounted, reactive, ref, watch} from 'vue';
-import { NPopconfirm,NTags } from 'naive-ui';
-// import { useBoolean } from '@sa/hooks';
-// import { useAppStore } from '@/store/modules/app';
+import { NPopconfirm } from 'naive-ui';
+
 import {addTemplet, delTemplet, fetchDeleteUser, fetchPlat, getTemplet, updateTemplet} from "@/service/api";
 import {NButton} from "naive-ui";
 import {useTable} from "@/hooks/common/table";
@@ -31,34 +30,6 @@ const platList = ref([])
 onMounted(async () => {
   const data = await fetchPlat()
   platList.value = data.data
-
-
-  // for (const itemElement of tempterList.value) {
-  //  let arr = data.data.map(i=>{
-  //     if (JSON.parse(itemElement.template).find(item => item.plat === i.plat)){
-  //       let obj = JSON.parse(itemElement.template).find(item => item.plat === i.plat)
-  //       return {
-  //         id:itemElement.id,
-  //         cost: i.price,
-  //         plat: i.plat,
-  //         price: obj.price,
-  //         name: i.name,
-  //         enable: true
-  //       }
-  //     }else {
-  //       return {
-  //         id:itemElement.id,
-  //         cost: i.price,
-  //         plat: i.plat,
-  //         price: i.price,
-  //         name: i.name,
-  //         enable: false
-  //       }
-  //     }
-  //   })
-  //   platList.value.push(arr)
-  //
-  //   }
 })
 
 
@@ -68,20 +39,6 @@ const model = reactive( {
   name: ''
 });
 const checkedRowKeys = ref<string[]>([]);
-
-
-// async function save(body){
-//   model.template = JSON.stringify(body.filter(i => i.enable).map(item=>{
-//     return {
-//       name: item.name,
-//       plat: item.plat,
-//       price: item.price
-//     }
-//   }))
-//   await updateTemplet(model,body[0].id)
-//   console.log(model)
-// }
-
 
 async function add(){
   model.template = JSON.stringify(platList.value.filter(i => i.enable).map(item=>{
@@ -93,18 +50,13 @@ async function add(){
   }))
   await addTemplet(model)
   getData();
-
-
 }
 async function handleBatchDelete() {
-  // request
   for (let string of checkedRowKeys.value) {
     await delTemplet(parseInt(string))
   }
   window.$message?.success($t('common.deleteSuccess'));
-
   checkedRowKeys.value = [];
-
   getData();
 }
 async function handleDelete(id: number) {
@@ -208,9 +160,6 @@ const {columns, filteredColumns, data, loading, pagination, getData, searchParam
 </script>
 
 <template>
-
-
-
   <div class="flex-vertical-stretch gap-16px <sm:overflow-auto">
     <NCard title="模版列表" :bordered="false" size="small" class="card-wrapper sm:flex-1-hidden">
       <template #header-extra>
@@ -240,6 +189,7 @@ const {columns, filteredColumns, data, loading, pagination, getData, searchParam
           v-model:visible="drawerVisible"
           :operate-type="operateType"
           :row-data="editingData"
+          :all-data="data"
           @submitted="getData"
       />
     </NCard>

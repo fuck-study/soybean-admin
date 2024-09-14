@@ -52,6 +52,7 @@ export const generatedRoutes: GeneratedRoute[] = [
         path: '/function/order',
         component: 'view.function_order',
         meta: {
+          icon: 'ant-design:ordered-list-outlined',
           title: 'function_order',
           i18nKey: 'route.function_order',
           order: 7
@@ -62,6 +63,7 @@ export const generatedRoutes: GeneratedRoute[] = [
         path: '/function/submit',
         component: 'view.function_submit',
         meta: {
+          icon: 'ant-design:search-outlined',
           title: 'function_submit',
           i18nKey: 'route.function_submit',
           order: 5
@@ -85,6 +87,7 @@ export const generatedRoutes: GeneratedRoute[] = [
     path: '/log',
     component: 'layout.base$view.log',
     meta: {
+      icon: 'ant-design:file-text-outlined',
       title: 'log',
       i18nKey: 'route.log',
       order: 13
@@ -108,7 +111,7 @@ export const generatedRoutes: GeneratedRoute[] = [
     meta: {
       title: 'plat-center',
       i18nKey: 'route.plat-center',
-      icon: 'carbon:document-download',
+      icon: 'ant-design:api-outlined',
       order: 14
     }
   },
@@ -117,6 +120,7 @@ export const generatedRoutes: GeneratedRoute[] = [
     path: '/report',
     component: 'layout.base$view.report',
     meta: {
+      icon: 'ant-design:message-outlined',
       title: 'report',
       i18nKey: 'route.report',
       order: 16
@@ -127,6 +131,7 @@ export const generatedRoutes: GeneratedRoute[] = [
     path: '/user',
     component: 'layout.base',
     meta: {
+      icon: 'ant-design:team-outlined',
       roles: ['R_ADMIN'],
       title: 'user',
       i18nKey: 'route.user',
@@ -138,6 +143,7 @@ export const generatedRoutes: GeneratedRoute[] = [
         path: '/user/list',
         component: 'view.user_list',
         meta: {
+          icon: 'ant-design:usergroup-add-outlined',
           title: 'user_list',
           i18nKey: 'route.user_list'
         }
@@ -147,6 +153,7 @@ export const generatedRoutes: GeneratedRoute[] = [
         path: '/user/template',
         component: 'view.user_template',
         meta: {
+          icon: 'ant-design:profile-outlined',
           title: 'user_template',
           i18nKey: 'route.user_template'
         }
@@ -158,6 +165,7 @@ export const generatedRoutes: GeneratedRoute[] = [
     path: '/user-center',
     component: 'layout.base$view.user-center',
     meta: {
+      icon: 'ant-design:user-outlined',
       title: 'user-center',
       i18nKey: 'route.user-center',
       order: 13
