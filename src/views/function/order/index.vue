@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import {h, onMounted, ref} from 'vue';
+import { h, onMounted, ref } from 'vue';
 import { NButton, NPopconfirm, NTag, NProgress } from 'naive-ui';
 import { useBoolean } from '@sa/hooks';
 import { delOrder, editOrder, fetchPlat, fetchPostExportOrder, fetchPostOrder, fetchUserInfo } from '@/service/api';
@@ -7,21 +7,22 @@ import { useAppStore } from '@/store/modules/app';
 import { useTable } from '@/hooks/common/table';
 import { $t } from '@/locales';
 // import { enableStatusRecord } from '@/constants/business';
-import RoleOperateDrawer, {type OperateType} from './modules/order-operate-drawer.vue';
+import RoleOperateDrawer, { type OperateType } from './modules/order-operate-drawer.vue';
 
 import OrderSearch from './modules/order-search.vue';
 import { orderStatus } from "@/utils/common";
 import axios from "axios";
+
 const appStore = useAppStore();
-const { bool: drawerVisible, setTrue: openDrawer } = useBoolean()
+const {bool: drawerVisible, setTrue: openDrawer} = useBoolean()
 const platList = ref([])
 const tags = ref([])
-onMounted(async ()=>{
-  const data  = await fetchPlat()
+onMounted(async () => {
+  const data = await fetchPlat()
   const res = await fetchUserInfo()
-  try{
+  try {
     tags.value = JSON.parse(res.data.tags)
-  }catch (e) {
+  } catch (e) {
 
   }
 
@@ -42,26 +43,26 @@ function getStatusTypeByStatus(status) {
 
 function downloadFile() {
   fetchPostExportOrder(searchParams).then(response => {
-      // 创建URL并触发下载
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', '导出订单数据.xlsx');
-      document.body.appendChild(link);
-      link.click();
-      // 清理URL对象
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(link);
-    })
+    // 创建URL并触发下载
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', '导出订单数据.xlsx');
+    document.body.appendChild(link);
+    link.click();
+    // 清理URL对象
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(link);
+  })
     .catch(error => {
       console.error('Error downloading file:', error);
     });
 }
 
-const { columns, filteredColumns, data, loading, pagination, getData, searchParams, resetSearchParams } = useTable<
-    Api.SystemManage.Order,
-    typeof fetchPostOrder,
-    'index' | 'operate'
+const {columns, filteredColumns, data, loading, pagination, getData, searchParams, resetSearchParams} = useTable<
+  Api.SystemManage.Order,
+  typeof fetchPostOrder,
+  'index' | 'operate'
 >({
   apiFn: fetchPostOrder,
   apiParams: {
@@ -76,7 +77,7 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
     school: null,
     courseName: null,
   },
-  transformer:  res => {
+  transformer: res => {
     const {records = [], current = 1, size = 10, total = 0} = res.data || {};
     return {
       data: records,
@@ -95,9 +96,9 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
     {
       key: 'plat',
       title: "平台",
-      render: row=>{
+      render: row => {
         for (const item of platList.value) {
-          if (item.plat === row.plat){
+          if (item.plat === row.plat) {
             return <NTag type="info">{item.name}</NTag>
           }
         }
@@ -108,7 +109,7 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
     {
       key: 'order',
       title: "科目",
-      render: row=>{
+      render: row => {
         return (<span>{row.courseName}</span>)
 
       },
@@ -118,9 +119,9 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
     {
       key: 'content',
       title: "账号信息",
-      render: row=>{
+      render: row => {
         return (
-          <p>{row.realName + " " +row.school + ' ' +  row.username + ' ' + row.password}</p>
+          <p>{row.realName + " " + row.school + ' ' + row.username + ' ' + row.password}</p>
         );
 
       },
@@ -134,33 +135,33 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
       width: 50,
       render(row) {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { tag, label } = getStatusTypeByStatus(row.status);
+        const {tag, label} = getStatusTypeByStatus(row.status);
         return h(
-            NTag,
-            {
-              style: {
-                marginRight: '6px'
-              },
-              type: tag,
-              bordered: false
+          NTag,
+          {
+            style: {
+              marginRight: '6px'
             },
-            {
-              default: () =>  label
-            }
+            type: tag,
+            bordered: false
+          },
+          {
+            default: () => label
+          }
         );
       }
     },
     {
       key: 'result',
       title: "结果",
-      render: row=>{
+      render: row => {
         //没有明确的totalScore
-        if (!row.totalScore){
-          if (row.result && String(row.result).includes('异常:')){
+        if (!row.totalScore) {
+          if (row.result && String(row.result).includes('异常:')) {
             return (
               <p style="color:rgba(255, 0, 0, 0.7)">{row.result}</p>
             );
-          }else {
+          } else {
             return (
               <p>{row.result}</p>
             );
@@ -174,7 +175,7 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
           fontWeight: 'bold'
         };
 
-        if (row.result && String(row.result).includes('异常:')){
+        if (row.result && String(row.result).includes('异常:')) {
           return (
             <div>
               <div style={style}>{row.totalScore}</div>
@@ -182,7 +183,7 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
             </div>
           )
 
-        }else {
+        } else {
           return (
             <div>
               <div style={style}>{row.totalScore}</div>
@@ -200,7 +201,7 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
       title: "进度",
       width: 130,
 
-      render: row=>{
+      render: row => {
         let status = 'info';
         let percentage = Math.min(Math.round((row.finish / row.total) * 100), 100);
         percentage = isNaN(percentage) ? 0 : percentage;
@@ -228,11 +229,14 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
       key: 'operate',
       title: $t('common.operate'),
       align: 'center',
-      width: 130,
+      width: 180,
       render: row => (
         <div class="flex-center gap-8px">
-          <NButton type="primary" ghost size="small" onClick={() => handleEdit(row.uuid)}>
-            查看详情
+          <NButton type="primary" ghost size="small" onClick={() => handleOpenDrawer(row, 'edit')}>
+            详情
+          </NButton>
+          <NButton type="warning" ghost size="small" onClick={() => handleOpenDrawer(row, 'report')}>
+            反馈
           </NButton>
           <NPopconfirm onPositiveClick={() => handleDelete(row.uuid)}>
             {{
@@ -250,7 +254,7 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
     {
       key: 'updatedAt',
       title: "更新时间",
-      render: row=>{
+      render: row => {
         return row.updatedAt
       },
       width: 180,
@@ -260,7 +264,7 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
     {
       key: 'createdAt',
       title: "创建时间",
-      render: row=>{
+      render: row => {
         return row.createdAt
       },
       width: 180,
@@ -269,7 +273,7 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
     {
       key: 'tag',
       title: "归属标记",
-      render: row=>{
+      render: row => {
         return row.tag
       },
       width: 150,
@@ -278,7 +282,7 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
     {
       key: 'remarks',
       title: "备注",
-      render: row=>{
+      render: row => {
         return row.remarks
       },
       width: 200,
@@ -287,7 +291,7 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
     {
       key: 'face',
       title: "人脸视频",
-      render: row=>{
+      render: row => {
         return row.face ? row.face.split('/').pop() : ''
       },
       width: 200,
@@ -296,7 +300,7 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
     {
       key: 'ip',
       title: "代理IP",
-      render: row=>{
+      render: row => {
         return row.city
       },
       width: 90,
@@ -304,11 +308,10 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
     },
 
 
-
     {
       key: 'examStartTime',
       title: "开考时间",
-      render: row=>{
+      render: row => {
         return row.examStartTime
       },
       width: 180,
@@ -317,7 +320,7 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
     {
       key: 'examEndTime',
       title: "结考时间",
-      render: row=>{
+      render: row => {
         return row.examEndTime
       },
       width: 180,
@@ -328,7 +331,7 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
     {
       key: 'courseStartTime',
       title: "开课时间",
-      render: row=>{
+      render: row => {
         return row.courseStartTime
       },
       width: 180,
@@ -337,7 +340,7 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
     {
       key: 'courseEndTime',
       title: "结课时间",
-      render: row=>{
+      render: row => {
         return row.courseEndTime
       },
       width: 180,
@@ -347,11 +350,6 @@ const { columns, filteredColumns, data, loading, pagination, getData, searchPara
 });
 
 const operateType = ref<OperateType>('add');
-
-function handleAdd() {
-  operateType.value = 'add';
-  openDrawer();
-}
 
 const checkedRowKeys = ref<string[]>([]);
 
@@ -374,9 +372,9 @@ async function handleBatchDelete() {
 /** the editing row data */
 const editingData = ref<Api.SystemManage.Role | null>(null);
 
-function handleEdit(uuid: string) {
-  operateType.value = 'edit';
-  editingData.value = data.value.find(item => item.uuid === uuid) || null;
+function handleOpenDrawer(row, type) {
+  operateType.value = type;
+  editingData.value = row
   openDrawer();
 }
 
@@ -387,19 +385,20 @@ async function handleDelete(id: number) {
   getData();
 }
 
-async function searchData(){
+async function searchData() {
   pagination.page = 1
   await getData()
 }
 
 const card = ref(true)
 const text = ref("-")
-function changeCard(){
+
+function changeCard() {
   console.log('changeCard')
   card.value = !card.value
   if (card.value) {
     text.value = "-"
-  }else {
+  } else {
     text.value = "+"
   }
 }
@@ -408,43 +407,45 @@ function changeCard(){
 
 <template>
   <div class="flex-vertical-stretch gap-16px  <sm:overflow-auto">
-    <OrderSearch v-model:model="searchParams" @reset="resetSearchParams" @search="searchData" :plat-list="platList" :tags="tags" v-if="card" />
-    <NCard :bordered="false" size="small" class="" style="height: 5px;background-color: rgba(100, 108, 255, 0.1);" @click="changeCard"  >
-      <n-button type="info"  size="small" circle style="position:relative;left: 50%;top:-23px;border:none">
+    <OrderSearch v-model:model="searchParams" @reset="resetSearchParams" @search="searchData" :plat-list="platList"
+                 :tags="tags" v-if="card"/>
+    <NCard :bordered="false" size="small" class="" style="height: 5px;background-color: rgba(100, 108, 255, 0.1);"
+           @click="changeCard">
+      <n-button type="info" size="small" circle style="position:relative;left: 50%;top:-23px;border:none">
         {{ text }}
       </n-button>
     </NCard>
     <NCard title="订单列表" :bordered="false" size="small" class="card-wrapper sm:flex-1-hidden">
       <template #header-extra>
         <TableHeaderOperation
-            v-model:columns="filteredColumns"
-            :disabled-delete="checkedRowKeys.length === 0"
-            :loading="loading"
-            :allow="['batchEdit','export']"
-            @batch-edit="handleBatchEdit"
-            @export-orders="downloadFile"
-            @delete="handleBatchDelete"
-            @refresh="getData"
+          v-model:columns="filteredColumns"
+          :disabled-delete="checkedRowKeys.length === 0"
+          :loading="loading"
+          :allow="['batchEdit','export']"
+          @batch-edit="handleBatchEdit"
+          @export-orders="downloadFile"
+          @delete="handleBatchDelete"
+          @refresh="getData"
         />
       </template>
       <NDataTable
-          remote
-          v-model:checked-row-keys="checkedRowKeys"
-          :columns="columns"
-          :data="data"
-          size="small"
-          :scroll-x="2800"
-          :flex-height="!appStore.isMobile"
-          :loading="loading"
-          :pagination="pagination"
-          :row-key="item => item.uuid"
-          :min-height="500"
+        remote
+        v-model:checked-row-keys="checkedRowKeys"
+        :columns="columns"
+        :data="data"
+        size="small"
+        :scroll-x="2800"
+        :flex-height="!appStore.isMobile"
+        :loading="loading"
+        :pagination="pagination"
+        :row-key="item => item.uuid"
+        :min-height="500"
       />
       <RoleOperateDrawer
-          v-model:visible="drawerVisible"
-          :operate-type="operateType"
-          :row-data="editingData"
-          @submitted="getData"
+        v-model:visible="drawerVisible"
+        :operate-type="operateType"
+        :row-data="editingData"
+        @submitted="getData"
       />
     </NCard>
   </div>

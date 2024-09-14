@@ -39,6 +39,16 @@ export function fetchLogList(params?: Api.SystemManage.UserSearchParams) {
     });
 }
 
+
+/** get report list */
+export function fetchReportList(params?: Api.SystemManage.UserSearchParams) {
+  return request({
+    url: '/api/report',
+    method: 'get',
+    params
+  });
+}
+
 export function fetchPlat() {
     return request<Api.SystemManage.User>({
         url: '/api/plat',
@@ -111,12 +121,28 @@ export function fetchGetOrder(params?: Api.SystemManage.Order) {
 }
 
 
-export function resetOrder(uuid:string,data: any) {
+export function reportQuestion(data: any) {
     return request({
-        url: `/api/editOrder/${uuid}`,
+        url: `/api/report`,
         method: 'post',
         data,
     });
+}
+
+export function putReport(data: any) {
+  return request({
+    url: `/api/report/${data.id}`,
+    method: 'put',
+    data,
+  });
+}
+
+export function resetOrder(uuid:string,data: any) {
+  return request({
+    url: `/api/editOrder/${uuid}`,
+    method: 'post',
+    data,
+  });
 }
 
 export function editOrder(data: any) {

@@ -78,6 +78,7 @@ declare module 'vue' {
     NSpace: typeof import('naive-ui')['NSpace']
     NStatistic: typeof import('naive-ui')['NStatistic']
     NSwitch: typeof import('naive-ui')['NSwitch']
+    NT: typeof import('naive-ui')['NT']
     NTab: typeof import('naive-ui')['NTab']
     NTable: typeof import('naive-ui')['NTable']
     NTabPane: typeof import('naive-ui')['NTabPane']

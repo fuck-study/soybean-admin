@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from 'vue';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
-import {fetchCreateUser, fetchPlat, resetOrder, updateUser} from '@/service/api';
+import { fetchCreateUser, fetchPlat, reportQuestion, resetOrder, updateUser } from '@/service/api';
 import { $t } from '@/locales';
 // import { enableStatusOptions, userGenderOptions } from '@/constants/business';
 
@@ -15,7 +15,7 @@ defineOptions({
  * - add: add user
  * - edit: edit user
  */
-export type OperateType = 'add' | 'edit';
+export type OperateType = 'add' | 'edit' | 'report';
 
 interface Props {
   /** the type of operation */
@@ -25,8 +25,12 @@ interface Props {
 }
 
 const props = defineProps<Props>();
-const checkArr = ref([])
 const showStatus = ref(false)
+
+const reportForm = ref({
+  id: 1
+})
+
 interface Emits {
   (e: 'submitted'): void;
 }
@@ -39,14 +43,6 @@ const visible = defineModel<boolean>('visible', {
 
 const {formRef, validate, restoreValidation} = useNaiveForm();
 const {defaultRequiredRule} = useFormRules();
-
-const title = computed(() => {
-  const titles: Record<OperateType, string> = {
-    add: $t('page.manage.user.addUser'),
-    edit: $t('page.manage.user.editUser')
-  };
-  return titles[props.operateType];
-});
 
 type Model = Pick<
   Api.SystemManage.User,
@@ -100,6 +96,10 @@ function handleUpdateModelWhenEdit() {
 
   if (props.operateType === 'edit' && props.rowData) {
     Object.assign(model, props.rowData);
+  }else if (props.operateType === 'report' && props.rowData) {
+    reportForm.value = {
+      orderId: props.rowData.uuid
+    }
   }
 }
 
@@ -107,6 +107,13 @@ function closeDrawer() {
   visible.value = false;
 }
 
+async function reportSubmit(){
+  await reportQuestion(reportForm.value)
+  window.$message?.success('反馈成功');
+  closeDrawer();
+  emit('submitted');
+
+}
 async function handleSubmit() {
   await validate();
   await resetOrder(model.uuid,{
@@ -114,7 +121,6 @@ async function handleSubmit() {
   })
   window.$message?.success($t('common.updateSuccess'));
   closeDrawer();
-
   emit('submitted');
 }
 
@@ -143,8 +149,34 @@ function psd() {
 </script>
 
 <template>
-  <NDrawer v-model:show="visible" :title="title" display-directive="show" :width="380">
-    <NDrawerContent :title="title" :native-scrollbar="false" closable>
+  <NDrawer v-model:show="visible" title="反馈问题" display-directive="show" :width="380" v-if="operateType == 'report'">
+    <NDrawerContent title="反馈问题" :native-scrollbar="false" closable>
+      <n-card>
+        <NForm ref="formRef" :model="reportForm">
+          <NFormItem label="订单ID" path="ID">
+            <NInput v-model:value="reportForm.orderId" disabled />
+          </NFormItem>
+          <NFormItem label="问题" path="realName">
+            <n-input
+              v-model:value="reportForm.question"
+              type="textarea"
+              placeholder="请详细的描述你遇到的问题,同一类问题仅需要反馈一次即可"
+            />
+          </NFormItem>
+        </NForm>
+      </n-card>
+      <template #footer>
+        <NSpace :size="16">
+          <NButton @click="closeDrawer">{{ $t('common.cancel') }}</NButton>
+          <NButton type="primary" @click="reportSubmit">反馈</NButton>
+        </NSpace>
+      </template>
+    </NDrawerContent>
+  </NDrawer>
+
+
+  <NDrawer v-model:show="visible" title="订单详情" display-directive="show" :width="380" v-if="operateType == 'edit'">
+    <NDrawerContent title="订单详情" :native-scrollbar="false" closable>
       <n-card>
         <NForm ref="formRef" :model="model" :rules="rules">
           <NFormItem label="订单ID" path="ID">
@@ -171,8 +203,6 @@ function psd() {
           <NFormItem :label="$t('page.manage.user.password')" path="password">
             <NInput v-model:value="model.password" placeholder="请输入密码" />
           </NFormItem>
-
-
           <n-collapse arrow-placement="right" style="margin-bottom: 20px">
             <n-collapse-item title="查看详细信息">
               <n-table :bordered="false" :single-line="false">
@@ -193,32 +223,9 @@ function psd() {
                 </tr>
                 </tbody>
               </n-table>
-
             </n-collapse-item>
           </n-collapse>
-
-
-<!--                  <NFormItem :label="$t('page.manage.user.userPhone')" path="userPhone">-->
-<!--                    <NInput v-model:value="model.userPhone" :placeholder="$t('page.manage.user.form.userPhone')" />-->
-<!--                  </NFormItem>-->
-<!--                  <NFormItem :label="$t('page.manage.user.userEmail')" path="email">-->
-<!--                    <NInput v-model:value="model.userEmail" :placeholder="$t('page.manage.user.form.userEmail')" />-->
-<!--                  </NFormItem>-->
-<!--                  <NFormItem :label="$t('page.manage.user.userStatus')" path="status">-->
-<!--                    <NRadioGroup v-model:value="model.status">-->
-<!--                      <NRadio v-for="item in enableStatusOptions" :key="item.value" :value="item.value" :label="$t(item.label)" />-->
-<!--                    </NRadioGroup>-->
-<!--                  </NFormItem>-->
-<!--                  <NFormItem :label="$t('page.manage.user.userRole')" path="roles">-->
-<!--                    <NSelect-->
-<!--                      v-model:value="model.userRoles"-->
-<!--                      multiple-->
-<!--                      :options="roleOptions"-->
-<!--                      :placeholder="$t('page.manage.user.form.userRole')"-->
-<!--                    />-->
-<!--                  </NFormItem>-->
         </NForm>
-
       </n-card>
       <template #footer>
         <NSpace :size="16">

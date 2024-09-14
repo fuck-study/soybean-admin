@@ -28,11 +28,10 @@ declare module "@elegant-router/types" {
     "function_order": "/function/order";
     "function_submit": "/function/submit";
     "home": "/home";
+    "log": "/log";
     "login": "/login/:module(pwd-login|code-login|register|reset-pwd|bind-wechat)?";
-    "manage": "/manage";
-    "manage_log": "/manage/log";
-    "manage_user-detail": "/manage/user-detail/:id";
     "plat-center": "/plat-center";
+    "report": "/report";
     "user": "/user";
     "user_list": "/user/list";
     "user_template": "/user/template";
@@ -77,9 +76,10 @@ declare module "@elegant-router/types" {
     | "500"
     | "function"
     | "home"
+    | "log"
     | "login"
-    | "manage"
     | "plat-center"
+    | "report"
     | "user"
     | "user-center"
   >;
@@ -106,9 +106,9 @@ declare module "@elegant-router/types" {
     | "function_order"
     | "function_submit"
     | "home"
-    | "manage_log"
-    | "manage_user-detail"
+    | "log"
     | "plat-center"
+    | "report"
     | "user-center"
     | "user_list"
     | "user_template"

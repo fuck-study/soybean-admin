@@ -81,6 +81,16 @@ export const generatedRoutes: GeneratedRoute[] = [
     }
   },
   {
+    name: 'log',
+    path: '/log',
+    component: 'layout.base$view.log',
+    meta: {
+      title: 'log',
+      i18nKey: 'route.log',
+      order: 13
+    }
+  },
+  {
     name: 'login',
     path: '/login/:module(pwd-login|code-login|register|reset-pwd|bind-wechat)?',
     component: 'layout.blank$view.login',
@@ -92,42 +102,6 @@ export const generatedRoutes: GeneratedRoute[] = [
     }
   },
   {
-    name: 'manage',
-    path: '/manage',
-    component: 'layout.base',
-    meta: {
-      title: 'manage',
-      i18nKey: 'route.manage',
-      icon: 'carbon:cloud-service-management',
-      order: 9
-    },
-    children: [
-      {
-        name: 'manage_log',
-        path: '/manage/log',
-        component: 'view.manage_log',
-        meta: {
-          title: 'manage_log',
-          i18nKey: 'route.manage_log',
-          icon: 'ic:round-manage-accounts',
-          order: 2
-        }
-      },
-      {
-        name: 'manage_user-detail',
-        path: '/manage/user-detail/:id',
-        component: 'view.manage_user-detail',
-        props: true,
-        meta: {
-          title: 'manage_user-detail',
-          i18nKey: 'route.manage_user-detail',
-          hideInMenu: true,
-          roles: ['R_ADMIN']
-        }
-      }
-    ]
-  },
-  {
     name: 'plat-center',
     path: '/plat-center',
     component: 'layout.base$view.plat-center',
@@ -136,6 +110,16 @@ export const generatedRoutes: GeneratedRoute[] = [
       i18nKey: 'route.plat-center',
       icon: 'carbon:document-download',
       order: 14
+    }
+  },
+  {
+    name: 'report',
+    path: '/report',
+    component: 'layout.base$view.report',
+    meta: {
+      title: 'report',
+      i18nKey: 'route.report',
+      order: 16
     }
   },
   {
