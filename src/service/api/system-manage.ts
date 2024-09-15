@@ -144,6 +144,13 @@ export function avtTime() {
   });
 }
 
+export function fetchDeleteReport(id) {
+  return request({
+    url: `/api/report/${id}`,
+    method: 'delete',
+  });
+}
+
 
 export function resetOrder(uuid:string,data: any) {
   return request({

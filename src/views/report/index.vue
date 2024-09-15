@@ -1,7 +1,7 @@
 <script setup lang="tsx">
 import { ref } from 'vue';
-import { NTag } from 'naive-ui';
-import { avtTime, fetchReportList, putReport } from '@/service/api';
+import { NButton, NTag } from 'naive-ui';
+import { avtTime, fetchDeleteReport, fetchReportList, putReport } from '@/service/api';
 import { useAppStore } from '@/store/modules/app';
 import { useTable } from '@/hooks/common/table';
 import { $t } from "@/locales";
@@ -76,6 +76,9 @@ const {columns, data, loading, pagination, getData} = useTable<
           <NButton type="primary" ghost size="small" onClick={() => handleOpenDrawer(row)}>
             处理
           </NButton>
+          <NButton type="error" ghost size="small" onClick={() => deleteReport(row.id)}>
+            删除
+          </NButton>
         </div>
       )
     }
@@ -84,7 +87,16 @@ const {columns, data, loading, pagination, getData} = useTable<
 
 
 
-
+const deleteReport = (id)=>{
+  fetchDeleteReport(id).then(res=>{
+    if (res.data){
+      window.$message?.success('删除成功');
+      getData()
+    }else {
+      window.$message?.error('删除失败');
+    }
+  })
+}
 const useTime = ref(0)
 avtTime().then(res=>{
   function secToTime(alltime) {
@@ -98,7 +110,6 @@ avtTime().then(res=>{
     return alltm
   }
    useTime.value = secToTime(res.data)
-  console.log(useTime.value)
 })
 
 const checkedRowKeys = ref<string[]>([]);
