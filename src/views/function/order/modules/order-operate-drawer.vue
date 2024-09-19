@@ -27,6 +27,7 @@ interface Props {
 const props = defineProps<Props>();
 const showStatus = ref(false)
 
+const scoreAbout = ref([])
 const reportForm = ref({
   id: 1
 })
@@ -89,13 +90,17 @@ async function getPlatOptions() {
 }
 
 function handleUpdateModelWhenEdit() {
-  if (props.operateType === 'add') {
-    Object.assign(model, createDefaultModel());
-    return;
-  }
-
   if (props.operateType === 'edit' && props.rowData) {
     Object.assign(model, props.rowData);
+
+    try{
+      scoreAbout.value.push(...JSON.parse(model.work))
+    }catch (e){}
+    try{
+      scoreAbout.value.push(...JSON.parse(model.exam))
+    }catch (e){}
+    console.log(scoreAbout.value)
+
   }else if (props.operateType === 'report' && props.rowData) {
     reportForm.value = {
       orderId: props.rowData.uuid
@@ -204,26 +209,24 @@ function psd() {
             <NInput v-model:value="model.password" placeholder="请输入密码" />
           </NFormItem>
           <n-collapse arrow-placement="right" style="margin-bottom: 20px">
-            <n-collapse-item title="查看详细信息">
-              <n-table :bordered="false" :single-line="false">
-                <thead>
-                <tr>
-                  <th>课程名称</th>
-                  <th>成绩</th>
-                  <th>开始时间</th>
-                  <th>结束时间</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr v-for="(item,index) in scoreAbout" :key="index">
-                  <td>{{  item.name || '暂无' }}</td>
-                  <td>{{  item.score  || '暂无'}}</td>
-                  <td>{{  item.startTime || '暂无' }}</td>
-                  <td>{{  item.endTime || '暂无' }}</td>
-                </tr>
-                </tbody>
-              </n-table>
-            </n-collapse-item>
+            <n-table :bordered="false" :single-line="false">
+              <thead>
+              <tr>
+                <th>名称</th>
+                <th>成绩</th>
+<!--                <th>开始时间</th>-->
+<!--                <th>结束时间</th>-->
+              </tr>
+              </thead>
+              <tbody>
+              <tr v-for="(item,index) in scoreAbout" :key="index">
+                <td>{{  item.name || '暂无' }}</td>
+                <td>{{  item.score  || '暂无'}}</td>
+<!--                <td>{{  item.startTime || '暂无' }}</td>-->
+<!--                <td>{{  item.endTime || '暂无' }}</td>-->
+              </tr>
+              </tbody>
+            </n-table>
           </n-collapse>
         </NForm>
       </n-card>
