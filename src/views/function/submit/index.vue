@@ -370,8 +370,20 @@ const renderLabel = (option) => {
           </n-form-item>
 
           <n-form-item label="人脸">
-            <n-upload action="/api/file?parentDir=face"  @finish="handleFinish">
-              <n-button>上传文件</n-button>
+            <n-upload
+              multiple
+              directory-dnd
+              action="/api/file?parentDir=face"
+              @finish="handleFinish"
+            >
+              <n-upload-dragger>
+                <n-text style="font-size: 16px">
+                  点击或者拖动文件到该区域来上传
+                </n-text>
+                <n-p depth="3" style="margin: 8px 0 0 0">
+                  请控制上传文件的格式为mp4或zip，控制大小不要超过10MB
+                </n-p>
+              </n-upload-dragger>
             </n-upload>
           </n-form-item>
 
