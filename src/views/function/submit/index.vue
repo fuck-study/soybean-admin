@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { onMounted, ref, watch, h } from 'vue';
-import { useRouterPush } from '@/hooks/common/router';
-import { useTabStore } from '@/store/modules/tab';
+// import { useRouterPush } from '@/hooks/common/router';
+// import { useTabStore } from '@/store/modules/tab';
 import { ipList, tagsList } from '@/utils/common';
 
 import { fetchPlat, fetchUserInfo, getCourse, submitCourse } from "@/service/api";
 import { NButton, NCard, NAvatar, NText, NImage } from 'naive-ui';
 import { RowData } from "naive-ui/es/data-table/src/interface";
 
-const tabStore = useTabStore();
-const {routerPushByKey} = useRouterPush();
+// const tabStore = useTabStore();
+// const {routerPushByKey} = useRouterPush();
 
 const platList = ref([])
 const selectCourses = ref([]);
@@ -65,6 +65,9 @@ watch(platValue, newValue => {
 });
 
 function handleFinish(obj) {
+  console.log('obj1==>',obj.event)
+
+  console.log('obj==>',obj.event.target.response)
   face.value = obj.event.target.response
 }
 
