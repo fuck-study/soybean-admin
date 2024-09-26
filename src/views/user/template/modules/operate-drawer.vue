@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { computed, reactive, ref, watch } from 'vue';
-import { useFormRules, useNaiveForm } from '@/hooks/common/form';
+import {computed, reactive, ref, watch} from 'vue';
+import {useFormRules, useNaiveForm} from '@/hooks/common/form';
 import {addTemplet, updateTemplet} from '@/service/api';
-import { $t } from '@/locales';
+import {$t} from '@/locales';
 
 defineOptions({
   name: 'OperateDrawer'
@@ -27,6 +27,7 @@ interface Props {
 
 const props = defineProps<Props>();
 const platList = ref([])
+
 interface Emits {
   (e: 'submitted'): void;
 }
@@ -49,15 +50,14 @@ const title = computed(() => {
 });
 
 type Model = Pick<
-    Api.SystemManage.User,
-    'userName' | 'userGender' | 'nickName' | 'price' | 'userEmail' | 'userRoles' | 'status'
+  Api.SystemManage.User,
+  'userName' | 'userGender' | 'nickName' | 'price' | 'userEmail' | 'userRoles' | 'status'
 >;
 
-const model = reactive( {
+const model = reactive({
   name: '',
   template: '[]',
 });
-
 
 
 type RuleKey = Extract<keyof Model, 'userName' | 'status'>;
@@ -77,12 +77,12 @@ function createDefaultModel(): Model {
 function handleUpdateModelWhenEdit() {
   if (props.operateType === 'add') {
     Object.assign(model, createDefaultModel());
-    options.value.push(...props.allData.map(i=>{
+    options.value = props.allData.map(i => {
       return {
         label: i.name,
         key: i.id
       }
-    }))
+    })
     return;
   }
 
@@ -97,9 +97,9 @@ function closeDrawer() {
 
 async function handleSubmit() {
   await validate();
-  if (props.operateType ==='add'){
+  if (props.operateType === 'add') {
     await addTemplet(model)
-  }else {
+  } else {
     await save()
   }
   window.$message?.success($t('common.updateSuccess'));
@@ -107,15 +107,15 @@ async function handleSubmit() {
   emit('submitted');
 }
 
-async function save(){
-  model.template = JSON.stringify(platList.value.filter(i => i.enable).map(item=>{
+async function save() {
+  model.template = JSON.stringify(platList.value.filter(i => i.enable).map(item => {
     return {
       name: item.name,
       plat: item.plat,
       price: item.price
     }
   }))
-  await updateTemplet(model,model.id)
+  await updateTemplet(model, model.id)
 }
 
 watch(visible, () => {
@@ -130,19 +130,19 @@ watch(visible, () => {
 
 const options = ref([])
 
-const handleSelect = (key)=>{
-  const copy = props.allData.filter(i=>i.id == key)[0]
- model.template = copy.template
-  window.$message?.success('已经成功复制'+copy.name+'模版,请点击保存')
+const handleSelect = (key) => {
+  const copy = props.allData.filter(i => i.id == key)[0]
+  model.template = copy.template
+  window.$message?.success('已经成功复制' + copy.name + '模版,请点击保存')
 }
 </script>
 
 <template>
-  <NDrawer v-model:show="visible" title="新增模版" display-directive="show" :width="360">
+  <NDrawer v-model:show="visible" title="新增模版" display-directive="show" :width="380">
     <NDrawerContent title="新增模版" :native-scrollbar="false" closable>
       <n-card>
         <NForm ref="formRef" :model="model" :rules="rules">
-          <NFormItem label="模版名称" >
+          <NFormItem label="模版名称">
             <NInput v-model:value="model.name" placeholder="请输入模版名称"/>
             <n-space v-if="operateType === 'add'">
               <n-dropdown trigger="hover" :options="options" @select="handleSelect">
@@ -151,18 +151,18 @@ const handleSelect = (key)=>{
             </n-space>
           </NFormItem>
 
-          <n-form-item  :span="12" path="plat" v-if="operateType==='edit'">
+          <n-form-item :span="12" path="plat" v-if="operateType==='edit'">
             <n-collapse>
               <div v-for="item in platList">
                 <n-space class="w-full" :size="24" justify="start">
                   <NFormItem :label="`${item.name}(成本${item.cost})`" path="plat">
                     <n-input-number
-                        v-model:value="item.price"
-                        style="width: 180px;margin:0 5px"
-                        placeholder="输入价格"
-                        min="0"
+                      v-model:value="item.price"
+                      style="width: 180px;margin:0 5px"
+                      placeholder="输入价格"
+                      min="0"
                     />
-                    <n-switch v-model:value="item.enable" @click="save" />
+                    <n-switch v-model:value="item.enable" @click="save"/>
                   </NFormItem>
                 </n-space>
               </div>

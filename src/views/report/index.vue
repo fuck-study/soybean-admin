@@ -146,7 +146,7 @@ const submit =  async ()=>{
         class="sm:h-full"
       />
     </NCard>
-    <n-drawer v-model:show="active" :width="502">
+    <n-drawer v-model:show="active" :width="380">
       <NDrawerContent title="处理问题" :native-scrollbar="false" closable>
         <n-card>
           <NForm ref="formRef" :model="row">
