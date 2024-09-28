@@ -91,16 +91,14 @@ async function getPlatOptions() {
 
 function handleUpdateModelWhenEdit() {
   if (props.operateType === 'edit' && props.rowData) {
-    Object.assign(model, props.rowData);
-
+    Object.assign(model, props.rowData)
+    scoreAbout.value = []
     try{
       scoreAbout.value.push(...JSON.parse(model.work))
     }catch (e){}
     try{
       scoreAbout.value.push(...JSON.parse(model.exam))
     }catch (e){}
-    console.log(scoreAbout.value)
-
   }else if (props.operateType === 'report' && props.rowData) {
     reportForm.value = {
       orderId: props.rowData.uuid
