@@ -1,16 +1,22 @@
 <script setup lang="ts">
-import { $t } from '@/locales';
 
+interface Props {
+  logs: any;
+}
+
+const props = defineProps<Props>();
 defineOptions({
   name: 'CreativityBanner'
 });
 </script>
 
 <template>
-  <NCard :title="$t('page.home.creativity')" :bordered="false" size="small" class="card-wrapper h-full">
-    <div class="flex-center h-full">
-      <IconLocalBanner class="text-400px sm:text-320px text-primary" />
-    </div>
+  <NCard title="免单列表" :bordered="false" size="small" class="card-wrapper h-full">
+    <NList>
+      <NListItem v-for="item in props.logs" >
+        <NThing :title="item.name" :description="item.createTime"/>
+      </NListItem>
+    </NList>
   </NCard>
 </template>
 

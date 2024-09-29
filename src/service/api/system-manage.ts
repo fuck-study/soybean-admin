@@ -39,6 +39,18 @@ export function fetchLogList(params?: Api.SystemManage.UserSearchParams) {
     });
 }
 
+export function fetchFreeList() {
+    return request<Api.SystemManage.User>({
+        url: '/api/freeList',
+        method: 'get',
+    });
+}
+export function fetchFreePlat() {
+    return request<Api.SystemManage.User>({
+        url: '/api/free',
+        method: 'get',
+    });
+}
 
 /** get report list */
 export function fetchReportList(params?: Api.SystemManage.UserSearchParams) {
