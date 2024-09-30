@@ -66,7 +66,7 @@ const statisticData = computed<StatisticData[]>(() => [
           </div>
           <div class="pl-12px">
             <h3 class="text-18px font-semibold">
-             {{getTime()}} {{ `${props.freeName}`}}
+            {{'当前时间 '+`${props.freeName}`}}
             </h3>
             <p class="leading-30px text-#999">{{ getTime(true)}} {{ `【${props.freeName}】` !== '【暂时无平台可以免费下单】' ? '在此时间段内' +`${props.freeName}` : '暂时无平台可以免费下单' }}</p>
           </div>
