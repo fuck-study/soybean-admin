@@ -41,7 +41,6 @@ onMounted(async () => {
   } catch (e) {
   }
   platList.value = res.data.map(i => {
-    console.log(i.remarks)
     return {
       remarks: i.remarks,
       label: i.name,
