@@ -328,7 +328,7 @@ const renderLabel = (option) => {
     <n-card title="查询课程" :bordered="false" size="small" class="rounded-8px shadow-sm">
       <n-form-item label="请选择平台">
         <n-select v-model:value="platValue" placeholder="请选择平台" :options="platList" :filterable="true"
-                  :render-label="renderLabel" :render-tag="renderSingleSelectTag"/>
+                  :render-label="renderLabel" :render-tag="renderSingleSelectTag" :disabled="accountCourses.length"/>
       </n-form-item>
       <n-form-item v-if="schoolList.length" label="学校" path="childNum">
         <n-select v-model:value="childSchool" :options="schoolList" :filterable="true" placeholder="请选择学校"/>
