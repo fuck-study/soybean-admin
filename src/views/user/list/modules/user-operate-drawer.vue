@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import {computed, reactive, ref, watch} from 'vue';
-import {useFormRules, useNaiveForm} from '@/hooks/common/form';
-import {fetchCreateUser, updateIntegral, updateUser} from '@/service/api';
-import {$t} from '@/locales';
+import { computed, reactive, ref, watch } from 'vue';
+import { useFormRules, useNaiveForm } from '@/hooks/common/form';
+import { fetchCreateUser, updateIntegral, updateUser } from '@/service/api';
+import { $t } from '@/locales';
 
 defineOptions({
   name: 'UserOperateDrawer'
@@ -52,11 +52,11 @@ const title = computed(() => {
 });
 
 type Model = Pick<
-    Api.SystemManage.User,
-    'userName' | 'userGender' | 'nickName' | 'price' | 'userEmail' | 'userRoles' | 'status'
+  Api.SystemManage.User,
+  'userName' | 'userGender' | 'nickName' | 'price' | 'userEmail' | 'userRoles' | 'status'
 >;
 
-const model: Model = reactive(createDefaultModel());
+let model: Model = reactive(createDefaultModel());
 
 const token = ref(0)
 
@@ -81,17 +81,16 @@ const rules: Record<RuleKey, App.Global.FormRule> = {
 
 function handleUpdateModelWhenEdit() {
   if (props.operateType === 'add') {
-    Object.assign(model, createDefaultModel());
+    model = createDefaultModel()
     return;
   }
 
   if (props.operateType === 'edit' && props.rowData) {
-    Object.assign(model, props.rowData);
+    model = props.rowData
     return;
   }
 
   if (props.operateType === 'token') {
-      console.log('----------',props.rowData)
     Object.assign(model, props.rowData);
   }
 }
@@ -106,8 +105,8 @@ async function handleSubmit() {
   await validate();
   if (props.operateType === 'add') {
     await fetchCreateUser(model)
-  } else if (props.operateType === 'token'){
-    await updateIntegral(model.id,token.value,model)
+  } else if (props.operateType === 'token') {
+    await updateIntegral(model.id, token.value, model)
   } else {
     await save()
   }
@@ -150,7 +149,7 @@ function validateInput() {
 
 <template>
   <NDrawer v-model:show="visible" :title="title" display-directive="show" :width="360">
-    <NDrawerContent :title="title" :native-scrollbar="false" closable >
+    <NDrawerContent :title="title" :native-scrollbar="false" closable>
       <n-card v-if="operateType !=='token'">
         <NForm ref="formRef" :model="model" :rules="rules">
           <NFormItem label="用户名" path="username">
@@ -178,10 +177,10 @@ function validateInput() {
                     <n-space class="w-full" :size="24" justify="start">
                       <NFormItem :label="`${item.name}(成本${item.cost})`" path="plat">
                         <n-input-number
-                            v-model:value="item.price"
-                            style="width: 180px;margin:0 5px"
-                            placeholder="输入价格"
-                            min="0"
+                          v-model:value="item.price"
+                          style="width: 180px;margin:0 5px"
+                          placeholder="输入价格"
+                          min="0"
                         />
                         <n-switch v-model:value="item.enable" @click="save"/>
                       </NFormItem>
@@ -197,20 +196,20 @@ function validateInput() {
 
       </n-card>
 
-        <n-card v-else>
-            <NForm ref="formRef" :model="model" :rules="rules">
-                <NFormItem label="用户名" path="username">
-                    <NInput v-model:value="model.username" placeholder="请输入用户名" :disabled="operateType !=='add'"
-                            @input="validateInput"/>
-                </NFormItem>
-                <NFormItem label="充值金额" path="money">
-                    <NInput v-model:value="token" placeholder="请输入金额"/>
-                </NFormItem>
-            </NForm>
+      <n-card v-else>
+        <NForm ref="formRef" :model="model" :rules="rules">
+          <NFormItem label="用户名" path="username">
+            <NInput v-model:value="model.username" placeholder="请输入用户名" :disabled="operateType !=='add'"
+                    @input="validateInput"/>
+          </NFormItem>
+          <NFormItem label="充值金额" path="money">
+            <NInput v-model:value="token" placeholder="请输入金额"/>
+          </NFormItem>
+        </NForm>
 
-        </n-card>
+      </n-card>
 
-        <template #footer>
+      <template #footer>
         <NSpace :size="16">
           <NButton @click="closeDrawer">{{ $t('common.cancel') }}</NButton>
           <NButton type="primary" @click="handleSubmit">{{ $t('common.confirm') }}</NButton>
