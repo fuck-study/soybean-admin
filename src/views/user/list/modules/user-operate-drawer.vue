@@ -56,7 +56,7 @@ type Model = Pick<
   'userName' | 'userGender' | 'nickName' | 'price' | 'userEmail' | 'userRoles' | 'status'
 >;
 
-let model: Model = reactive(createDefaultModel());
+const model: Model = reactive(createDefaultModel());
 
 const token = ref(0)
 
@@ -81,12 +81,12 @@ const rules: Record<RuleKey, App.Global.FormRule> = {
 
 function handleUpdateModelWhenEdit() {
   if (props.operateType === 'add') {
-    model = createDefaultModel()
+    Object.assign(model, createDefaultModel());
     return;
   }
 
   if (props.operateType === 'edit' && props.rowData) {
-    model = props.rowData
+    Object.assign(model, props.rowData);
     return;
   }
 
