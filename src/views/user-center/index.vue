@@ -30,6 +30,8 @@ onMounted(async ()=>{
 async function submitUid() {
   userContent.value.tags = JSON.stringify(tagsValue.value)
   await updateUser(userContent.value.id,userContent.value)
+  window.$message?.success('保存成功');
+
 }
 
 
@@ -87,7 +89,7 @@ function changeCard(){
 
                 </n-form-item>
                 <n-button type="info" @click="submitUid">
-                  确定
+                  保存
                 </n-button>
               </n-form>
             </n-space>
