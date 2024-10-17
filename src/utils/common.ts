@@ -68,8 +68,13 @@ export function ipList(options: any) {
 
 export const orderStatus = [
   {
+    value: -2,
+    label: '已知异常',
+    tag: 'error'
+  },
+  {
     value: -1,
-    label: '异常',
+    label: '未知异常',
     tag: 'error'
   },
   {
