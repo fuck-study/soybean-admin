@@ -5,7 +5,7 @@ import { useTabStore } from '@/store/modules/tab';
 import { ipList, tagsList } from '@/utils/common';
 
 import { fetchPlat, fetchUserInfo, getCourse, submitCourse } from "@/service/api";
-import { NButton, NCard, NAvatar, NText, NImage } from 'naive-ui';
+import { NButton, NCard, NAvatar, NText, NImage, NInput } from 'naive-ui';
 import { RowData } from "naive-ui/es/data-table/src/interface";
 
 const tabStore = useTabStore();
@@ -15,8 +15,10 @@ const platList = ref([])
 const selectCourses = ref([]);
 // 用户的所有课程树状
 const accountCourses = ref([]);
+const filterAccountCourses = ref([])
 const setOther = ref(false)
 // 保存用户所有的账号信息
+const pattern = ref('')
 const face = ref('')
 const account = ref('');
 const tagName = ref(null)
@@ -71,6 +73,7 @@ async function query() {
   // 清除用户输入框，清除用户搜索框，清楚用户课程列表，清楚用户选择的课程
   accountCourses.value = [];
   selectCourses.value = [];
+  filterAccountCourses.value = []
   disableds.value = true;
   face.value = ''
   // 一定会取消禁用
@@ -141,7 +144,8 @@ async function query() {
         };
         accountCourses.value.push(body);
       }
-    });
+    })
+    filterAccountCourses.value = accountCourses.value
   });
 }
 
@@ -193,67 +197,32 @@ const columns = ref([
     type: 'selection'
   },
   {
-    title: '信息',
+    title(column) {
+      return h(
+        NInput,
+        {
+          onInput: (e) => {
+            filterAccountCourses.value = []
+            for (let valueElement of accountCourses.value) {
+              const newElement = {
+                ...valueElement,
+                children: valueElement.children.map(i => {
+                  if (i.label.includes(e)) {
+                    return i
+                  }
+                }).filter(i=>i)
+              }
+              filterAccountCourses.value.push(newElement)
+            }
+            console.log(JSON.stringify(filterAccountCourses.value))
+          },
+          placeholder: '请过滤课程'
+        }
+      )
+    },
     key: 'label',
     render(row: RowData) {
-      if (1 == 1) {
-        return row.label
-      }
-      return h(
-        'div',
-        {
-          style: {
-            height: '100%',
-            width: '100%'
-          },
-          onClick: () => {
-            if (checkedRowKeys.value.includes(JSON.stringify(row))) {
-              checkedRowKeys.value = checkedRowKeys.value.filter(i => i !== JSON.stringify(row))
-            } else {
-              checkedRowKeys.value.push(JSON.stringify(row))
-            }
-          }
-
-        },
-        [
-          h(
-            'div',
-            {
-              style: {
-                display: 'flex',
-                height: '100%',
-                width: '100%',
-                margin: '0px  10px 12px'
-
-              },
-            },
-            [h(NImage, {
-              src: row.courseImg,
-              style: {
-                "pointer-events": 'none',
-                previewDisabled: 'true',
-                width: ' 140px',
-                height: '78px',
-                borderRadius: '8px',
-                position: 'relative',
-              }
-            }),
-              h(NCard, {
-                title: row.label,
-                style: {
-                  border: 'none',
-                  "font-size": '5px',
-                  "pointer-events": 'none',
-                  previewDisabled: 'true',
-                  width: ' 100%',
-                  height: '78px',
-                  borderRadius: '8px',
-                  position: 'relative',
-                },
-              }),]
-          ),
-        ]
-      )
+      return row.label
     }
   }
 ]);
@@ -402,8 +371,9 @@ const renderLabel = (option) => {
       <n-data-table
         :default-expand-all="true"
         v-model:checked-row-keys="checkedRowKeys"
-        :data="accountCourses"
+        :data="filterAccountCourses"
         :max-height="500"
+        :expanded-row-keys="filterAccountCourses.map(i=>JSON.stringify(i))"
         :columns="columns"
         :row-key="o => JSON.stringify(o)"
       />

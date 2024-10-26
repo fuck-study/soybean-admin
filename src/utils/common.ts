@@ -74,7 +74,7 @@ export const orderStatus = [
   },
   {
     value: -1,
-    label: '未知异常',
+    label: '异常',
     tag: 'error'
   },
   {
