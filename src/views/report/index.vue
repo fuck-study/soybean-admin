@@ -7,7 +7,7 @@ import { useTable } from '@/hooks/common/table';
 import { $t } from "@/locales";
 
 const appStore = useAppStore();
-const type = ref("0")
+const type = ref("-1")
 const active = ref(false)
 const raw = ref({})
 const {columns, data, loading, pagination, getData} = useTable<
@@ -136,6 +136,9 @@ const submit =  async ()=>{
       v-model:value="type"
       name="left-size"
       style="margin-bottom: 12px">
+      <n-radio-button value="-1">
+        全部
+      </n-radio-button>
       <n-radio-button value="0">
         待处理
       </n-radio-button>
