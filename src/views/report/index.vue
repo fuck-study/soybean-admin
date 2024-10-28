@@ -86,6 +86,9 @@ const {columns, data, loading, pagination, getData} = useTable<
 })
 
 
+const update = (val, idx) => {
+  getData()
+}
 
 const deleteReport = (id)=>{
   fetchDeleteReport(id).then(res=>{
@@ -128,6 +131,24 @@ const submit =  async ()=>{
 
 <template>
   <div class="flex-vertical-stretch gap-16px overflow-hidden <sm:overflow-auto">
+    <n-radio-group
+      @change="update"
+      v-model:value="type"
+      name="left-size"
+      style="margin-bottom: 12px">
+      <n-radio-button value="0">
+        待处理
+      </n-radio-button>
+      <n-radio-button value="4">
+        处理中
+      </n-radio-button>
+      <n-radio-button value="3">
+        暂时搁置
+      </n-radio-button>
+      <n-radio-button value="1">
+        处理完成
+      </n-radio-button>
+    </n-radio-group>
     <NCard title="问题列表" :bordered="false" size="small" class="card-wrapper sm:flex-1-hidden">
       <template #header-extra>
         <p style="color: red">平均响应时间 {{useTime}}</p>

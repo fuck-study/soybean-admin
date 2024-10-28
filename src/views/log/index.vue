@@ -107,8 +107,7 @@ const update = (val, idx) => {
         @change="update"
         v-model:value="type"
         name="left-size"
-        style="margin-bottom: 12px"
-    >
+        style="margin-bottom: 12px">
       <n-radio-button value="0">
         全部
       </n-radio-button>
