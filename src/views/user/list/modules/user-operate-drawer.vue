@@ -134,7 +134,7 @@ watch(visible, () => {
   if (visible.value) {
     template.value = props.rowData.templateId
     if (props.operateType === 'edit') {
-      platList.value = JSON.parse(JSON.stringify(props.rowData.platList))
+      platList.value = JSON.parse(JSON.stringify(props.rowData.platList)).sort((a,b)=>a.enable ? -1 : 1)
     }
     handleUpdateModelWhenEdit();
     restoreValidation();
