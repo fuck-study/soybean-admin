@@ -111,9 +111,8 @@ const {columns, filteredColumns, data, loading, pagination, getData, searchParam
       title: "科目",
       render: row => {
         return (<span>{row.courseName}</span>)
-
       },
-      width: 200,
+      width: 220,
       align: 'center'
     },
     {
@@ -123,16 +122,14 @@ const {columns, filteredColumns, data, loading, pagination, getData, searchParam
         return (
           <p>{row.realName + " " + row.school + ' ' + row.username + ' ' + row.password}</p>
         );
-
       },
-      width: 250,
+      width: 270,
       align: 'center'
     },
-
     {
       title: '状态',
       key: 'status',
-      width: 50,
+      width: 70,
       render(row) {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const {tag, label} = getStatusTypeByStatus(row.status);
@@ -155,17 +152,16 @@ const {columns, filteredColumns, data, loading, pagination, getData, searchParam
       key: 'result',
       title: "结果",
       render: row => {
+        if (row.status === -2){// 已知异常直接展示出来异常原因
+          return (
+            <p style="color:red">{row.result}</p>
+          )
+        }
         //没有明确的totalScore
         if (!row.totalScore) {
-          if (row.result && String(row.result).includes('异常:')) {
-            return (
-              <p style="color:rgba(255, 0, 0, 0.7)">{row.result}</p>
-            );
-          } else {
-            return (
-              <p>{row.result}</p>
-            );
-          }
+          return (
+            <p>{row.result}</p>
+          )
         }
 
         //如果有明确的score，那么在上方显示
@@ -174,32 +170,20 @@ const {columns, filteredColumns, data, loading, pagination, getData, searchParam
           fontSize: 'smaller',
           fontWeight: 'bold'
         };
-
-        if (row.result && String(row.result).includes('异常:')) {
-          return (
-            <div>
-              <div style={style}>{row.totalScore}</div>
-              <div style="color:rgba(255, 0, 0, 0.7)">{row.result}</div>
-            </div>
-          )
-
-        } else {
-          return (
-            <div>
-              <div style={style}>{row.totalScore}</div>
-              <div>{row.result}</div>
-            </div>
-          )
-        }
-
+        return (
+          <div>
+            <div style={style}>{row.totalScore}</div>
+            <div>{row.result}</div>
+          </div>
+        )
       },
-      width: 400,
+      width: 430,
       align: 'center'
     },
     {
       key: 'finish',
       title: "进度",
-      width: 130,
+      width: 90,
 
       render: row => {
         let status = 'info';
