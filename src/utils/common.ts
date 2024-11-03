@@ -118,11 +118,6 @@ export const orderStatus = [
     tag: 'default'
   },
   {
-    value: -99,
-    label: '队列中',
-    tag: 'default'
-  },
-  {
     value: 2,
     label: '进行中',
     tag: 'info'
@@ -134,8 +129,8 @@ export const orderStatus = [
   },
   {
     value: 4,
-    label: '讨论中',
-    tag: 'info'
+    label: '规范学习',
+    tag: 'warning'
   },
   {
     value: 5,
