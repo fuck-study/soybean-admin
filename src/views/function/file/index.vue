@@ -320,7 +320,7 @@ const submit = async () => {
 
           <n-form-item label="备注">
             <n-select
-              v-model:value="remark"
+              v-model:value="config['备注']"
               default-expand-all="true"
               :options="tagsList(remarksList)"
               placeholder="如有需要请备注"
