@@ -25,6 +25,7 @@ declare module "@elegant-router/types" {
     "404": "/404";
     "500": "/500";
     "function": "/function";
+    "function_file": "/function/file";
     "function_order": "/function/order";
     "function_submit": "/function/submit";
     "home": "/home";
@@ -103,6 +104,7 @@ declare module "@elegant-router/types" {
     | "404"
     | "500"
     | "login"
+    | "function_file"
     | "function_order"
     | "function_submit"
     | "home"

@@ -97,7 +97,8 @@ async function search() {
               :options="tagsList(tags)"
               :filterable="true"
               clearable
-          />        </NFormItemGi>
+          />
+        </NFormItemGi>
 <!--        <NFormItemGi span="24 s:12 m:6" label="平台" class="pr-24px">-->
 <!--          <NInput v-model:value="model.plat" placeholder="请输入平台" />-->
 <!--        </NFormItemGi>-->

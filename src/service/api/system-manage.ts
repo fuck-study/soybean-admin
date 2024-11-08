@@ -61,6 +61,14 @@ export function fetchReportList(params?: Api.SystemManage.UserSearchParams) {
   });
 }
 
+export function fetchFilesList(params?: Api.SystemManage.UserSearchParams) {
+  return request({
+    url: '/api/file/list',
+    method: 'get',
+    params
+  });
+}
+
 export function fetchPlat() {
     return request<Api.SystemManage.User>({
         url: '/api/plat',
@@ -162,6 +170,24 @@ export function fetchDeleteReport(id) {
     method: 'delete',
   });
 }
+
+export function fetchDeleteFile(id) {
+  return request({
+    url: `/api/file/${id}`,
+    method: 'delete',
+  });
+}
+
+export function fetchCreateFile(data) {
+  return request({
+    url: `/api/file/create`,
+    method: 'post',
+    data
+  });
+}
+
+
+
 
 
 export function resetOrder(uuid:string,data: any) {

@@ -133,6 +133,7 @@ const local: App.I18n.Schema = {
     log: '日志列表',
     'manage_user-detail': '用户详情',
     function_submit: '查询课程',
+    function_file: '批量查课下单',
     'user-center': '个人中心',
     exception: '异常页',
     report: '反馈列表',

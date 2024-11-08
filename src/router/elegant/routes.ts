@@ -48,6 +48,16 @@ export const generatedRoutes: GeneratedRoute[] = [
     },
     children: [
       {
+        name: 'function_file',
+        path: '/function/file',
+        component: 'view.function_file',
+        meta: {
+          title: 'function_file',
+          i18nKey: 'route.function_file',
+          order: 999
+        }
+      },
+      {
         name: 'function_order',
         path: '/function/order',
         component: 'view.function_order',

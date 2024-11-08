@@ -151,6 +151,7 @@ const routeMap: RouteMap = {
   "404": "/404",
   "500": "/500",
   "function": "/function",
+  "function_file": "/function/file",
   "function_order": "/function/order",
   "function_submit": "/function/submit",
   "home": "/home",

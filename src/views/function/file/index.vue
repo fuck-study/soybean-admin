@@ -1,0 +1,310 @@
+<script setup lang="tsx">
+import { ref, h, onMounted } from 'vue';
+import { NButton, NPopover, NProgress, NTag, NText } from 'naive-ui';
+import { fetchCreateFile, fetchDeleteFile, fetchFilesList, fetchPlat, fetchUserInfo, putReport } from '@/service/api';
+import { useAppStore } from '@/store/modules/app';
+import { useTable } from '@/hooks/common/table';
+import { $t } from "@/locales";
+import { ipList, tagsList, translatePlatList } from "@/utils/common";
+const cityList = ref(["重庆", "安徽", "福建", "广东", "广西", "河北", "河南", "湖北", "湖南", "海南", "黑龙江", "江苏", "江西", "辽宁", "山东", "四川", "陕西", "浙江", "上海", "内蒙古", "北京"])
+
+const rawData= ref({})
+const appStore = useAppStore();
+const type = ref("-1")
+const active = ref(false)
+const raw = ref({})
+const config = ref({})
+const {columns, data, loading, pagination, getData} = useTable<
+  Api.SystemManage.Log,
+  typeof fetchFilesList,
+  'index' | 'operate'
+>({
+  apiFn: fetchFilesList,
+  apiParams: {
+    pageNo: 1,
+    pageSize: 10,
+    type: type,
+  },
+  transformer: res => {
+    const {records = [], current = 1, size = 10, total = 0} = res.data || {};
+    return {
+      data: records,
+      pageNum: current,
+      pageSize: size,
+      total
+    };
+  },
+  columns: () => [
+    {
+      key: 'status',
+      title: '状态',
+      align: 'center',
+      width: 100,
+      render: row => {
+        if (row.status === 1) {
+          return <NTag type="success">已完成</NTag>
+        } else if (row.status === 0) {
+          return <NTag type="default" bordered="false">队列中</NTag>
+        } else if (row.status === 2) {
+          return <NTag type="info">处理中</NTag>
+        }else if (row.status === -1) {
+          return <NTag type="error">异常</NTag>
+        }
+      }
+    },
+    {
+      key: 'type',
+      title: '类型',
+      align: 'center',
+      width: 100,
+      render: row => {
+        if (row.act === '查课') {
+          return <NTag type="info">查课</NTag>
+        } else{
+          return <NTag type="warning">下单</NTag>
+        }
+      }
+    },
+    {
+      key: 'file',
+      title: '源文件',
+      align: 'center',
+      width: 300,
+      render: row => {
+        if (row.file) {
+          const file = row.file
+          const url = 'http://' + location.host + '/api/file/get?name=' + row.file.replace('face/', '')
+          return <a href={url} target="_blank">{file.split('/').pop()}</a>;
+        }
+      }
+    },
+    {
+      key: 'config',
+      title: '配置信息',
+      align: 'center',
+      width: 250
+    },
+    {
+      key: 'finish',
+      title: "进度",
+      width: 90,
+
+      render: row => {
+        const percentage = row.progress
+        return h(
+          NProgress,
+          {
+            style: {
+              // width:'130px'
+              // marginRight: '6px'
+            },
+            bordered: false,
+            type: 'line',
+            indicatorPlacement: 'inside',
+            processing: percentage < 100,
+            percentage
+          }
+        );
+      },
+      align: 'center'
+    },
+    {
+      key: 'result',
+      title: '产出物',
+      align: 'center',
+      width: 250,
+      render: row => {
+        if (row.result) {
+          const file = row.result
+          const url = 'http://' + location.host + '/api/file/get?name=' + row.result.replace('face/', '')
+          return <a href={url} target="_blank">{file.split('/').pop()}</a>;
+        }
+      }
+    },
+    {
+      key: 'operate',
+      title: $t('common.operate'),
+      align: 'center',
+      width: 180,
+      render: row => {
+        if (row.act === '查课' && row.status === 1) {
+          return <div class="flex-center gap-8px">
+            <NPopconfirm v-if="false" onPositiveClick={() => handleSubmit(row)}>
+              {{
+                default: () => '确定要将产出物直接下单吗',
+                trigger: () => (
+                  <NButton v-if="row.type===1" type="warning" ghost size="small">
+                    下单
+                  </NButton>
+                )
+              }}
+            </NPopconfirm>
+            <NButton type="error" ghost size="small" onClick={() => deleteFile(row.id)}>
+              删除
+            </NButton>
+          </div>
+        } else {
+          return <NButton type="error" ghost size="small" onClick={() => deleteFile(row.id)}>
+            删除
+          </NButton>
+        }
+      }
+    }
+  ]
+})
+
+
+const platList = ref([])
+
+const act = ref([{label:"查课",value:"查课"},{label:"下单",value:"下单"}])
+const tagList = ref([])
+onMounted(async () => {
+  const data = await fetchPlat()
+  const res = await fetchUserInfo()
+  try {
+    tagList.value = JSON.parse(res.data.tags)
+  } catch (e) {
+
+  }
+
+  platList.value = data.data
+})
+
+function handleFinish(obj) {
+  rawData.value.file = obj.event.target.response
+}
+
+//将产出物品直接下单
+const  handleSubmit = async(row) => {
+  const rowData = {
+    act: '下单',
+    config: row.config,
+    file: row.result
+  }
+   await fetchCreateFile(rowData)
+  window.$message?.success('下单成功');
+  await getData()
+}
+const update = (val, idx) => {
+  getData()
+}
+
+const deleteFile = (id) => {
+  fetchDeleteFile(id).then(res => {
+    if (res.data) {
+      window.$message?.success('删除成功');
+      getData()
+    } else {
+      window.$message?.error('删除失败');
+    }
+  })
+}
+
+const checkedRowKeys = ref<string[]>([]);
+
+const handleOpenDrawer = (row) => {
+  active.value = true
+  raw.value = row
+}
+
+const submit = async () => {
+  rawData.value.config = JSON.stringify(config.value)
+  await fetchCreateFile(rawData.value)
+  active.value = false
+  window.$message?.success('操作成功');
+  await getData()
+}
+</script>
+
+<template>
+  <div class="flex-vertical-stretch gap-16px overflow-hidden <sm:overflow-auto">
+    <NCard title="任务队列" :bordered="false" size="small" class="card-wrapper sm:flex-1-hidden">
+      <template #header-extra>
+        <NSpace wrap justify="end" class="<sm:w-200px">
+          <NButton size="small" ghost type="primary" @click="active = true">
+            新增任务
+          </NButton>
+        </NSpace>
+      </template>
+      <NDataTable
+        remote
+        v-model:checked-row-keys="checkedRowKeys"
+        :columns="columns"
+        :data="data"
+        size="small"
+        :flex-height="!appStore.isMobile"
+        :scroll-x="640"
+        :loading="loading"
+        :pagination="pagination"
+        :row-key="item => item.id"
+        class="sm:h-full"/>
+    </NCard>
+    <n-drawer v-model:show="active" :width="380">
+      <NDrawerContent title="新增任务" :native-scrollbar="false" closable>
+        <n-card>
+          <n-form-item label="操作">
+            <NSelect
+              v-model:value="rawData.act"
+              placeholder="请选择"
+              :options="act"
+              clearable
+              :filterable="true"/>
+          </n-form-item>
+          <n-form-item label="平台">
+            <NSelect
+              label="选择平台"
+              v-model:value="config['平台_编号']"
+              placeholder="请选择平台"
+              :options="translatePlatList(platList)"
+              clearable
+              :filterable="true"/>
+          </n-form-item>
+
+          <n-form-item label="标记订单">
+            <n-select
+              v-model:value="config['平台_标签']"
+              default-expand-all="true"
+              :options="tagsList(tagList)"
+              placeholder="如有需要请选择标记"
+              :filterable="true"
+            />
+          </n-form-item>
+          <n-form-item label="代理IP">
+            <n-select
+              v-model:value="config['平台_代理IP']"
+              default-expand-all="true"
+              :options="ipList(cityList)"
+              placeholder="如有需要请选择归属地"
+            />
+          </n-form-item>
+
+          <n-form-item label="文件">
+            <n-upload
+              multiple
+              directory-dnd
+              action="/api/file?parentDir=face"
+              @finish="handleFinish"
+            >
+              <n-upload-dragger>
+                <n-text style="font-size: 16px">
+                  点击或者拖动文件到该区域
+                </n-text>
+                <n-p depth="3" style="margin: 8px 0 0 0">
+                  文件格式仅支持xlsx
+                </n-p>
+              </n-upload-dragger>
+            </n-upload>
+          </n-form-item>
+        </n-card>
+        <template #footer>
+          <NSpace :size="16">
+            <NButton @click="active = false">{{ $t('common.cancel') }}</NButton>
+            <NButton type="primary" @click="submit">提交</NButton>
+          </NSpace>
+        </template>
+      </NDrawerContent>
+    </n-drawer>
+  </div>
+</template>
+
+<style scoped></style>
