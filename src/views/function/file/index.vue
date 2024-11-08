@@ -123,15 +123,18 @@ const {columns, data, loading, pagination, getData} = useTable<
       render: row => {
         if (row.result) {
           const file = row.result
-          const url = 'http://' + location.host + '/api/file/get?name=' + row.result.replace('face/', '')
-          return <n-button
-            text
-            tag="a"
-            href={url}
-            target="_blank"
-            type="primary">
-            {file.split('/').pop()}
-          </n-button>
+
+          return JSON.parse(row.result).map(i=>{
+            const url = 'http://' + location.host + '/api/file/get?name=' + i.replace('face/', '')
+            return <n-button
+              text
+              tag="a"
+              href={url}
+              target="_blank"
+              type="primary">
+              {i.split('/').pop()}
+            </n-button>
+          })
         }
       }
     },
