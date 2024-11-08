@@ -74,7 +74,14 @@ const {columns, data, loading, pagination, getData} = useTable<
         if (row.file) {
           const file = row.file
           const url = 'http://' + location.host + '/api/file/get?name=' + row.file.replace('face/', '')
-          return <a href={url} target="_blank">{file.split('/').pop()}</a>;
+          return <n-button
+            text
+            tag="a"
+            href={url}
+            target="_blank"
+            type="primary">
+            {file.split('/').pop()}
+          </n-button>
         }
       }
     },
@@ -117,7 +124,14 @@ const {columns, data, loading, pagination, getData} = useTable<
         if (row.result) {
           const file = row.result
           const url = 'http://' + location.host + '/api/file/get?name=' + row.result.replace('face/', '')
-          return <a href={url} target="_blank">{file.split('/').pop()}</a>;
+          return <n-button
+            text
+            tag="a"
+            href={url}
+            target="_blank"
+            type="primary">
+            {file.split('/').pop()}
+          </n-button>
         }
       }
     },
@@ -306,7 +320,23 @@ const submit = async () => {
               </n-upload-dragger>
             </n-upload>
           </n-form-item>
+          <n-form-item label="注意">
+            <div>
+               列的顺序或者有冗余列都不会影响程序的运行，你拿到你的文件之后，只需要更改成正确的表头，程序就会自动读取相关信息
+              查课读取:学校(可选),账号,密码；下单读取:学校(可选),账号,密码,课程,结果
+            </div>
+
+
+          </n-form-item>
+          <n-form-item label="例子">
+            <n-image
+              width="100"
+              src="/table.png"
+            />
+          </n-form-item>
         </n-card>
+
+
         <template #footer>
           <NSpace :size="16">
             <NButton @click="active = false">{{ $t('common.cancel') }}</NButton>
