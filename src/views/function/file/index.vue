@@ -40,7 +40,7 @@ const {columns, data, loading, pagination, getData} = useTable<
       key: 'status',
       title: '状态',
       align: 'center',
-      width: 100,
+      width: 70,
       render(row) {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const {tag, label} = getStatusTypeByStatus(row.status);
@@ -63,13 +63,13 @@ const {columns, data, loading, pagination, getData} = useTable<
       key: 'act',
       title: '类型',
       align: 'center',
-      width: 100
+      width: 70
     },
     {
       key: 'file',
       title: '源文件',
       align: 'center',
-      width: 300,
+      width: 200,
       render: row => {
         if (row.file) {
           const file = row.file
