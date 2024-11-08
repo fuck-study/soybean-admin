@@ -121,10 +121,10 @@ const {columns, data, loading, pagination, getData} = useTable<
       align: 'center',
       width: 250,
       render: row => {
-        if (row.result) {
+        try {
           const file = row.result
 
-          return JSON.parse(row.result).map(i=>{
+          return JSON.parse(row.result).map(i => {
             const url = 'http://' + location.host + '/api/file/get?name=' + i.replace('face/', '')
             return <n-button
               text
@@ -135,6 +135,8 @@ const {columns, data, loading, pagination, getData} = useTable<
               {i.split('/').pop()}
             </n-button>
           })
+        } catch (e) {
+          return row.result
         }
       }
     },
@@ -344,7 +346,7 @@ const submit = async () => {
           </n-form-item>
           <n-form-item label="注意">
             <div>
-               列的顺序或者有冗余列都不会影响程序的运行，你拿到你的文件之后，只需要更改成正确的表头，程序就会自动读取相关信息
+              列的顺序或者有冗余列都不会影响程序的运行，你拿到你的文件之后，只需要更改成正确的表头，程序就会自动读取相关信息
               查课读取:学校(可选),账号,密码；下单读取:学校(可选),账号,密码,课程,结果
             </div>
           </n-form-item>
