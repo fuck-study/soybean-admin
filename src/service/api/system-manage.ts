@@ -186,10 +186,6 @@ export function fetchCreateFile(data) {
   });
 }
 
-
-
-
-
 export function resetOrder(uuid:string,data: any) {
   return request({
     url: `/api/editOrder/${uuid}`,

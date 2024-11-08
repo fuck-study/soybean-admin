@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import { ref, h, onMounted } from 'vue';
+import { ref, h, onMounted, watch } from 'vue';
 import { NButton, NPopover, NProgress, NTag, NText } from 'naive-ui';
 import { fetchCreateFile, fetchDeleteFile, fetchFilesList, fetchPlat, fetchUserInfo, putReport } from '@/service/api';
 import { useAppStore } from '@/store/modules/app';
@@ -204,7 +204,7 @@ const handleSubmit = async (row) => {
   const rowData = {
     act: '下单',
     config: row.config,
-    file: row.result
+    file: JSON.parse(row.result)[0]
   }
   await fetchCreateFile(rowData)
   window.$message?.success('下单成功');
@@ -225,6 +225,15 @@ const deleteFile = (id) => {
   })
 }
 
+const platValue = ref(null)
+const remarksList = ref([])
+
+watch(platValue, newValue => {
+  if (newValue) {
+    remarksList.value = platList.value.find(i => i.plat === newValue).remarks || []
+  }
+});
+
 const checkedRowKeys = ref<string[]>([]);
 
 const handleOpenDrawer = (row) => {
@@ -233,6 +242,7 @@ const handleOpenDrawer = (row) => {
 }
 
 const submit = async () => {
+  config.value['平台_编号'] = platValue.value
   rawData.value.config = JSON.stringify(config.value)
   await fetchCreateFile(rawData.value)
   active.value = false
@@ -278,7 +288,7 @@ const submit = async () => {
           <n-form-item label="平台">
             <NSelect
               label="选择平台"
-              v-model:value="config['平台_编号']"
+              v-model:value="platValue"
               placeholder="请选择平台"
               :options="translatePlatList(platList)"
               clearable
@@ -300,6 +310,15 @@ const submit = async () => {
               default-expand-all="true"
               :options="ipList(cityList)"
               placeholder="如有需要请选择归属地"
+            />
+          </n-form-item>
+
+          <n-form-item label="备注">
+            <n-select
+              v-model:value="remark"
+              default-expand-all="true"
+              :options="tagsList(remarksList)"
+              placeholder="如有需要请备注"
             />
           </n-form-item>
 
@@ -325,8 +344,6 @@ const submit = async () => {
                列的顺序或者有冗余列都不会影响程序的运行，你拿到你的文件之后，只需要更改成正确的表头，程序就会自动读取相关信息
               查课读取:学校(可选),账号,密码；下单读取:学校(可选),账号,密码,课程,结果
             </div>
-
-
           </n-form-item>
           <n-form-item label="例子">
             <n-image
