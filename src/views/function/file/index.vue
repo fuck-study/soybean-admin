@@ -5,10 +5,11 @@ import { fetchCreateFile, fetchDeleteFile, fetchFilesList, fetchPlat, fetchUserI
 import { useAppStore } from '@/store/modules/app';
 import { useTable } from '@/hooks/common/table';
 import { $t } from "@/locales";
-import { ipList, tagsList, translatePlatList } from "@/utils/common";
+import { ipList, orderStatus, tagsList, translatePlatList } from "@/utils/common";
+
 const cityList = ref(["重庆", "安徽", "福建", "广东", "广西", "河北", "河南", "湖北", "湖南", "海南", "黑龙江", "江苏", "江西", "辽宁", "山东", "四川", "陕西", "浙江", "上海", "内蒙古", "北京"])
 
-const rawData= ref({})
+const rawData = ref({})
 const appStore = useAppStore();
 const type = ref("-1")
 const active = ref(false)
@@ -40,30 +41,29 @@ const {columns, data, loading, pagination, getData} = useTable<
       title: '状态',
       align: 'center',
       width: 100,
-      render: row => {
-        if (row.status === 1) {
-          return <NTag type="success">已完成</NTag>
-        } else if (row.status === 0) {
-          return <NTag type="default" bordered="false">队列中</NTag>
-        } else if (row.status === 2) {
-          return <NTag type="info">处理中</NTag>
-        }else if (row.status === -1) {
-          return <NTag type="error">异常</NTag>
-        }
+      render(row) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const {tag, label} = getStatusTypeByStatus(row.status);
+        return h(
+          NTag,
+          {
+            style: {
+              marginRight: '6px'
+            },
+            type: tag,
+            bordered: false
+          },
+          {
+            default: () => label
+          }
+        );
       }
     },
     {
-      key: 'type',
+      key: 'act',
       title: '类型',
       align: 'center',
-      width: 100,
-      render: row => {
-        if (row.act === '查课') {
-          return <NTag type="info">查课</NTag>
-        } else{
-          return <NTag type="warning">下单</NTag>
-        }
-      }
+      width: 100
     },
     {
       key: 'file',
@@ -153,10 +153,21 @@ const {columns, data, loading, pagination, getData} = useTable<
   ]
 })
 
+function getStatusTypeByStatus(status) {
+  for (const i of orderStatus) {
+    if (i.value === status) {
+      return i;
+    }
+  }
+  return {
+    label: '未知',
+    tag: 'warning'
+  };
+}
 
 const platList = ref([])
 
-const act = ref([{label:"查课",value:"查课"},{label:"下单",value:"下单"}])
+const act = ref([{label: "查课", value: "查课"}, {label: "下单", value: "下单"}])
 const tagList = ref([])
 onMounted(async () => {
   const data = await fetchPlat()
@@ -175,13 +186,13 @@ function handleFinish(obj) {
 }
 
 //将产出物品直接下单
-const  handleSubmit = async(row) => {
+const handleSubmit = async (row) => {
   const rowData = {
     act: '下单',
     config: row.config,
     file: row.result
   }
-   await fetchCreateFile(rowData)
+  await fetchCreateFile(rowData)
   window.$message?.success('下单成功');
   await getData()
 }
