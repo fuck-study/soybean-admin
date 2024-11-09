@@ -266,6 +266,12 @@ const submit = async () => {
     <NCard title="任务队列" :bordered="false" size="small" class="card-wrapper sm:flex-1-hidden">
       <template #header-extra>
         <NSpace wrap justify="end" class="<sm:w-200px">
+          <NButton size="small" @click="getData">
+            <template #icon>
+              <icon-mdi-refresh class="text-icon" :class="{ 'animate-spin': loading }" />
+            </template>
+            刷新
+          </NButton>
           <NButton size="small" ghost type="primary" @click="active = true">
             新增任务
           </NButton>
