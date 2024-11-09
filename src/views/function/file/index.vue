@@ -69,7 +69,7 @@ const {columns, data, loading, pagination, getData} = useTable<
       key: 'file',
       title: '源文件',
       align: 'center',
-      width: 200,
+      width: 230,
       render: row => {
         if (row.file) {
           const file = row.file
@@ -89,13 +89,12 @@ const {columns, data, loading, pagination, getData} = useTable<
       key: 'config',
       title: '配置信息',
       align: 'center',
-      width: 250
+      width: 200
     },
     {
       key: 'finish',
       title: "进度",
       width: 90,
-
       render: row => {
         const percentage = row.progress
         return h(
@@ -119,7 +118,7 @@ const {columns, data, loading, pagination, getData} = useTable<
       key: 'result',
       title: '产出物',
       align: 'center',
-      width: 250,
+      width: 260,
       render: row => {
         try {
           const file = row.result
@@ -139,6 +138,12 @@ const {columns, data, loading, pagination, getData} = useTable<
           return row.result
         }
       }
+    },
+    {
+      key: 'tip',
+      title: '提示',
+      align: 'center',
+      width: 200
     },
     {
       key: 'operate',
