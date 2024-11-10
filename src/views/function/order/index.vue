@@ -338,12 +338,19 @@ const operateType = ref<OperateType>('add');
 const checkedRowKeys = ref<string[]>([]);
 
 async function handleBatchEdit() {
-  // request
   await editOrder(checkedRowKeys.value)
   window.$message?.success('补单成功');
   checkedRowKeys.value = [];
   getData();
 }
+
+async function handleBatchRemark() {
+  operateType.value = 'BatchRemark';
+  editingData.value = checkedRowKeys.value
+  openDrawer();
+}
+
+
 
 async function handleBatchDelete() {
   // request
@@ -378,7 +385,6 @@ const card = ref(true)
 const text = ref("-")
 
 function changeCard() {
-  console.log('changeCard')
   card.value = !card.value
   if (card.value) {
     text.value = "-"
@@ -390,6 +396,10 @@ function changeCard() {
 </script>
 
 <template>
+
+
+
+
   <div class="flex-vertical-stretch gap-16px  <sm:overflow-auto">
     <OrderSearch v-model:model="searchParams" @reset="resetSearchParams" @search="searchData" :plat-list="platList"
                  :tags="tags" v-if="card"/>
@@ -405,10 +415,12 @@ function changeCard() {
           v-model:columns="filteredColumns"
           :disabled-delete="checkedRowKeys.length === 0"
           :loading="loading"
-          :allow="['batchEdit','export']"
+          :allow="['batchEdit','export','batchRemark']"
           @batch-edit="handleBatchEdit"
+          @batch-remark="handleBatchRemark"
           @export-orders="downloadFile"
           @delete="handleBatchDelete"
+
           @refresh="getData"
         />
       </template>

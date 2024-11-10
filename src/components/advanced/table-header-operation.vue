@@ -18,6 +18,7 @@ interface Emits {
   (e: 'delete'): void;
   (e: 'refresh'): void;
   (e: 'batchEdit'): void;
+  (e: 'batchRemark'): void;
   (e: 'exportOrders'): void;
 }
 
@@ -42,14 +43,27 @@ function batchEdit() {
 function exportOrders(){
   emit('exportOrders')
 }
+
 function refresh() {
   emit('refresh');
+}
+
+function batchRemark() {
+  emit('batchRemark');
 }
 
 </script>
 
 <template>
   <NSpace wrap justify="end" class="<sm:w-200px">
+
+    <NButton size="small" ghost type="warning" @click="batchRemark" v-if="allow?.includes('batchRemark')">
+<!--      <template #icon>-->
+<!--        <icon-ant-design-reload-outlined class="text-icon" />-->
+<!--      </template>-->
+      批量修改
+    </NButton>
+
     <NButton size="small" ghost type="primary" @click="batchEdit" v-if="allow?.includes('batchEdit')">
       <template #icon>
         <icon-ant-design-reload-outlined class="text-icon" />

@@ -194,6 +194,14 @@ export function resetOrder(uuid:string,data: any) {
   });
 }
 
+export function fetchBatchEditOrders(data: any) {
+  return request({
+    url: `/api/editOrders`,
+    method: 'post',
+    data,
+  });
+}
+
 export function editOrder(data: any) {
     return request({
         url: `/api/refreshOrders`,

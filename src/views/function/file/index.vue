@@ -318,6 +318,7 @@ const submit = async () => {
               :options="tagsList(tagList)"
               placeholder="如有需要请选择标记"
               :filterable="true"
+              clearable
             />
           </n-form-item>
           <n-form-item label="代理IP">
@@ -326,6 +327,7 @@ const submit = async () => {
               default-expand-all="true"
               :options="ipList(cityList)"
               placeholder="如有需要请选择归属地"
+              clearable
             />
           </n-form-item>
 
@@ -335,6 +337,7 @@ const submit = async () => {
               default-expand-all="true"
               :options="tagsList(remarksList)"
               placeholder="如有需要请备注"
+              clearable
             />
           </n-form-item>
 

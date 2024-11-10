@@ -318,6 +318,7 @@ const renderLabel = (option) => {
               :options="tagsList(tagList)"
               placeholder="如有需要请选择标记"
               :filterable="true"
+              clearable
             />
           </n-form-item>
           <n-form-item label="代理IP">
@@ -326,6 +327,7 @@ const renderLabel = (option) => {
               default-expand-all="true"
               :options="ipList(cityList)"
               placeholder="如有需要请选择归属地"
+              clearable
             />
           </n-form-item>
           <n-form-item label="备注">
@@ -334,6 +336,7 @@ const renderLabel = (option) => {
               default-expand-all="true"
               :options="tagsList(remarksList)"
               placeholder="如有需要请备注"
+              clearable
             />
           </n-form-item>
 
@@ -349,7 +352,7 @@ const renderLabel = (option) => {
                   点击或者拖动文件到该区域来上传
                 </n-text>
                 <n-p depth="3" style="margin: 8px 0 0 0">
-                  请控制上传文件的格式为mp4或zip，控制大小不要超过10MB
+                  仅支持mp4或zip,大小不要超过10MB
                 </n-p>
               </n-upload-dragger>
             </n-upload>
