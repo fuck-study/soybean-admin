@@ -82,11 +82,11 @@ function handleUpdateModelWhenEdit() {
     Object.assign(model, props.rowData)
     scoreAbout.value = []
     try {
-      scoreAbout.value.push(...JSON.parse(model.work))
+      scoreAbout.value.push(...JSON.parse(props.rowData.work))
     } catch (e) {
     }
     try {
-      scoreAbout.value.push(...JSON.parse(model.exam))
+      scoreAbout.value.push(...JSON.parse(props.rowData.exam))
     } catch (e) {
     }
   } else if (props.operateType === 'report' && props.rowData) {

@@ -19,7 +19,7 @@ export type OperateType = 'add' | 'edit' | 'token';
 interface Props {
   /** the type of operation */
   operateType: OperateType;
-  templateList: templateList;
+  templateList: any;
   /** the edit row data */
   rowData?: Api.SystemManage.User | null;
 
@@ -132,7 +132,7 @@ async function save() {
 
 watch(visible, () => {
   if (visible.value) {
-    template.value = props.rowData.templateId
+    template.value = props.rowData?.templateId
     if (props.operateType === 'edit') {
       platList.value = JSON.parse(JSON.stringify(props.rowData.platList)).sort((a,b)=>a.enable ? -1 : 1)
     }
