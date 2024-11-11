@@ -137,6 +137,16 @@ export const generatedRoutes: GeneratedRoute[] = [
     }
   },
   {
+    name: 'tiku',
+    path: '/tiku',
+    component: 'layout.base$view.tiku',
+    meta: {
+      title: 'tiku',
+      i18nKey: 'route.tiku',
+      order: 999
+    }
+  },
+  {
     name: 'user',
     path: '/user',
     component: 'layout.base',

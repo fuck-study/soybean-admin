@@ -131,6 +131,7 @@ const local: App.I18n.Schema = {
     user_list: '用户管理',
     user_template:'模版设置',
     log: '日志列表',
+    tiku: '题库统计',
     'manage_user-detail': '用户详情',
     function_submit: '查询课程',
     function_file: '批量查课下单',

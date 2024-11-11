@@ -61,6 +61,14 @@ export function fetchReportList(params?: Api.SystemManage.UserSearchParams) {
   });
 }
 
+
+export function fetchNoAnswerList(params?: Api.SystemManage.UserSearchParams) {
+  return request({
+    url: '/api/no',
+    method: 'get',
+    params
+  });
+}
 export function fetchFilesList(params?: Api.SystemManage.UserSearchParams) {
   return request({
     url: '/api/file/list',

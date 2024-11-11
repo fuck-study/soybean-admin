@@ -26,6 +26,7 @@ export const views: Record<LastLevelRouteKey, RouteComponent | (() => Promise<Ro
   log: () => import("@/views/log/index.vue"),
   "plat-center": () => import("@/views/plat-center/index.vue"),
   report: () => import("@/views/report/index.vue"),
+  tiku: () => import("@/views/tiku/index.vue"),
   "user-center": () => import("@/views/user-center/index.vue"),
   user_list: () => import("@/views/user/list/index.vue"),
   user_template: () => import("@/views/user/template/index.vue"),
