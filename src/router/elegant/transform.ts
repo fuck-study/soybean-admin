@@ -159,6 +159,7 @@ const routeMap: RouteMap = {
   "login": "/login/:module(pwd-login|code-login|register|reset-pwd|bind-wechat)?",
   "plat-center": "/plat-center",
   "report": "/report",
+  "tiku": "/tiku",
   "user": "/user",
   "user_list": "/user/list",
   "user_template": "/user/template",

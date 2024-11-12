@@ -1,8 +1,9 @@
 <script setup lang="tsx">
 import { ref } from 'vue';
-import {fetchDeleteReport, fetchNoAnswerList, putReport } from '@/service/api';
+import { fetchBuDan, fetchDeleteReport, fetchNoAnswerList, putReport } from '@/service/api';
 import { useAppStore } from '@/store/modules/app';
 import { useTable } from '@/hooks/common/table';
+import { $t } from "@/locales";
 
 const appStore = useAppStore();
 const type = ref("43")
@@ -36,11 +37,31 @@ const {columns, data, loading, pagination, getData} = useTable<
     {
       key: 'id',
       title: '权重',
+    },
+    {
+      key: 'operate',
+      title: $t('common.operate'),
+      align: 'center',
+      width: 180,
+      render: row => (
+        <div class="flex-center gap-8px">
+          <NButton type="primary" ghost size="small" onClick={() => budan(row)}>
+            补单
+          </NButton>
+        </div>
+      )
     }
   ]
 })
 
 
+const budan = (row) => {
+  fetchBuDan({
+    plat: type.value,
+    courseName: row.courseName
+  })
+  window.$message?.success('补单成功');
+}
 const update = (val, idx) => {
   getData()
 }

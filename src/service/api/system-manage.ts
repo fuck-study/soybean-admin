@@ -61,6 +61,14 @@ export function fetchReportList(params?: Api.SystemManage.UserSearchParams) {
   });
 }
 
+export function fetchBuDan(data: any) {
+  return request({
+    url: '/api/budan',
+    method: 'post',
+    data
+  });
+}
+
 
 export function fetchNoAnswerList(params?: Api.SystemManage.UserSearchParams) {
   return request({
