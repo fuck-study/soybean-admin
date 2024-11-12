@@ -6,7 +6,7 @@ import { useTable } from '@/hooks/common/table';
 import { $t } from "@/locales";
 
 const appStore = useAppStore();
-const type = ref("43")
+const type = ref("1")
 const active = ref(false)
 const raw = ref({})
 const {columns, data, loading, pagination, getData} = useTable<
@@ -77,11 +77,11 @@ const checkedRowKeys = ref<string[]>([]);
       v-model:value="type"
       name="left-size"
       style="margin-bottom: 12px">
-      <n-radio-button value="43">
-        国开
-      </n-radio-button>
       <n-radio-button value="1">
         广开
+      </n-radio-button>
+      <n-radio-button value="43">
+        国开
       </n-radio-button>
       <n-radio-button value="-47">
         实验学院
