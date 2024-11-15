@@ -136,5 +136,10 @@ export const orderStatus = [
     value: 5,
     label: '见面课',
     tag: 'warning'
+  },
+  {
+    value: 6,
+    label: '讨论中',
+    tag: 'warning'
   }
 ];
