@@ -100,31 +100,30 @@ async function addNotice() {
         </NCard>
       </NGi>
     </NGrid>
+    <NDrawer v-model:show="visible" title="发布新公告" display-directive="show" :width="380">
+      <NDrawerContent title="发布新公告" :native-scrollbar="false" closable>
+        <n-card>
+          <NForm ref="formRef" :model="noticeData">
+            <NFormItem label="标题">
+              <NInput v-model:value="noticeData.title"/>
+            </NFormItem>
+            <NFormItem label="内容">
+              <n-input
+                v-model:value="noticeData.content"
+                type="textarea"
+              />
+            </NFormItem>
+          </NForm>
+        </n-card>
+        <template #footer>
+          <NSpace :size="16">
+            <NButton @click="visible=false">{{ $t('common.cancel') }}</NButton>
+            <NButton type="primary" @click="addNotice">确认</NButton>
+          </NSpace>
+        </template>
+      </NDrawerContent>
+    </NDrawer>
   </NSpace>
-
-  <NDrawer v-model:show="visible" title="发布新公告" display-directive="show" :width="380">
-    <NDrawerContent title="发布新公告" :native-scrollbar="false" closable>
-      <n-card>
-        <NForm ref="formRef" :model="noticeData">
-          <NFormItem label="标题">
-            <NInput v-model:value="noticeData.title"/>
-          </NFormItem>
-          <NFormItem label="内容">
-            <n-input
-              v-model:value="noticeData.content"
-              type="textarea"
-            />
-          </NFormItem>
-        </NForm>
-      </n-card>
-      <template #footer>
-        <NSpace :size="16">
-          <NButton @click="visible=false">{{ $t('common.cancel') }}</NButton>
-          <NButton type="primary" @click="addNotice">确认</NButton>
-        </NSpace>
-      </template>
-    </NDrawerContent>
-  </NDrawer>
 </template>
 
 <style scoped></style>
