@@ -66,9 +66,9 @@ const statisticData = computed<StatisticData[]>(() => [
           </div>
           <div class="pl-12px">
             <h3 class="text-18px font-semibold">
-            {{'当前时间 '+`${props.freeName}`}}
+            打个小广告,嘿嘿~
             </h3>
-            <p class="leading-30px text-#999">{{ getTime(true)}} {{ `【${props.freeName}】` !== '【暂时无平台可以免费下单】' ? '在此时间段内' +`${props.freeName}` : '暂时无平台可以免费下单' }}</p>
+            <p class="leading-30px text-#999">为了平台更好的发展，作者逐步完善添加更多的平台，不支持的平台，只要有单，我们就可以开发，开发费1000～3000，下够开发费的单子之后，开发费全额退回</p>
           </div>
         </div>
       </NGi>

@@ -52,6 +52,22 @@ export function fetchFreePlat() {
     });
 }
 
+
+export function fetchNoticeList() {
+  return request<Api.SystemManage.User>({
+    url: '/api/notice',
+    method: 'get',
+  });
+}
+
+export function fetchAddNotice(data:any) {
+  return request<Api.SystemManage.User>({
+    url: '/api/notice',
+    method: 'post',
+    data
+  });
+}
+
 /** get report list */
 export function fetchReportList(params?: Api.SystemManage.UserSearchParams) {
   return request({

@@ -66,7 +66,7 @@ function batchRemark() {
 
     <NButton size="small" ghost type="primary" @click="batchEdit" v-if="allow?.includes('batchEdit')">
       <template #icon>
-        <icon-ant-design-reload-outlined class="text-icon" />
+        <icon-mdi-refresh class="text-icon" />
       </template>
       批量补单
     </NButton>

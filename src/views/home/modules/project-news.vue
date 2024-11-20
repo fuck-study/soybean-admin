@@ -22,7 +22,7 @@ defineOptions({
   <NCard title="日志" :bordered="false" size="small" segmented class="card-wrapper">
     <NList>
       <NListItem v-for="item in props.logs.records" :key="item.id">
-        <NThing :title="item.log" :description="item.createTime" />
+        <NThing :title="item.log" :title-extra="item.createTime" />
       </NListItem>
     </NList>
   </NCard>
