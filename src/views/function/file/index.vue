@@ -252,6 +252,9 @@ const handleOpenDrawer = (row) => {
 }
 
 const submit = async () => {
+  if (!rawData.value.file){
+    window.$message?.success('文件未上传成功,请重新上传');
+  }
   config.value['平台_编号'] = platValue.value
   rawData.value.config = JSON.stringify(config.value)
   await fetchCreateFile(rawData.value)
