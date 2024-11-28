@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import { ref } from 'vue';
+import {h, ref} from 'vue';
 import { NButton, NTag } from 'naive-ui';
 import { avtTime, fetchDeleteReport, fetchReportList, putReport } from '@/service/api';
 import { useAppStore } from '@/store/modules/app';
@@ -40,7 +40,19 @@ const {columns, data, loading, pagination, getData} = useTable<
         if (row.status === 1) {
           return <NTag type="success">处理完成</NTag>
         } else if (row.status === 0) {
-          return <NTag type="default">待处理</NTag>
+          return h(
+            NTag,
+            {
+              style: {
+                marginRight: '6px'
+              },
+              type: 'default',
+              bordered: false
+            },
+            {
+              default: () => '待处理'
+            }
+          );
         } else if (row.status === 3) {
           return <NTag type="warning">暂时搁置</NTag>
         }else if (row.status === 4) {
