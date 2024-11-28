@@ -79,7 +79,7 @@ async function query() {
   // 一定会取消禁用
   setTimeout(() => {
     disableds.value = false;
-  }, 10000);
+  }, 60000);
 
   // 检查用户输入的账号信息
   if (!account.value) {
