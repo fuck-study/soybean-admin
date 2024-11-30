@@ -128,7 +128,7 @@ const {columns, data, loading, pagination, getData} = useTable<
 
           return JSON.parse(row.result).map(i => {
             const end = i.split('/').pop() //把后缀找到
-            const url = 'http://' + location.host + '/api/file/get?name=' + row.file.replace('face/', '').replace(end, encodeURIComponent(end))
+            const url = 'http://' + location.host + '/api/file/get?name=' +i.replace('face/', '').replace(end, encodeURIComponent(end))
             return <n-button
               text
               tag="a"
