@@ -73,14 +73,17 @@ const {columns, data, loading, pagination, getData} = useTable<
       render: row => {
         if (row.file) {
           const file = row.file
-          const url = 'http://' + location.host + '/api/file/get?name=' + row.file.replace('face/', '')
+
+          const end = file.split('/').pop() //把后缀找到
+
+          const url = 'http://' + location.host + '/api/file/get?name=' + row.file.replace('face/', '').replace(end, encodeURIComponent(end))
           return <n-button
             text
             tag="a"
             href={url}
             target="_blank"
             type="primary">
-            {file.split('/').pop()}
+            {end}
           </n-button>
         }
       }
@@ -124,14 +127,15 @@ const {columns, data, loading, pagination, getData} = useTable<
           const file = row.result
 
           return JSON.parse(row.result).map(i => {
-            const url = 'http://' + location.host + '/api/file/get?name=' + i.replace('face/', '')
+            const end = i.split('/').pop() //把后缀找到
+            const url = 'http://' + location.host + '/api/file/get?name=' + row.file.replace('face/', '').replace(end, encodeURIComponent(end))
             return <n-button
               text
               tag="a"
               href={url}
               target="_blank"
               type="primary">
-              {i.split('/').pop()}
+              {end}
             </n-button>
           })
         } catch (e) {
