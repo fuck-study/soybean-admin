@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { onMounted, ref, watch, h } from 'vue';
-import { useRouterPush } from '@/hooks/common/router';
-import { useTabStore } from '@/store/modules/tab';
-import { ipList, tagsList } from '@/utils/common';
+import {onMounted, ref, watch, h} from 'vue';
+import {useRouterPush} from '@/hooks/common/router';
+import {useTabStore} from '@/store/modules/tab';
+import {ipList, tagsList} from '@/utils/common';
 
-import { fetchPlat, fetchUserInfo, getCourse, submitCourse } from "@/service/api";
-import { NButton, NCard, NAvatar, NText, NImage, NInput } from 'naive-ui';
-import { RowData } from "naive-ui/es/data-table/src/interface";
+import {fetchPlat, fetchUserInfo, getCourse, submitCourse} from "@/service/api";
+import {NButton, NCard, NAvatar, NText, NImage, NInput} from 'naive-ui';
+import {RowData} from "naive-ui/es/data-table/src/interface";
 
 const tabStore = useTabStore();
 const {routerPushByKey} = useRouterPush();
@@ -151,6 +151,10 @@ async function query() {
 
 
 async function submit() {
+  if ([88].includes(platValue.value) && !face.value) {
+    window.$message?.error('请点击高级上传人脸');
+    return;
+  }
   const outputJson = [];
   const processedUsernames = {};
 
@@ -210,7 +214,7 @@ const columns = ref([
                   if (i.label.includes(e)) {
                     return i
                   }
-                }).filter(i=>i)
+                }).filter(i => i)
               }
               filterAccountCourses.value.push(newElement)
             }
