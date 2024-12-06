@@ -403,12 +403,12 @@ function changeCard() {
   <div class="flex-vertical-stretch gap-16px  <sm:overflow-auto">
     <OrderSearch v-model:model="searchParams" @reset="resetSearchParams" @search="searchData" :plat-list="platList"
                  :tags="tags" v-if="card"/>
-    <NCard :bordered="false" size="small" class="" style="height: 5px;background-color: rgba(100, 108, 255, 0.1);"
-           @click="changeCard">
-      <n-button type="info" size="small" circle style="position:relative;left: 50%;top:-23px;border:none">
-        {{ text }}
-      </n-button>
-    </NCard>
+<!--    <NCard :bordered="false" size="small" class="" style="height: 5px;background-color: rgba(100, 108, 255, 0.1);"-->
+<!--           @click="changeCard">-->
+<!--      <n-button type="info" size="small" circle style="position:relative;left: 50%;top:-23px;border:none">-->
+<!--        {{ text }}-->
+<!--      </n-button>-->
+<!--    </NCard>-->
     <NCard title="订单列表" :bordered="false" size="small" class="card-wrapper sm:flex-1-hidden">
       <template #header-extra>
         <TableHeaderOperation
@@ -430,12 +430,12 @@ function changeCard() {
         :columns="columns"
         :data="data"
         size="small"
-        :scroll-x="2800"
+        :scroll-x="702"
         :flex-height="!appStore.isMobile"
         :loading="loading"
         :pagination="pagination"
         :row-key="item => item.uuid"
-        :min-height="500"
+        class="sm:h-full"
       />
       <RoleOperateDrawer
         v-model:visible="drawerVisible"

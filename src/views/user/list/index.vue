@@ -60,7 +60,7 @@ const {columns, filteredColumns, data, loading, pagination, getData, searchParam
       key: 'username',
       title: $t('page.manage.user.username'),
       align: 'center',
-      width: 150
+      width: 140
 
 
     },
@@ -68,7 +68,7 @@ const {columns, filteredColumns, data, loading, pagination, getData, searchParam
       key: 'password',
       title: $t('page.manage.user.password'),
       align: 'center',
-      width: 150
+      width: 140
 
 
     },
@@ -242,11 +242,11 @@ function changeCard(){
 <template>
   <div class="flex-vertical-stretch gap-16px overflow-hidden <sm:overflow-auto">
     <UserSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" v-if="card" />
-    <NCard :bordered="false" size="small" class="" style="height: 5px;background-color: rgba(100, 108, 255, 0.1);" @click="changeCard"  >
-      <n-button type="info"  size="small" circle style="position:relative;left: 50%;top:-23px;border:none">
-        {{ text }}
-      </n-button>
-    </NCard>
+<!--    <NCard :bordered="false" size="small" class="" style="height: 5px;background-color: rgba(100, 108, 255, 0.1);" @click="changeCard"  >-->
+<!--      <n-button type="info"  size="small" circle style="position:relative;left: 50%;top:-23px;border:none">-->
+<!--        {{ text }}-->
+<!--      </n-button>-->
+<!--    </NCard>-->
     <NCard :title="$t('page.manage.user.title')" :bordered="false" size="small" class="card-wrapper sm:flex-1-hidden">
       <template #header-extra>
         <TableHeaderOperation
@@ -266,7 +266,7 @@ function changeCard(){
         :data="data"
         size="small"
         :flex-height="!appStore.isMobile"
-        :scroll-x="640"
+        :scroll-x="702"
         :loading="loading"
         :pagination="pagination"
         :row-key="item => item.id"
