@@ -430,7 +430,7 @@ function changeCard() {
         :columns="columns"
         :data="data"
         size="small"
-        :scroll-x="702"
+        :scroll-x="3000"
         :flex-height="!appStore.isMobile"
         :loading="loading"
         :pagination="pagination"
