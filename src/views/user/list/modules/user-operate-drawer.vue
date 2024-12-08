@@ -116,9 +116,7 @@ async function handleSubmit() {
 }
 
 async function save() {
-  if (selectValue.value === "模版") {
-    model.price = template.value
-  } else {
+    model.templateId = template.value
     model.price = JSON.stringify(platList.value.filter(i => i.enable).map(item => {
       return {
         name: item.name,
@@ -126,7 +124,6 @@ async function save() {
         price: item.price
       }
     }))
-  }
   await updateUser(model.id, model)
 }
 
@@ -170,7 +167,7 @@ function validateInput() {
             <n-tab-pane name="模版" tab="模版">
               <n-select v-model:value="template" :options="templateList"/>
             </n-tab-pane>
-            <n-tab-pane name="自选" tab="自选">
+            <n-tab-pane name="自选" tab="密价">
               <n-form-item :span="12" path="plat" v-if="operateType==='edit'">
                 <n-collapse>
                   <div v-for="item in platList">

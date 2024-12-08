@@ -37,11 +37,11 @@ const {columns, filteredColumns, data, loading, pagination, getData, searchParam
     };
   },
   columns: () => [
-    {
-      type: 'selection',
-      align: 'center',
-      width: 48
-    },
+    // {
+    //   type: 'selection',
+    //   align: 'center',
+    //   width: 48
+    // },
     // {
     //   key: 'index',
     //   title: $t('common.index'),
@@ -69,41 +69,31 @@ const {columns, filteredColumns, data, loading, pagination, getData, searchParam
       title: $t('page.manage.user.password'),
       align: 'center',
       width: 140
-
-
     },
     {
       key: 'money',
       title: $t('page.manage.user.money'),
       align: 'center',
       width: 100
+    },
 
+    {
+      key: 'templateId',
+      title: '模版',
+      align: 'center',
+      width: 100,
+      render: row=>{
+        if (row.templateId){
+          return <NTag type="error" style="margin:3px">{templateList.value.find(item=>item.value == row.templateId).label}</NTag>;
+        }
+      }
     },
     {
       key: 'status',
-      title: '平台',
+      title: '密价',
       align: 'center',
       render: row => {
-        if (!isNaN(parseInt(row.price))){
-          row.templateId = parseInt(row.price)
-
-          row.platList = platList.value.map(item=>{
-            return {
-              cost: item.price,
-              plat: item.plat,
-              price: item.price,
-              name: item.name,
-              enable: false
-            }
-          })
-            if (!row.price || !templateList.value.find(item=>item.value == row.price)){
-                return
-            }
-            return <NTag type="error" style="margin:3px">{templateList.value.find(item=>item.value == row.price).label}</NTag>;
-
-        }
         try {
-
           row.platList = platList.value.map(item=>{
             for (let parseElement of JSON.parse(row.price)) {
               if (parseElement.plat === item.plat) {
