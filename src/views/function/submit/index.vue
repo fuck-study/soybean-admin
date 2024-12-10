@@ -229,8 +229,10 @@ const columns = ref([
       if (row.score){
            return (
                <div style="margin-top: -24px;">
+                 <div class="n-data-table-indent" style="width: 16px"></div>
+                 <div class="n-data-table-expand-placeholder"></div>
                  <span>{row.label}</span>
-                 <span style="font-size: 14px;color: #888;margin-left: auto;transform: translateY(-2px)">{row.score}</span>
+                 <span style="font-size: 14px;color: #888;margin-left: 26px;transform: translateY(-2px)">{row.score}</span>
                </div>
            );
       }else {
