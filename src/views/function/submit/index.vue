@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="tsx">
 import {onMounted, ref, watch, h} from 'vue';
 import {useRouterPush} from '@/hooks/common/router';
 import {useTabStore} from '@/store/modules/tab';
@@ -20,7 +20,7 @@ const setOther = ref(false)
 // 保存用户所有的账号信息
 const pattern = ref('')
 const face = ref('')
-const account = ref('');
+const account = ref('24170001400597 Gd513150@');
 const tagName = ref(null)
 const remark = ref(null)
 const cityName = ref(null)
@@ -126,7 +126,8 @@ async function query() {
               label: i.name,
               courseImg: i.img,
               courseId: i.id,
-              courses: i.hash
+              courses: i.hash,
+              score: i.score,
             };
           })
         };
@@ -218,15 +219,23 @@ const columns = ref([
               }
               filterAccountCourses.value.push(newElement)
             }
-            console.log(JSON.stringify(filterAccountCourses.value))
           },
           placeholder: '请过滤课程'
         }
       )
     },
     key: 'label',
-    render(row: RowData) {
-      return row.label
+    render: row =>{
+      if (row.score){
+           return (
+               <div style="margin-top: -24px;">
+                 <span>{row.label}</span>
+                 <span style="font-size: 14px;color: #888;margin-left: auto;transform: translateY(-2px)">{row.score}</span>
+               </div>
+           );
+      }else {
+        return row.label
+      }
     }
   }
 ]);
@@ -379,13 +388,15 @@ const renderLabel = (option) => {
         :default-expand-all="true"
         v-model:checked-row-keys="checkedRowKeys"
         :data="filterAccountCourses"
-        :max-height="500"
         :expanded-row-keys="filterAccountCourses.map(i=>JSON.stringify(i))"
         :columns="columns"
+        class="sm:h-full"
         :row-key="o => JSON.stringify(o)"
       />
     </n-card>
   </NSpace>
 </template>
 
-<style scoped></style>
+<style scoped>
+
+</style>
