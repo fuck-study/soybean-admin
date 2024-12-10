@@ -195,7 +195,7 @@ function getStatusTypeByStatus(status) {
 
 const platList = ref([])
 
-const act = ref([{label: "查课", value: "查课"}, {label: "下单", value: "下单"},{label: "广开成绩查询", value: "广开成绩查询"}])
+const act = ref([{label: "查课", value: "查课"}, {label: "下单", value: "下单"}])
 const tagList = ref([])
 onMounted(async () => {
   const data = await fetchPlat()
