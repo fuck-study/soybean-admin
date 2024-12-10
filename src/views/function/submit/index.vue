@@ -20,7 +20,7 @@ const setOther = ref(false)
 // 保存用户所有的账号信息
 const pattern = ref('')
 const face = ref('')
-const account = ref('24170001400597 Gd513150@');
+const account = ref('');
 const tagName = ref(null)
 const remark = ref(null)
 const cityName = ref(null)
