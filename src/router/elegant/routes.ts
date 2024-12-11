@@ -58,17 +58,6 @@ export const generatedRoutes: GeneratedRoute[] = [
         }
       },
       {
-        name: 'function_order',
-        path: '/function/order',
-        component: 'view.function_order',
-        meta: {
-          icon: 'ant-design:ordered-list-outlined',
-          title: 'function_order',
-          i18nKey: 'route.function_order',
-          order: 7
-        }
-      },
-      {
         name: 'function_submit',
         path: '/function/submit',
         component: 'view.function_submit',
@@ -112,6 +101,15 @@ export const generatedRoutes: GeneratedRoute[] = [
       title: 'login',
       i18nKey: 'route.login',
       constant: true
+    }
+  },
+  {
+    name: 'order',
+    path: '/order',
+    component: 'layout.base$view.order',
+    meta: {
+      title: 'order',
+      i18nKey: 'route.order'
     }
   },
   {

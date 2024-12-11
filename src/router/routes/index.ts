@@ -4,11 +4,11 @@ import { layouts, views } from '../elegant/imports';
 import { transformElegantRoutesToVueRoutes } from '../elegant/transform';
 
 export const ROOT_ROUTE: CustomRoute = {
-  name: 'root',
+  name: 'order',
   path: '/',
-  redirect: '/home',
+  redirect: '/order',
   meta: {
-    title: 'root',
+    title: 'order',
     constant: true
   }
 };
