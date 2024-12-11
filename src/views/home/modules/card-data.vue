@@ -40,7 +40,7 @@ const cardData = computed<CardData[]>(() => [
 
   {
     key: 'turnover',
-    title: '龙币',
+    title: '余额',
     value: props.userData.money,
     unit: '¥',
     color: {

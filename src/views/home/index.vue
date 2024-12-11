@@ -52,8 +52,7 @@ async function addNotice() {
 </script>
 
 <template>
-  <NSpace vertical :size="16">
-    <HeaderBanner/>
+  <NSpace vertical :size="16">l
     <CardData :userData="userData"/>
     <NGrid :x-gap="gap" :y-gap="16" responsive="screen" item-responsive>
       <NGi span="24 s:24 m:14">
