@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-publish-deploy
+  name: nginx-publish-chen
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name: nginx-publish
+      name: nginx-publish-chen
   template:
     metadata:
       labels:
-        name: nginx-publish
+        name: nginx-publish-chen
     spec:
       affinity:
         nodeAffinity:
@@ -33,10 +33,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx-publish
+  name: nginx-publish-chen
 spec:
   selector:
-    name: nginx-publish
+    name: nginx-publish-chen
   ports:
     - protocol: TCP
       port: 80

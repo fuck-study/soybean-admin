@@ -7,7 +7,7 @@ defineOptions({
 <template>
   <DarkModeContainer class="flex-center h-full">
     <p>
-      龙龙管理平台 © 2024 龙年大吉
+      教务管理平台 ©
     </p>
   </DarkModeContainer>
 </template>

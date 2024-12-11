@@ -1,6 +1,6 @@
 const local: App.I18n.Schema = {
   system: {
-    title: '龙龙管理系统'
+    title: '过往管理系统'
   },
   common: {
     action: '操作',

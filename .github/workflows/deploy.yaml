@@ -5,7 +5,7 @@ name: Docker Image CI
 on:
   push:
     branches:
-      - main  # 根据需要更改触发条件
+      - chenwenhai  # 根据需要更改触发条件
 
 # 工作流程，可包含多个作业
 jobs:
