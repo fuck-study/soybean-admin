@@ -4,7 +4,7 @@ export const themeSettings: App.Theme.ThemeSetting = {
   themeColor: "#22c55e",
   otherColor: {info: "#2080f0", success: "#52c41a", warning: "#faad14", error: "#f5222d"},
   isInfoFollowPrimary: true,
-  layout: {mode: "vertical-mix", scrollMode: "wrapper"},
+  layout: {mode: "horizontal-mix", scrollMode: "wrapper"},
   page: {animate: true, animateMode: "fade"},
   header: {height: 41, breadcrumb: {visible: true, showIcon: true}},
   tab: {visible: true, cache: true, height: 50, mode: "button"},
