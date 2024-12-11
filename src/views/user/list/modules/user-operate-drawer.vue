@@ -159,9 +159,9 @@ function validateInput() {
           <NFormItem label="密码" path="password">
             <NInput v-model:value="model.password" placeholder="请输入密码"/>
           </NFormItem>
-          <NFormItem label="余额" path="money">
-            <NInput v-model:value="model.money" placeholder="请输入余额"/>
-          </NFormItem>
+<!--          <NFormItem label="余额" path="money">-->
+<!--            <NInput v-model:value="model.money" placeholder="请输入余额"/>-->
+<!--          </NFormItem>-->
 
           <n-tabs type="line" animated :value="selectValue" :on-update:value="(v)=>{selectValue = v}">
             <n-tab-pane name="模版" tab="模版">
