@@ -115,17 +115,6 @@ export const generatedRoutes: GeneratedRoute[] = [
     }
   },
   {
-    name: 'plat-center',
-    path: '/plat-center',
-    component: 'layout.base$view.plat-center',
-    meta: {
-      title: 'plat-center',
-      i18nKey: 'route.plat-center',
-      icon: 'ant-design:api-outlined',
-      order: 14
-    }
-  },
-  {
     name: 'report',
     path: '/report',
     component: 'layout.base$view.report',
@@ -134,16 +123,6 @@ export const generatedRoutes: GeneratedRoute[] = [
       title: 'report',
       i18nKey: 'route.report',
       order: 16
-    }
-  },
-  {
-    name: 'tiku',
-    path: '/tiku',
-    component: 'layout.base$view.tiku',
-    meta: {
-      title: 'tiku',
-      i18nKey: 'route.tiku',
-      order: 999
     }
   },
   {
