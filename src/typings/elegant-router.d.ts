@@ -27,7 +27,6 @@ declare module "@elegant-router/types" {
     "function": "/function";
     "function_file": "/function/file";
     "function_submit": "/function/submit";
-    "home": "/home";
     "log": "/log";
     "login": "/login/:module(pwd-login|code-login|register|reset-pwd|bind-wechat)?";
     "order": "/order";
@@ -75,7 +74,6 @@ declare module "@elegant-router/types" {
     | "404"
     | "500"
     | "function"
-    | "home"
     | "log"
     | "login"
     | "order"
@@ -105,7 +103,6 @@ declare module "@elegant-router/types" {
     | "login"
     | "function_file"
     | "function_submit"
-    | "home"
     | "log"
     | "order"
     | "report"

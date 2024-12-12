@@ -58,25 +58,13 @@ const bgColor = computed(() => {
 
 <template>
   <div class="relative flex-center wh-full overflow-hidden" :style="{ backgroundColor: bgColor }">
-    <WaveBg :theme-color="bgThemeColor" />
     <NCard :bordered="false" class="relative w-auto rd-12px z-4">
       <div class="w-400px <sm:w-300px">
         <header class="flex-y-center justify-between">
           <SystemLogo class="text-64px text-primary <sm:text-48px" />
           <h3 class="text-28px font-500 text-primary <sm:text-22px">{{ $t('system.title') }}</h3>
           <div class="i-flex-vertical">
-            <ThemeSchemaSwitch
-              :theme-schema="themeStore.themeScheme"
-              :show-tooltip="false"
-              class="text-20px <sm:text-18px"
-              @switch="themeStore.toggleThemeScheme"
-            />
-            <LangSwitch
-              :lang="appStore.locale"
-              :lang-options="appStore.localeOptions"
-              :show-tooltip="false"
-              @change-lang="appStore.changeLocale"
-            />
+
           </div>
         </header>
         <main class="pt-24px">

@@ -153,7 +153,6 @@ const routeMap: RouteMap = {
   "function": "/function",
   "function_file": "/function/file",
   "function_submit": "/function/submit",
-  "home": "/home",
   "log": "/log",
   "login": "/login/:module(pwd-login|code-login|register|reset-pwd|bind-wechat)?",
   "order": "/order",

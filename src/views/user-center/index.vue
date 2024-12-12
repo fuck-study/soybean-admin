@@ -68,8 +68,8 @@ function changeCard(){
                 <n-form-item label="密码" path="password">
                   <n-input placeholder="默认为 123456，修改请输入8位" v-model:value="userContent.password"/>
                 </n-form-item>
-                <n-form-item label="IP白名单(多个用,分割)" path="ip">
-                  <n-input placeholder="使用api对接需要增加IP白名单" v-model:value="userContent.ip"/>
+                <n-form-item label="余额" path="money">
+                  <n-input placeholder="使用api对接需要增加IP白名单" v-model:value="userContent.money" disabled/>
                 </n-form-item>
 
                 <n-form-item label="我的标签">
