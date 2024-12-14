@@ -6,11 +6,11 @@ import {ipList, tagsList} from '@/utils/common';
 
 import {fetchPlat, fetchUserInfo, getCourse, submitCourse} from "@/service/api";
 import {NButton, NCard, NAvatar, NText, NImage, NInput} from 'naive-ui';
-import {RowData} from "naive-ui/es/data-table/src/interface";
+import {useNotification} from "naive-ui";
 
 const tabStore = useTabStore();
 const {routerPushByKey} = useRouterPush();
-
+const notification = useNotification();
 const platList = ref([])
 const selectCourses = ref([]);
 // 用户的所有课程树状
@@ -49,7 +49,8 @@ onMounted(async () => {
       value: i.plat,
       school: i.school,
       price: i.price,
-      msg: i.description
+      msg: i.description,
+      tip: i.tip,
     }
   })
 })
@@ -61,7 +62,35 @@ watch(platValue, newValue => {
     const arr = platList.value.filter(i => i.value === newValue);
     schoolList.value = platList.value ? arr.flatMap(item => item.school).filter(i => i) : [];
     remarksList.value = arr[0].remarks || []
-    window.$message?.info(arr[0].msg + ' ' + arr[0].price + '龙币');
+    if (arr[0].tip) {
+      let markAsRead = false;
+      const n = notification.create({
+        trpe: 'warning',
+        title: arr[0].label,
+        content: arr[0].tip,
+        meta: "龙龙提醒您注意事项",
+        action: () => h(
+          NButton,
+          {
+            text: true,
+            type: "primary",
+            onClick: () => {
+              markAsRead = true;
+              n.destroy();
+            }
+          },
+          {
+            default: () => "已读"
+          }
+        ),
+        onClose: () => {
+          if (!markAsRead) {
+            window.$message?.warning("请设为已读");
+            return false;
+          }
+        }
+      });
+    }
   }
 });
 
@@ -225,17 +254,17 @@ const columns = ref([
       )
     },
     key: 'label',
-    render: row =>{
-      if (row.score){
-           return (
-               <div style="margin-top: -24px;">
-                 <div class="n-data-table-indent" style="width: 16px"></div>
-                 <div class="n-data-table-expand-placeholder"></div>
-                 <span>{row.label}</span>
-                 <span style="font-size: 14px;color: #888;margin-left: 26px;transform: translateY(-2px)">{row.score}</span>
-               </div>
-           );
-      }else {
+    render: row => {
+      if (row.score) {
+        return (
+          <div style="margin-top: -24px;">
+            <div class="n-data-table-indent" style="width: 16px"></div>
+            <div class="n-data-table-expand-placeholder"></div>
+            <span>{row.label}</span>
+            <span style="font-size: 14px;color: #888;margin-left: 26px;transform: translateY(-2px)">{row.score}</span>
+          </div>
+        );
+      } else {
         return row.label
       }
     }
