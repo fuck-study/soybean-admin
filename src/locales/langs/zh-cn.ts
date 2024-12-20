@@ -1,6 +1,6 @@
 const local: App.I18n.Schema = {
   system: {
-    title: '青蛙教务系统'
+    title: '北极狐教务系统'
   },
   common: {
     action: '操作',
