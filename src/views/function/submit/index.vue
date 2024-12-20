@@ -61,7 +61,6 @@ watch(platValue, newValue => {
     const arr = platList.value.filter(i => i.value === newValue);
     schoolList.value = platList.value ? arr.flatMap(item => item.school).filter(i => i) : [];
     remarksList.value = arr[0].remarks || []
-    window.$message?.info(arr[0].msg + ' ' + arr[0].price + '蛙币');
   }
 });
 
