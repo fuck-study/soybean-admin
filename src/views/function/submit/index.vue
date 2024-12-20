@@ -96,6 +96,7 @@ watch(platValue, newValue => {
 
 function handleFinish(obj) {
   face.value = obj.event.target.response
+  window.$message?.success("视频上传成功");
 }
 
 async function query() {
@@ -409,7 +410,8 @@ const renderLabel = (option) => {
           <n-button v-if="!checkedRowKeys.length" type="primary" :disabled="disableds" @click="query">查询</n-button>
           <n-button v-if="checkedRowKeys.length" type="warning" :disabled="disableds" @click="submit">提交</n-button>
 
-          <n-button style="margin-left: 10px" type="warning" @click='setOther = !setOther' :disabled="disableds">高级
+          <n-button v-if="accountCourses.length" style="margin-left: 10px" type="warning" @click='setOther = !setOther'
+                    :disabled="disableds">高级
           </n-button>
         </div>
       </n-space>
