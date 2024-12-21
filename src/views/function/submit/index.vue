@@ -182,10 +182,10 @@ async function query() {
 
 
 async function submit() {
-  if ([88].includes(platValue.value) && !face.value) {
-    window.$message?.error('请点击高级上传人脸');
-    return;
-  }
+  // if ([88].includes(platValue.value) && !face.value) {
+  //   window.$message?.error('请点击高级上传人脸');
+  //   return;
+  // }
   const outputJson = [];
   const processedUsernames = {};
 
