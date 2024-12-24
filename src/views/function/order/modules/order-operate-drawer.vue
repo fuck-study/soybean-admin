@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { computed, reactive, ref, watch } from 'vue';
+import {computed, onMounted, reactive, ref, watch} from 'vue';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import {
-  fetchBatchEditOrders,
+  fetchBatchEditOrders, fetchPlat, fetchUserInfo,
   reportQuestion,
   resetOrder,
 } from '@/service/api';
@@ -31,6 +31,7 @@ interface Props {
 
 const props = defineProps<Props>();
 const showStatus = ref(false)
+const tagList = ref([])
 
 const scoreAbout = ref([])
 const reportForm = ref({
@@ -155,6 +156,16 @@ function BatchRemark() {
   window.$message?.success('修改成功');
   closeDrawer();
 }
+
+
+onMounted(async () => {
+  const tags = await fetchUserInfo()
+  try {
+    tagList.value = JSON.parse(tags.data.tags)
+  } catch (e) {
+  }
+})
+
 </script>
 
 <template>
@@ -175,7 +186,16 @@ function BatchRemark() {
               clearable
             />
           </NFormItem>
-
+          <NFormItem label="归属标记">
+            <n-select
+              v-model:value="batchEditData.tag"
+              default-expand-all="true"
+              :options="tagsList(tagList)"
+              placeholder="如有需要请选择标记"
+              :filterable="true"
+              clearable
+            />
+          </NFormItem>
         </NForm>
       </n-card>
       <template #footer>
