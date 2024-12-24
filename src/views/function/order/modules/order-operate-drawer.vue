@@ -149,6 +149,7 @@ function BatchRemark() {
   fetchBatchEditOrders({
     remarks: batchEditData.value.remarks,
     city: batchEditData.value.city,
+    tag: batchEditData.value.tag,
     ids: props.rowData
   }).then(res=>{
     emit('submitted');
