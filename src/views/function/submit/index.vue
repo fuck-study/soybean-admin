@@ -59,15 +59,15 @@ watch(platValue, newValue => {
   if (newValue) {
     schoolList.value = []
     childSchool.value = null
-    const arr = platList.value.filter(i => i.value === newValue);
-    schoolList.value = platList.value ? arr.flatMap(item => item.school).filter(i => i) : [];
-    remarksList.value = arr[0].remarks || []
-    if (arr[0].tip) {
+    const item = platList.value.find(i => i.value === newValue);
+    schoolList.value = platList.value ? item.school.filter(i => i) : [];
+    remarksList.value = item.remarks || []
+    if (item.tip) {
       let markAsRead = false;
       const n = notification.create({
         trpe: 'warning',
-        title: arr[0].label,
-        content: arr[0].tip,
+        title: item.label,
+        content: item.tip.replace('{sms}',`支持验证码自助验证,地址: ${window.location.origin}/api/code.html?plat=${item.plat}&name=${item.name}`),
         meta: "龙龙提醒您注意事项",
         action: () => h(
           NButton,
