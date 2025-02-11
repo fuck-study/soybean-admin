@@ -67,7 +67,7 @@ watch(platValue, newValue => {
       const n = notification.create({
         trpe: 'warning',
         title: item.label,
-        content: item.tip.replace('{sms}',`支持验证码自助验证,地址: ${window.location.origin}/api/code.html?plat=${item.plat}&name=${item.name}`),
+        content: item.tip.replace('{sms}',`支持验证码登录,地址: ${window.location.origin}/api/code.html?plat=${item.value}&name=${item.label}`),
         meta: "龙龙提醒您注意事项",
         action: () => h(
           NButton,
