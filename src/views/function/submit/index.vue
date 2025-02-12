@@ -57,10 +57,9 @@ onMounted(async () => {
 
 watch(platValue, newValue => {
   if (newValue) {
-    schoolList.value = []
     childSchool.value = null
     const item = platList.value.find(i => i.value === newValue);
-    schoolList.value = platList.value ? item.school.filter(i => i) : [];
+    schoolList.value = item.school ? item.school.filter(i => i) : [];
     remarksList.value = item.remarks || []
     if (item.tip) {
       let markAsRead = false;
