@@ -7,7 +7,7 @@ import { useTable } from '@/hooks/common/table';
 import { $t } from "@/locales";
 import { ipList, orderStatus, tagsList, translatePlatList } from "@/utils/common";
 
-const cityList = ref(["重庆", "安徽", "福建", "广东", "广西", "河北", "河南", "湖北", "湖南", "海南", "黑龙江", "江苏", "江西", "辽宁", "山东", "四川", "陕西", "浙江", "上海", "内蒙古", "北京"])
+const cityList = ref(["重庆", "安徽", "福建", "广东", "广西", "河北", "河南", "湖北", "湖南", "海南", "黑龙江", "江苏", "江西", "辽宁", "山东", "四川", "陕西", "浙江", "上海", "内蒙古", "北京","新疆"])
 
 const rawData = ref({})
 const appStore = useAppStore();
