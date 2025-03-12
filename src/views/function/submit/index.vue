@@ -4,7 +4,7 @@ import {useRouterPush} from '@/hooks/common/router';
 import {useTabStore} from '@/store/modules/tab';
 import {ipList, tagsList} from '@/utils/common';
 
-import {fetchPlat, fetchUserInfo, getCourse, submitCourse} from "@/service/api";
+import {fetchPlat, fetchUserInfo, getCourse, submitCourse,fetchCitys} from "@/service/api";
 import {NButton, NCard, NAvatar, NText, NImage, NInput} from 'naive-ui';
 import {useNotification} from "naive-ui";
 
