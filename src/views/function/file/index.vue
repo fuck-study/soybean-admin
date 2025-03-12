@@ -1,13 +1,21 @@
 <script setup lang="tsx">
 import { ref, h, onMounted, watch } from 'vue';
 import { NButton, NPopover, NProgress, NTag, NText } from 'naive-ui';
-import { fetchCreateFile, fetchDeleteFile, fetchFilesList, fetchPlat, fetchUserInfo, putReport } from '@/service/api';
+import {
+  fetchCitys,
+  fetchCreateFile,
+  fetchDeleteFile,
+  fetchFilesList,
+  fetchPlat,
+  fetchUserInfo,
+  putReport
+} from '@/service/api';
 import { useAppStore } from '@/store/modules/app';
 import { useTable } from '@/hooks/common/table';
 import { $t } from "@/locales";
 import { ipList, orderStatus, tagsList, translatePlatList } from "@/utils/common";
 
-const cityList = ref(["重庆", "安徽", "福建", "广东", "广西", "河北", "河南", "湖北", "湖南", "海南", "黑龙江", "江苏", "江西", "辽宁", "山东", "四川", "陕西", "浙江", "上海", "内蒙古", "北京","新疆"])
+const cityList = ref([])
 
 const rawData = ref({})
 const appStore = useAppStore();
@@ -207,6 +215,8 @@ onMounted(async () => {
   }
 
   platList.value = data.data
+
+  cityList.value  = (await fetchCitys()).data
 })
 
 function handleFinish(obj) {

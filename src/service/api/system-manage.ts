@@ -268,6 +268,10 @@ export async function fetchUserInfo() {
     return request({url: `/api/info`, method: 'get'});
 }
 
+export async function fetchCitys() {
+  return request({url: `/api/citys`, method: 'get'});
+}
+
 
 export async function fetchUserDev() {
     return request({url: `/api/dev`, method: 'get'});

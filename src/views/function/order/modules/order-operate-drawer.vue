@@ -2,7 +2,7 @@
 import {computed, onMounted, reactive, ref, watch} from 'vue';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import {
-  fetchBatchEditOrders, fetchPlat, fetchUserInfo,
+  fetchBatchEditOrders, fetchCitys, fetchPlat, fetchUserInfo,
   reportQuestion,
   resetOrder,
 } from '@/service/api';
@@ -142,7 +142,7 @@ function psd() {
   model.password = model.password.replace(/[^\w\s]/gi, '').trim();
 }
 
-const cityList = ref(["重庆", "安徽", "福建", "广东", "广西", "河北", "河南", "湖北", "湖南", "海南", "黑龙江", "江苏", "江西", "辽宁", "山东", "四川", "陕西", "浙江", "上海", "内蒙古", "北京","新疆"])
+const cityList = ref([])
 
 function BatchRemark() {
 
@@ -163,6 +163,9 @@ onMounted(async () => {
   const tags = await fetchUserInfo()
   try {
     tagList.value = JSON.parse(tags.data.tags)
+
+    cityList.value  = (await fetchCitys()).data
+
   } catch (e) {
   }
 })

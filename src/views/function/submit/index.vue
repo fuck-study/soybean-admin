@@ -29,7 +29,7 @@ const childSchool = ref(null);
 const schoolList = ref([]);
 const remarksList = ref([]);
 const tagList = ref([])
-const cityList = ref(["重庆", "安徽", "福建", "广东", "广西", "河北", "河南", "湖北", "湖南", "海南", "黑龙江", "江苏", "江西", "辽宁", "山东", "四川", "陕西", "浙江", "上海", "内蒙古", "北京","新疆"])
+const cityList = ref([])
 
 const disableds = ref(false)
 const checkedRowKeys = ref([]);
@@ -42,6 +42,7 @@ onMounted(async () => {
     tagList.value = JSON.parse(tags.data.tags)
   } catch (e) {
   }
+  cityList.value = (await fetchCitys()).data
   platList.value = res.data.map(i => {
     return {
       remarks: i.remarks,
