@@ -127,6 +127,10 @@ const visibleColumns = computed(() => {
 
     <NCard title="平台明细" :bordered="false" size="small" >
       <template #header-extra>
+
+        <p style="color: red;margin-right: 12px">未开通平台可联系上级免费开通</p>
+
+
         <n-checkbox v-model:checked="disabled2" style="margin-right: 12px">
           隐藏价格
         </n-checkbox>
