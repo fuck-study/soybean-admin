@@ -115,6 +115,16 @@ export const generatedRoutes: GeneratedRoute[] = [
     }
   },
   {
+    name: 'plat',
+    path: '/plat',
+    component: 'layout.base$view.plat',
+    meta: {
+      title: 'plat',
+      i18nKey: '平台明细',
+      order: 17
+    }
+  },
+  {
     name: 'plat-center',
     path: '/plat-center',
     component: 'layout.base$view.plat-center',

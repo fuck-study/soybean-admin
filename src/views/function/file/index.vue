@@ -7,8 +7,7 @@ import {
   fetchDeleteFile,
   fetchFilesList,
   fetchPlat,
-  fetchUserInfo,
-  putReport
+  fetchUserInfo
 } from '@/service/api';
 import { useAppStore } from '@/store/modules/app';
 import { useTable } from '@/hooks/common/table';

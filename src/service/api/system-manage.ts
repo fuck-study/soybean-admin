@@ -108,6 +108,14 @@ export function fetchPlat() {
     });
 }
 
+
+export function fetchAllPlat() {
+  return request<Api.SystemManage.User>({
+    url: '/api/allPlat',
+    method: 'get',
+  });
+}
+
 /** get log list */
 export function fetchCreateUser(data?: Api.SystemManage.User) {
     return request<Api.SystemManage.User>({

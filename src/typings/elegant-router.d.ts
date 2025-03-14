@@ -31,6 +31,7 @@ declare module "@elegant-router/types" {
     "home": "/home";
     "log": "/log";
     "login": "/login/:module(pwd-login|code-login|register|reset-pwd|bind-wechat)?";
+    "plat": "/plat";
     "plat-center": "/plat-center";
     "report": "/report";
     "tiku": "/tiku";
@@ -80,6 +81,7 @@ declare module "@elegant-router/types" {
     | "home"
     | "log"
     | "login"
+    | "plat"
     | "plat-center"
     | "report"
     | "tiku"
@@ -112,6 +114,7 @@ declare module "@elegant-router/types" {
     | "home"
     | "log"
     | "plat-center"
+    | "plat"
     | "report"
     | "tiku"
     | "user-center"
