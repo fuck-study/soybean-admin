@@ -390,7 +390,7 @@ const renderLabel = (option) => {
               multiple
               directory-dnd
               action="/api/file?parentDir=face"
-              @on-change="handleFinish"
+              @finish="handleFinish"
             >
               <n-upload-dragger>
                 <n-text style="font-size: 16px">

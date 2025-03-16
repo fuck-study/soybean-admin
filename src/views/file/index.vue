@@ -67,7 +67,7 @@ const update = (val, idx) => {
     <n-upload
       multiple
       directory-dnd
-      @finish="getData"
+      @change="getData"
       action="/api/file/v2"
       :max="1000">
       <n-upload-dragger>
