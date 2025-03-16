@@ -42,7 +42,9 @@ export const generatedRoutes: GeneratedRoute[] = [
     component: 'layout.base$view.file',
     meta: {
       title: 'file',
-      i18nKey: 'route.file'
+      i18nKey: '文件管理',
+      icon: 'ant-design:folder-open-outlined',
+      order: 19
     }
   },
   {
@@ -130,6 +132,7 @@ export const generatedRoutes: GeneratedRoute[] = [
     meta: {
       title: 'plat',
       i18nKey: '平台明细',
+      icon: 'ant-design:search-outlined',
       order: 17
     }
   },
@@ -162,7 +165,8 @@ export const generatedRoutes: GeneratedRoute[] = [
     meta: {
       title: 'tiku',
       i18nKey: 'route.tiku',
-      order: 999
+      order: 999,
+      icon: 'ant-design:line-chart-outlined',
     }
   },
   {
