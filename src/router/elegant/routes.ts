@@ -166,7 +166,7 @@ export const generatedRoutes: GeneratedRoute[] = [
       title: 'tiku',
       i18nKey: 'route.tiku',
       order: 999,
-      icon: 'ant-design:line-chart-outlined',
+      icon: 'ant-design:line-chart-outlined'
     }
   },
   {

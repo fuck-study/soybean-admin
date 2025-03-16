@@ -8,13 +8,14 @@ import {useTable} from '@/hooks/common/table';
 
 const appStore = useAppStore();
 // const {bool: drawerVisible, setTrue: openDrawer} = useBoolean();
-const type = ref("0")
+const fileName = ref("")
 
 const {columns, data, loading, pagination, getData} = useTable({
   apiFn: fetchFileList,
   apiParams: {
     pageNo: 1,
     pageSize: 10,
+    fileName,
   },
   transformer: res => {
     const {records = [], current = 1, size = 10, total = 0} = res.data || {};
@@ -66,6 +67,7 @@ const update = (val, idx) => {
     <n-upload
       multiple
       directory-dnd
+      @finish="getData"
       action="/api/file/v2"
       :max="1000">
       <n-upload-dragger>
@@ -84,6 +86,12 @@ const update = (val, idx) => {
     </n-upload>
 
     <NCard title="文件列表" :bordered="false" size="small" class="card-wrapper sm:flex-1-hidden">
+      <template #header-extra>
+        <n-input v-model:value="fileName" placeholder="请输文件名" />
+        <n-button  type="primary" ghost @click="getData">
+          搜索
+        </n-button>
+      </template>
       <NDataTable
         remote
         v-model:checked-row-keys="checkedRowKeys"
