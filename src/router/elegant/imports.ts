@@ -19,6 +19,7 @@ export const views: Record<LastLevelRouteKey, RouteComponent | (() => Promise<Ro
   404: () => import("@/views/_builtin/404/index.vue"),
   500: () => import("@/views/_builtin/500/index.vue"),
   login: () => import("@/views/_builtin/login/index.vue"),
+  file: () => import("@/views/file/index.vue"),
   function_file: () => import("@/views/function/file/index.vue"),
   function_order: () => import("@/views/function/order/index.vue"),
   function_submit: () => import("@/views/function/submit/index.vue"),

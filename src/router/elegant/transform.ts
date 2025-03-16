@@ -150,6 +150,7 @@ const routeMap: RouteMap = {
   "403": "/403",
   "404": "/404",
   "500": "/500",
+  "file": "/file",
   "function": "/function",
   "function_file": "/function/file",
   "function_order": "/function/order",

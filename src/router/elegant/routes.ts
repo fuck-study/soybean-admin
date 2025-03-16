@@ -37,6 +37,15 @@ export const generatedRoutes: GeneratedRoute[] = [
     }
   },
   {
+    name: 'file',
+    path: '/file',
+    component: 'layout.base$view.file',
+    meta: {
+      title: 'file',
+      i18nKey: 'route.file'
+    }
+  },
+  {
     name: 'function',
     path: '/function',
     component: 'layout.base',

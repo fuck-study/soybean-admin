@@ -39,6 +39,15 @@ export function fetchLogList(params?: Api.SystemManage.UserSearchParams) {
     });
 }
 
+
+/** get log list */
+export function fetchFileList(params?: Api.SystemManage.UserSearchParams) {
+  return request<Api.SystemManage.UserList>({
+    url: '/api/file/v2',
+    method: 'get',
+    params
+  });
+}
 export function fetchFreeList() {
     return request<Api.SystemManage.User>({
         url: '/api/freeList',
