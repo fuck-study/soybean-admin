@@ -384,8 +384,8 @@ const openLog = (uuid) => {
   active.value = true
 
   logRef.value = []
-  // evRef.value = new EventSource("/api/sse?id=" + uuid)
-  evRef.value = new EventSource("http://62.234.211.156/api/sse?id=" + uuid)
+  evRef.value = new EventSource("/api/sse?id=" + uuid)
+  // evRef.value = new EventSource("http://62.234.211.156/api/sse?id=" + uuid)
   evRef.value.onmessage = function (event) {
     if (!event.data) {
       return
