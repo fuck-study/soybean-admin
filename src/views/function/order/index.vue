@@ -385,7 +385,6 @@ const openLog = (uuid) => {
 
   logRef.value = []
   evRef.value = new EventSource("/api/sse?id=" + uuid)
-  // evRef.value = new EventSource("http://62.234.211.156/api/sse?id=" + uuid)
   evRef.value.onmessage = function (event) {
     if (!event.data) {
       return
@@ -553,28 +552,27 @@ const autoJump = ref(true)
 
     <n-drawer
       default-height="500"
-      style="border-radius: 15px 15px 0 0;"
+      style="border-radius: 15px 15px 0 0; border: none; "
       v-model:show="active"
       placement="bottom"
       :on-update:show="logshow"
       resizable>
-      <n-drawer-content style="background-color: #191b1f;">
+      <n-drawer-content style="background-color: #191b1f; border: none; ">
         <template #header>
-          <div class="floating-card" size="small"
-                  style="background-color: #191b1f;border-color: #191b1f;border-radius: 15px 15px 0 0;">
-            <div style="display: flex;justify-content: space-between;">
-              <p style="color: #efeded">实时日志</p>
-              <n-switch @update:value="handleChange" v-model:value="autoJump">
-                <template #checked>
-                  日志滚动开启
-                </template>
-                <template #unchecked>
-                  日志滚动关闭
-                </template>
-              </n-switch>
-            </div>
+          <div>
+            <p style="color: #efeded;font-size: 12px;">订单日志</p>
+            <n-switch
+              @update:value="handleChange"
+              v-model:value="autoJump"
+              style="position: absolute;right: 15px;top: 7px;width: 150px;height: 30px;font-size: 12px; ">
+              <template #checked>
+                实时滚动开启
+              </template>
+              <template #unchecked>
+                实时滚动关闭
+              </template>
+            </n-switch>
           </div>
-
 
         </template>
         <div ref="terminalWindowRef" style="overflow-y: auto">
@@ -794,5 +792,9 @@ td, th {
   position: relative;
   max-width: 10px;
   cursor: default;
+}
+
+.n-drawer-header {
+  border-bottom: none !important; /* 移除底部边框 */
 }
 </style>
