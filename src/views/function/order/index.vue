@@ -2,7 +2,15 @@
 import {h, nextTick, onMounted, ref} from 'vue';
 import {NButton, NPopconfirm, NTag, NProgress} from 'naive-ui';
 import {useBoolean} from '@sa/hooks';
-import {delOrder, editOrder, fetchPlat, fetchPostExportOrder, fetchPostOrder, fetchUserInfo} from '@/service/api';
+import {
+  delOrder,
+  editOrder,
+  fetchEnableLogPlats,
+  fetchPlat,
+  fetchPostExportOrder,
+  fetchPostOrder,
+  fetchUserInfo
+} from '@/service/api';
 import {useAppStore} from '@/store/modules/app';
 import {useTable} from '@/hooks/common/table';
 import {$t} from '@/locales';
@@ -17,8 +25,11 @@ const appStore = useAppStore();
 const {bool: drawerVisible, setTrue: openDrawer} = useBoolean()
 const platList = ref([])
 const tags = ref([])
+
+const EnableLogPlats = ref([])
 onMounted(async () => {
   const data = await fetchPlat()
+  EnableLogPlats.value = (await fetchEnableLogPlats()).data
   const res = await fetchUserInfo()
   try {
     tags.value = JSON.parse(res.data.tags)
@@ -219,7 +230,7 @@ const {columns, filteredColumns, data, loading, pagination, getData, searchParam
           <NButton type="primary" ghost size="small" onClick={() => handleOpenDrawer(row, 'edit')}>
             详情
           </NButton>
-          <NButton type="warning" ghost size="small" onClick={() => openLog(row.uuid)}>
+          <NButton v-show="console.log(EnableLogPlats.includes(row.plat))" type="success"  ghost size="small" onClick={() => openLog(row.uuid)}>
             日志
           </NButton>
           <NButton type="warning" ghost size="small" onClick={() => handleOpenDrawer(row, 'report')}>
@@ -533,7 +544,7 @@ const autoJump = ref(true)
     </NCard>
 
     <n-drawer
-      height="550"
+      default-height="500"
       v-model:show="active"
       placement="bottom"
       :on-update:show="logshow"

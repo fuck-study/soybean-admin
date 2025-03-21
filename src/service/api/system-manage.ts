@@ -118,6 +118,13 @@ export function fetchPlat() {
 }
 
 
+export function fetchEnableLogPlats() {
+  return request<Api.SystemManage.User>({
+    url: '/api/enableLogPlats',
+    method: 'get',
+  });
+}
+
 export function fetchAllPlat() {
   return request<Api.SystemManage.User>({
     url: '/api/allPlat',
