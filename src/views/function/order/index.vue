@@ -552,19 +552,19 @@ const autoJump = ref(true)
 
     <n-drawer
       default-height="500"
-      style="border-radius: 15px 15px 0 0;"
+      :content-style="{ borderRadius: '18px 18px 0 0' }"
       v-model:show="active"
       placement="bottom"
       :on-update:show="logshow"
       resizable>
-      <n-drawer-content style="background-color: #191b1f; ">
+      <n-drawer-content style="background-color: #191b1f;">
         <template #header>
           <div>
             <p style="color: #efeded;font-size: 12px;">订单日志</p>
             <n-switch
               @update:value="handleChange"
               v-model:value="autoJump"
-              style="position: absolute;right: 15px;top: 7px;width: 150px;height: 30px;font-size: 12px; ">
+              style="position: absolute;right: 15px;top: 8px;width: 150px;height: 30px;font-size: 12px; ">
               <template #checked>
                 实时滚动开启
               </template>
@@ -795,6 +795,10 @@ td, th {
 }
 
 .n-drawer-header {
-  border-bottom: none !important; /* 移除底部边框 */
+  border-bottom: none !important;
+}
+
+.n-drawer {
+  border-radius: 18px 18px 0 0;
 }
 </style>
