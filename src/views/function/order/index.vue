@@ -552,12 +552,12 @@ const autoJump = ref(true)
 
     <n-drawer
       default-height="500"
-      style="border-radius: 15px 15px 0 0; border: none; "
+      style="border-radius: 15px 15px 0 0;"
       v-model:show="active"
       placement="bottom"
       :on-update:show="logshow"
       resizable>
-      <n-drawer-content style="background-color: #191b1f; border: none; ">
+      <n-drawer-content style="background-color: #191b1f; ">
         <template #header>
           <div>
             <p style="color: #efeded;font-size: 12px;">订单日志</p>
