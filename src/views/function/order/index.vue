@@ -230,9 +230,13 @@ const {columns, filteredColumns, data, loading, pagination, getData, searchParam
           <NButton type="primary" ghost size="small" onClick={() => handleOpenDrawer(row, 'edit')}>
             详情
           </NButton>
-          <NButton v-show="console.log(EnableLogPlats.includes(row.plat))" type="success"  ghost size="small" onClick={() => openLog(row.uuid)}>
-            日志
-          </NButton>
+
+          {EnableLogPlats.value.includes(row.plat) && ( // 这里可以根据条件动态渲染，例如：someCondition && (
+            <NButton v-show="console.log(EnableLogPlats.includes(row.plat))" type="success"  ghost size="small" onClick={() => openLog(row.uuid)}>
+              日志
+            </NButton>
+          )}
+
           <NButton type="warning" ghost size="small" onClick={() => handleOpenDrawer(row, 'report')}>
             反馈
           </NButton>
@@ -365,11 +369,11 @@ async function handleBatchRemark() {
   openDrawer();
 }
 
-async function logshow(show){
-  if (!show){
+async function logshow(show) {
+  if (!show) {
     evRef.value.close()
     active.value = false
-  }else {
+  } else {
     active.value = true
   }
 }
@@ -379,7 +383,7 @@ const openLog = (uuid) => {
   active.value = true
 
   logRef.value = []
-  evRef.value = new EventSource("http://62.234.211.156/api/sse?id=6b83a7491bac7f0f19366e152588acf2")
+  evRef.value = new EventSource("/api/sse?id=" + uuid)
   evRef.value.onmessage = function (event) {
     if (!event.data) {
       return
@@ -472,7 +476,7 @@ function changeCard() {
   }
 }
 function handleChange(jump) {
-  autoJump.value=jump
+  autoJump.value = jump
 }
 const logStyle = {
   info: {
@@ -545,19 +549,26 @@ const autoJump = ref(true)
 
     <n-drawer
       default-height="500"
+      style="border-radius: 15px 15px 0 0;"
       v-model:show="active"
       placement="bottom"
       :on-update:show="logshow"
       resizable>
+
+      <n-card class="floating-card" size="small" style="background-color: #191b1f;border-color: #191b1f;border-radius: 15px 15px 0 0;">
+        <div style="display: flex;justify-content: space-between;">
+          <p style="color: #efeded">实时日志</p>
+          <n-switch @update:value="handleChange"  v-model:value="autoJump">
+            <template #checked>
+              日志滚动开启
+            </template>
+            <template #unchecked>
+              日志滚动关闭
+            </template>
+          </n-switch>
+        </div>
+      </n-card>
       <n-drawer-content style="background-color: #191b1f;">
-        <template #header>
-          <div>
-            <p style="color: #efeded">实时日志</p>
-            <n-switch v-model:value="autoJump" @update:value="handleChange" />
-
-          </div>
-
-        </template>
         <div ref="terminalWindowRef" style="overflow-y: auto">
           <table class="css-i24vli-logs-rows">
             <tbody>
@@ -591,6 +602,15 @@ const autoJump = ref(true)
 
 <style>
 
+
+.floating-card {
+  position: sticky;
+  top: 0;
+  z-index: 100000;
+  margin: 0;
+}
+
+
 table {
   line-height: 1.5; /* 1 */
   background-color: initial;
@@ -600,7 +620,6 @@ table {
 
 .css-1yyr5lc-logs-row {
   width: 100%;
-  cursor: pointer;
   vertical-align: top;
 }
 
@@ -684,7 +703,6 @@ td, th {
 
 .css-1yyr5lc-logs-row {
   width: 100%;
-  cursor: pointer;
   vertical-align: top;
 }
 
