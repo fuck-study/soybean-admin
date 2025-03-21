@@ -1,16 +1,16 @@
 <script setup lang="tsx">
-import { h, onMounted, ref } from 'vue';
-import { NButton, NPopconfirm, NTag, NProgress } from 'naive-ui';
-import { useBoolean } from '@sa/hooks';
-import { delOrder, editOrder, fetchPlat, fetchPostExportOrder, fetchPostOrder, fetchUserInfo } from '@/service/api';
-import { useAppStore } from '@/store/modules/app';
-import { useTable } from '@/hooks/common/table';
-import { $t } from '@/locales';
+import {h, nextTick, onMounted, ref} from 'vue';
+import {NButton, NPopconfirm, NTag, NProgress} from 'naive-ui';
+import {useBoolean} from '@sa/hooks';
+import {delOrder, editOrder, fetchPlat, fetchPostExportOrder, fetchPostOrder, fetchUserInfo} from '@/service/api';
+import {useAppStore} from '@/store/modules/app';
+import {useTable} from '@/hooks/common/table';
+import {$t} from '@/locales';
 // import { enableStatusRecord } from '@/constants/business';
-import RoleOperateDrawer, { type OperateType } from './modules/order-operate-drawer.vue';
+import RoleOperateDrawer, {type OperateType} from './modules/order-operate-drawer.vue';
 
 import OrderSearch from './modules/order-search.vue';
-import { orderStatus } from "@/utils/common";
+import {orderStatus} from "@/utils/common";
 import axios from "axios";
 
 const appStore = useAppStore();
@@ -152,7 +152,7 @@ const {columns, filteredColumns, data, loading, pagination, getData, searchParam
       key: 'result',
       title: "结果",
       render: row => {
-        if (row.status === -2){// 已知异常直接展示出来异常原因
+        if (row.status === -2) {// 已知异常直接展示出来异常原因
           return (
             <p style="color:red">{row.result}</p>
           )
@@ -213,15 +213,19 @@ const {columns, filteredColumns, data, loading, pagination, getData, searchParam
       key: 'operate',
       title: $t('common.operate'),
       align: 'center',
-      width: 180,
+      width: 220,
       render: row => (
         <div class="flex-center gap-8px">
           <NButton type="primary" ghost size="small" onClick={() => handleOpenDrawer(row, 'edit')}>
             详情
           </NButton>
+          <NButton type="warning" ghost size="small" onClick={() => openLog(row.uuid)}>
+            日志
+          </NButton>
           <NButton type="warning" ghost size="small" onClick={() => handleOpenDrawer(row, 'report')}>
             反馈
           </NButton>
+
           <NPopconfirm onPositiveClick={() => handleDelete(row.uuid)}>
             {{
               default: () => $t('common.confirmDelete'),
@@ -350,6 +354,65 @@ async function handleBatchRemark() {
   openDrawer();
 }
 
+async function logshow(show){
+  if (!show){
+    evRef.value.close()
+    active.value = false
+  }else {
+    active.value = true
+  }
+}
+
+const evRef = ref(null)
+const openLog = (uuid) => {
+  active.value = true
+
+  logRef.value = []
+  evRef.value = new EventSource("http://62.234.211.156/api/sse?id=6b83a7491bac7f0f19366e152588acf2")
+  evRef.value.onmessage = function (event) {
+    if (!event.data) {
+      return
+    }
+
+    if (String(event.data).includes('level=INFO')) {
+      logRef.value.push({
+        level: 'info',
+        message: event.data.replace(/\[\d\dm/, '').replace(/\[39m$/, '')
+      })
+    } else if (String(event.data).includes('level=DEBUG')) {
+      logRef.value.push({
+        level: 'debug',
+        message: event.data.replace(/\[\d\dm/, '').replace(/\[39m$/, '')
+      })
+    } else if (String(event.data).includes('level=WARN')) {
+      logRef.value.push({
+        level: 'warn',
+        message: event.data.replace(/\[\d\dm/, '').replace(/\[39m$/, '')
+      })
+    } else if (String(event.data).includes('level=ERROR')) {
+      logRef.value.push({
+        level: 'error',
+        message: event.data.replace(/\[\d\dm/, '').replace(/\[39m$/, '')
+      })
+    }
+    _jumpToBottom()
+  }
+}
+
+const _jumpToBottom = () => {
+  if (!autoJump.value) {
+    return
+  }
+  nextTick(() => {
+    let box = terminalWindowRef.value
+    if (box != null) {
+      document.getElementsByClassName('n-drawer-body-content-wrapper')[0].scrollTo({
+        top: box.scrollHeight,
+        behavior: 'smooth'
+      })
+    }
+  })
+}
 
 
 async function handleBatchDelete() {
@@ -381,8 +444,13 @@ async function searchData() {
   await getData()
 }
 
+const logRef = ref([])
+
+const active = ref(false)
+
 const card = ref(true)
 const text = ref("-")
+const terminalWindowRef = ref(null)
 
 function changeCard() {
   card.value = !card.value
@@ -392,23 +460,42 @@ function changeCard() {
     text.value = "+"
   }
 }
-
+function handleChange(jump) {
+  autoJump.value=jump
+}
+const logStyle = {
+  info: {
+    level: 'info-level',
+    style: 'color: rgb(0, 204, 0);'
+  },
+  debug: {
+    level: 'debug-level',
+    style: 'color: rgb(0, 153, 255);'
+  },
+  warn: {
+    style: 'color: rgb(204, 102, 0);',
+    level: 'css-1yop90d-logs-row__level',
+  },
+  error: {
+    style: 'color: rgb(255, 51, 0);',
+    level: 'css-pakh9b-logs-row__level',
+  }
+}
+const autoJump = ref(true)
 </script>
 
 <template>
 
 
-
-
   <div class="flex-vertical-stretch gap-16px  <sm:overflow-auto">
     <OrderSearch v-model:model="searchParams" @reset="resetSearchParams" @search="searchData" :plat-list="platList"
                  :tags="tags" v-if="card"/>
-<!--    <NCard :bordered="false" size="small" class="" style="height: 5px;background-color: rgba(100, 108, 255, 0.1);"-->
-<!--           @click="changeCard">-->
-<!--      <n-button type="info" size="small" circle style="position:relative;left: 50%;top:-23px;border:none">-->
-<!--        {{ text }}-->
-<!--      </n-button>-->
-<!--    </NCard>-->
+    <!--    <NCard :bordered="false" size="small" class="" style="height: 5px;background-color: rgba(100, 108, 255, 0.1);"-->
+    <!--           @click="changeCard">-->
+    <!--      <n-button type="info" size="small" circle style="position:relative;left: 50%;top:-23px;border:none">-->
+    <!--        {{ text }}-->
+    <!--      </n-button>-->
+    <!--    </NCard>-->
     <NCard title="订单列表" :bordered="false" size="small" class="card-wrapper sm:flex-1-hidden">
       <template #header-extra>
         <TableHeaderOperation
@@ -444,7 +531,231 @@ function changeCard() {
         @submitted="getData"
       />
     </NCard>
+
+    <n-drawer
+      height="550"
+      v-model:show="active"
+      placement="bottom"
+      :on-update:show="logshow"
+      resizable>
+      <n-drawer-content style="background-color: #191b1f;">
+        <template #header>
+          <div>
+            <p style="color: #efeded">实时日志</p>
+            <n-switch v-model:value="autoJump" @update:value="handleChange" />
+
+          </div>
+
+        </template>
+        <div ref="terminalWindowRef" style="overflow-y: auto">
+          <table class="css-i24vli-logs-rows">
+            <tbody>
+            <tr class="css-1yyr5lc-logs-row" v-for=" log in logRef">
+              <td :class="logStyle[log.level].level"></td>
+              <td title="See log details" class="css-x180el-logs-row-toggle-details__level">
+                <div class="css-1vzus6i-Icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"
+
+                       class="css-eio55b-topVerticalAlign">
+                    <path
+                      fill="#ccccdb"
+                      d="M14.83,11.29,10.59,7.05a1,1,0,0,0-1.42,0,1,1,0,0,0,0,1.41L12.71,12,9.17,15.54a1,1,0,0,0,0,1.41,1,1,0,0,0,.71.29,1,1,0,0,0,.71-.29l4.24-4.24A1,1,0,0,0,14.83,11.29Z"></path>
+                  </svg>
+                </div>
+              </td>
+              <td class="css-1xvy5ie-logs-jumprow__message">
+                <div class="css-as6nqd-verticalScroll"><span class="css-1wx8bl8-positionRelative"><span
+                  :style="logStyle[log.level].style" data-testid="ansiLogLine">{{ log.message }}</span>
+</span></div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </n-drawer-content>
+    </n-drawer>
   </div>
 </template>
 
-<style scoped></style>
+<style>
+
+table {
+  line-height: 1.5; /* 1 */
+  background-color: initial;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.css-1yyr5lc-logs-row {
+  width: 100%;
+  cursor: pointer;
+  vertical-align: top;
+}
+
+.debug-level::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 1px;
+  bottom: 1px;
+  width: 3px;
+  left: 4px;
+  background-color: rgb(31, 120, 193);
+}
+
+
+.css-1yyr5lc-logs-row > td {
+  padding-right: 8px;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+  height: 100%;
+}
+
+
+.debug-level {
+  position: relative;
+  max-width: 10px;
+  cursor: default;
+}
+
+
+.css-x180el-logs-row-toggle-details__level {
+  position: relative;
+  font-size: 9px;
+  padding-top: 5px;
+  max-width: 15px;
+}
+
+
+.css-1vzus6i-Icon {
+  display: inline-block;
+  font-size: 9px;
+}
+
+
+.css-1yyr5lc-logs-row > td {
+  padding-right: 8px;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+  height: 100%;
+}
+
+.css-eio55b-topVerticalAlign {
+  display: inline-block;
+  margin-bottom: 2px;
+  fill: currentcolor;
+  vertical-align: top;
+  margin-top: -4px;
+  margin-left: -2px;
+}
+
+.css-1yyr5lc-logs-row td:last-child {
+  width: 100%;
+}
+
+.css-1yyr5lc-logs-row > td {
+  padding-right: 8px;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+  height: 100%;
+}
+
+.css-1xvy5ie-logs-row__message {
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+td, th {
+  padding: 0;
+  padding-right: 0px;
+}
+
+.css-1yyr5lc-logs-row {
+  width: 100%;
+  cursor: pointer;
+  vertical-align: top;
+}
+
+
+.info-level::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 1px;
+  bottom: 1px;
+  width: 3px;
+  left: 4px;
+  background-color: rgb(126, 178, 109);
+}
+
+.css-1yyr5lc-logs-row > td {
+  padding-right: 8px;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+  height: 100%;
+}
+
+.info-level {
+  position: relative;
+  max-width: 10px;
+  cursor: default;
+}
+
+.css-i24vli-logs-rows {
+  font-family: "Roboto Mono", monospace;
+  font-size: 0.8rem;
+}
+
+
+.css-1yop90d-logs-row__level::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 1px;
+  bottom: 1px;
+  width: 3px;
+  left: 4px;
+  background-color: rgb(245, 183, 61);
+}
+
+.css-1yyr5lc-logs-row > td {
+  padding-right: 8px;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+  height: 100%;
+}
+
+.css-1yop90d-logs-row__level {
+  position: relative;
+  max-width: 10px;
+  cursor: default;
+}
+
+
+.css-pakh9b-logs-row__level::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 1px;
+  bottom: 1px;
+  width: 3px;
+  left: 4px;
+  background-color: rgb(226, 77, 66);
+}
+
+
+.css-1yyr5lc-logs-row > td {
+  padding-right: 8px;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+  height: 100%;
+}
+
+
+.css-pakh9b-logs-row__level {
+  position: relative;
+  max-width: 10px;
+  cursor: default;
+}
+</style>

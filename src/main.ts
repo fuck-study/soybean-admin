@@ -5,6 +5,7 @@ import { setupStore } from './store';
 import { setupRouter } from './router';
 import { setupI18n } from './locales';
 import App from './App.vue';
+import {createTerminal} from "vue-web-terminal";
 
 async function setupApp() {
   setupLoading();
@@ -22,6 +23,8 @@ async function setupApp() {
   await setupRouter(app);
 
   setupI18n(app);
+
+  app.use(createTerminal())
 
   app.mount('#app');
 }
